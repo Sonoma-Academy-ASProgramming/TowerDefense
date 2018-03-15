@@ -3,12 +3,14 @@ let Towers = [],
     Bullets = [];
 let Time = 0;
 
+//SETUP
 function setup() {
     createCanvas(windowWidth, windowHeight);
     Towers.push(new Plot(250, 250));
     generateEnemies(12);
 }
 
+//GAME LOGIC
 function draw() {
     Time += 1;
     background(255, 255, 255);
@@ -25,6 +27,7 @@ function draw() {
     Towers.forEach((tower) => {
         tower.draw();
     });
+    testButton.draw();
 }
 
 //MOUSE EVENT HANDLING
@@ -132,74 +135,6 @@ var mouseInArea = (xMin, xMax, yMin, yMax) => {
     if (mouseX > xMin && mouseX < xMax && mouseY > yMin && mouseY < yMax) {
         return true;
     }
-}
-
-class Button {
-    constructor(xPosition, yPosition, _onclicked) {
-        this.xPos = xPosition;
-        this.yPos = yPosition;
-        this.size = 80;
-        this.onclicked = _onclicked;
-    }
-}
-
-Button.prototype.isClicked = function() {
-    if (mouseInArea(this.xPos, this.xPos + this.size, this.yPos, this.yPos + this.size)) {
-        return true;
-    }
-}
-
-class Menu {
-    constructor(_option1, _option2, _option3, _option4) {
-        this.option1 = _option1;
-        this.option2 = _option2;
-        this.option3 = _option3;
-        this.option4 = _option4;
-        this.options = [this.option1, this.option2, this.option3, this.option4];
-    }
-}
-
-Menu.prototype.showMenu = function() {
-    for (var i = 0; i < this.options.length; i++) {
-        this.options[i].draw();
-    }
-}
-
-class EmptyPlot {
-
-};
-
-EmptyPlot.prototype.display = function(x, y) {
-    fill(139, 69, 19);
-    rect(x, y, 100, 100);
-}
-
-//PLOT CLASS
-class Plot {
-    constructor(xPosition, yPosition) {
-        this.xPos = xPosition;
-        this.yPos = yPosition;
-        this.building = new EmptyPlot();
-    }
-}
-
-Plot.prototype.setBuilding = function(_building) {
-    this.building = _building;
-}
-
-Plot.prototype.draw = function() {
-    this.building.display(this.xPos, this.yPos);
-    // drawBullets()
-}
-
-Plot.prototype.isClicked = function() {
-    if (mouseX > this.xPos && mouseX < this.xPos + 100 && mouseY > this.yPos && mouseY < this.yPos + 100) {
-        return true;
-    }
-}
-
-Plot.prototype.showMenu = function() {
-    this.building.showMenu();
 }
 
 class Shoot {
