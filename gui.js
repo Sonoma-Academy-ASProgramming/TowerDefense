@@ -27,16 +27,31 @@ Examples of options are 'build(typeofbuilding), selll current building, or upgra
 */
 class Menu {
     constructor(_option1, _option2, _option3, _option4) {
-        this.option1 = _option1;
-        this.option2 = _option2;
-        this.option3 = _option3;
-        this.option4 = _option4;
-        this.options = [this.option1, this.option2, this.option3, this.option4];
+        this.options = [_option1, _option2, _option3, _option4];
     }
 }
 
 Menu.prototype.draw = function() {
-    for (var i = 0; i < this.options.length; i++) {
-        this.options[i].draw();
-    }
+  this.options.forEach((button) => {
+    button.draw();
+  });
+}
+
+//
+var emptyPlotFunction = [];
+
+class EmptyPlotMenu {
+  constructor(xPosition, yPosition) {
+    this.xPos = xPosition;
+    this.yPos = yPosition;
+    this.button1 = new Button(this.xPos - 50, this.yPos - 50, () => {console.log('t')});
+    this.button2 = new Button(this.xPos + 50, this.yPos - 50, () => {console.log('r')});
+    this.button3 = new Button(this.xPos - 50, this.yPos + 50, () => {console.log('e')});
+    this.button4 = new Button(this.xPos + 50, this.yPos + 50, () => {console.log('w')});
+    this.menu = new Menu(this.button1, this.button2, this.button3, this.button4);
+  }
+}
+
+EmptyPlotMenu.prototype.draw = function() {
+  this.menu.draw();
 }

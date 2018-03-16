@@ -27,14 +27,16 @@ function draw() {
     Towers.forEach((tower) => {
         tower.draw();
     });
-    testButton.draw();
 }
 
 //MOUSE EVENT HANDLING
 function mousePressed() {
     Towers.forEach((tower) => {
         if (tower.isClicked()) {
-            console.log('clicked a tower');
+          tower.setSelected(true);
+          console.log('attempted to setSelected(true)');
+        } else{
+          tower.setSelected(false);
         }
     });
 }
@@ -120,7 +122,6 @@ Enemy.prototype.hit = function() {
 }
 
 Enemy.prototype.draw = function() {
-  console.log(this.xPos);
     this.time += this.speed;
     //this.xPos = getPosition(this.time).x;
     //this.yPos = getPosition(this.time).y;
