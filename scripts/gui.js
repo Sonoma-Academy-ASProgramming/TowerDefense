@@ -2,23 +2,15 @@ class Button {
     constructor(xPosition, yPosition, _onclicked) {
         this.xPos = xPosition;
         this.yPos = yPosition;
-        this.size = 80;
+        this.sprite = createSprite(this.xPos, this.yPos, 80, 80);
+        this.sprite.visible = false;
         this.onclicked = _onclicked;
     }
 }
 
 //Displays the button object to the screen
 Button.prototype.draw = function() {
-  fill(0,0,200);
-  rect(this.xPos, this.yPos, this.size, this.size);
-}
-
-//Executes the function stored on the button object
-Button.prototype.checkClicked = function() {
-    //returns true if the mouse is positioned over this button
-    if (mouseInArea(this.xPos, this.xPos + this.size, this.yPos, this.yPos + this.size)) {
-        this.onclicked();
-    }
+  this.sprite.visible = true;
 }
 
 /*The menu class is a set of four buttons that appear as options when the user selects a Plot/Building object in the game.
@@ -44,10 +36,10 @@ class EmptyPlotMenu {
   constructor(xPosition, yPosition) {
     this.xPos = xPosition;
     this.yPos = yPosition;
-    this.button1 = new Button(this.xPos - 50, this.yPos - 50, () => {console.log('t')});
-    this.button2 = new Button(this.xPos + 50, this.yPos - 50, () => {console.log('r')});
-    this.button3 = new Button(this.xPos - 50, this.yPos + 50, () => {console.log('e')});
-    this.button4 = new Button(this.xPos + 50, this.yPos + 50, () => {console.log('w')});
+    this.button1 = new Button(this.xPos - 150, this.yPos - 150, () => {console.log('t')});
+    this.button2 = new Button(this.xPos + 150, this.yPos - 150, () => {console.log('r')});
+    this.button3 = new Button(this.xPos - 150, this.yPos + 150, () => {console.log('e')});
+    this.button4 = new Button(this.xPos + 150, this.yPos + 150, () => {console.log('w')});
     this.menu = new Menu(this.button1, this.button2, this.button3, this.button4);
   }
 }

@@ -29,16 +29,11 @@ function draw() {
     });
 }
 
-//MOUSE EVENT HANDLING
+//SPECIAL MOUSE EVENT HANDLING
 function mousePressed() {
-    Towers.forEach((tower) => {
-        if (tower.isClicked()) {
-          tower.setSelected(true);
-          console.log('attempted to setSelected(true)');
-        } else{
-          tower.setSelected(false);
-        }
-    });
+  Towers.forEach((tower) => {
+    tower.building.selected = false;
+  });
 }
 
 //------------------------FUNCTIONS-----------------------------------------
