@@ -55,7 +55,10 @@ function mousePressed() {
 //------------------------FUNCTIONS-----------------------------------------
 
 function getPosition(t) {
+<<<<<<< HEAD
     //Math.sin()
+=======
+>>>>>>> 19b63a4cac8d9b97b2095a1a3401ad7a72e2d571
     return {
         x: t,
         y: height / 2
@@ -179,6 +182,7 @@ Shoot.prototype.findEnemy = function(howManyth) {
 }
 
 Shoot.prototype.fire = function() {
+<<<<<<< HEAD
     let enemy = null;
     let tmp;
     for (let i = 0; i < Enemies.length; i++) {
@@ -194,6 +198,22 @@ Shoot.prototype.fire = function() {
         return;
     }
     console.log("futureHealth:", enemy.futureHealth);
+=======
+    if (Enemies.length <= 0) {
+        //no enemies
+        return;
+    }
+    let enemy;
+    for (let i = 0; i < Enemies.length; i++) {
+        enemy = this.findEnemy(i);
+        if (enemy.futureHealth > 0) {
+            break;
+        }
+    }
+    if (!enemy){
+      return;
+    }
+>>>>>>> 19b63a4cac8d9b97b2095a1a3401ad7a72e2d571
     enemy.futureHealth -= this.force;
     let aimFor = getPosition(enemy.time + this.time);
     let Xinc = (aimFor.x - this.x) / this.time,

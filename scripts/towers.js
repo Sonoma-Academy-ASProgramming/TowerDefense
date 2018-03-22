@@ -5,8 +5,13 @@ class EmptyPlot {
     this.parent = _parent;
     this.selected = false;
     this.sprite = createSprite(this.xPos, this.yPos, 100, 100);
-    this.menu = new EmptyPlotMenu(this.xPos, this.yPos);
-    this.sprite.setCollider('rectangle', 0, 0, 100, 100);
+    this.sprite.shapeColor = 'green';
+    this.sprite.onMouseOver = () => {
+      this.sprite.shapeColor = 'darkgreen';
+    };
+    this.sprite.onMouseOut = () => {
+      this.sprite.shapeColor = 'green';
+    }
     this.sprite.onMousePressed = () => {
       this.selected = true;
     };
@@ -15,23 +20,21 @@ class EmptyPlot {
 
 EmptyPlot.prototype.draw = function() {
   drawSprite(this.sprite);
-  if(this.selected) {
-    this.menu.draw();
-  }
 }
+
+////using Shoot:
+
+////init
+// let gun = new Shoot(towerX, towerY, howManyframesForTheBulletToGetToTheEnemy, BulletType);
+////every time you want to fire a bullet:
 
 //PLOT CLASS
 class Plot {
     constructor(xPosition, yPosition) {
         this.xPos = xPosition;
         this.yPos = yPosition;
-        this.selected = false;
         this.building = new EmptyPlot(this, this.xPos, this.yPos);
     }
-}
-
-Plot.prototype.setSelected = function(booleanValue) {
-  this.selected = booleanValue;
 }
 
 Plot.prototype.setBuilding = function(_building) {
@@ -40,9 +43,4 @@ Plot.prototype.setBuilding = function(_building) {
 
 Plot.prototype.draw = function() {
     this.building.draw();
-    // drawBullets()
-}
-
-Plot.prototype.showMenu = function() {
-    this.building.showMenu();
 }
