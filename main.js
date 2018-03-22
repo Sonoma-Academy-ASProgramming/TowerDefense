@@ -4,7 +4,14 @@ let Towers = [],
 let Time = 0;
 var backgroundSprite;
 //SETUP
+let Buttons = [];
+var UI;
+
 function setup() {
+    for(var i = 0; i < 4; i++) {
+      Buttons.push(new Button(i * 100, 700));
+    }
+    UI = new Menu(Buttons[0], Buttons[1], Buttons[2], Buttons[3]);
     //Center all balls
     ellipseMode(CENTER);
 
@@ -55,36 +62,31 @@ function mousePressed() {
 //------------------------FUNCTIONS-----------------------------------------
 
 function getPosition(t) {
-    //Math.sin()
     return {
         x: t,
-        y: height / 2
+        y: Math.sin(t)
     };
 }
 
 function generateEnemies(val) {
     while (val > 0) {
         switch (true) {
-            // case val >= 100:
-            //     val -= 100;
-            //     Enemies.push(new Enemy(100));
-            //     break;
-            // case val >= 50:
-            //     val -= 50;
-            //     Enemies.push(new Enemy(50));
-            //     break;
-            // case val >= 25:
-            //     val -= 25;
-            //     Enemies.push(new Enemy(25));
-            //     break;
-            // case val >= 10:
-            //     val -= 10;
-            //     Enemies.push(new Enemy(10));
-            //     break;
-            case val >= 5:
-                val -= 5;
-                Enemies.push(new Enemy(5));
-                break;
+             case val >= 100:
+                 val -= 100;
+                 Enemies.push(new Enemy(100));
+                 break;
+             case val >= 50:
+                 val -= 50;
+                 Enemies.push(new Enemy(50));
+                 break;
+             case val >= 25:
+                 val -= 25;
+                 Enemies.push(new Enemy(25));
+                 break;
+             case val >= 10:
+                 val -= 10;
+                 Enemies.push(new Enemy(10));
+                 break;
             case val >= 1:
                 val -= 1;
                 Enemies.push(new Enemy(1));
@@ -135,13 +137,11 @@ class Enemy {
 }
 Enemy.prototype.hit = function(force) {
     this.value -= force;
-    console.log(this.value, force);
     if (this.value <= 0) {
         this.delete()
     }
 }
 Enemy.prototype.delete = function() {
-    // console.log(Enemies.indexOf(this), this)
     Enemies.splice(Enemies.indexOf(this), 1);
 }
 Enemy.prototype.draw = function() {
@@ -174,7 +174,6 @@ Shoot.prototype.findEnemy = function(howManyth) {
     let sortedEnemies = Enemies.slice(0).sort((a, b) => {
         return b.time - a.time;
     });
-    console.log(sortedEnemies)
     return sortedEnemies[howManyth];
 }
 
@@ -193,7 +192,6 @@ Shoot.prototype.fire = function() {
     if (!enemy) { //no valid enemies
         return;
     }
-    console.log("futureHealth:", enemy.futureHealth);
     enemy.futureHealth -= this.force;
     let aimFor = getPosition(enemy.time + this.time);
     let Xinc = (aimFor.x - this.x) / this.time,
@@ -211,7 +209,6 @@ Shoot.prototype.fire = function() {
     };
 
     this.Bullets.push(newObj);
-    console.log(this);
 }
 
 Shoot.prototype.update = function() {
@@ -232,4 +229,9 @@ Shoot.prototype.draw = function() {
         fill('black');
         ellipse(item.x, item.y, 5, 5);
     });
+}
+
+
+function getX(time){
+  return sin(time);
 }
