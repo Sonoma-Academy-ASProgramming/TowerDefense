@@ -4,9 +4,9 @@ class EmptyPlot {
     this.yPos = yPosition;
     this.parent = _parent;
     this.selected = false;
-    this.sprite = createSprite(this.xPos, this.yPos, 150, 150);
+    this.sprite = createSprite(this.xPos, this.yPos, 100, 100);
     this.menu = new EmptyPlotMenu(this.xPos, this.yPos);
-    this.sprite.setCollider('rectangle', 0, 0, 150, 150);
+    this.sprite.setCollider('rectangle', 0, 0, 100, 100);
     this.sprite.onMousePressed = () => {
       this.selected = true;
     };
