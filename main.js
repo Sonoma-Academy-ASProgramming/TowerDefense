@@ -11,23 +11,18 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     backgroundSprite.shapeColor = 'green';
-    backgroundSprite.onMousePressed = function() {
-        Towers.forEach((tower) => {
-            tower.setSelected(false);
-        });
-    };
     Towers.push(new Plot(250, 250));
-    generateEnemies(53);
+    generateEnemies(700);
 
 
     Shoots.push(new Shoot(250, 250, 20));
 }
 
-setInterval(function(){
-  Shoots.forEach((item)=>{
-    item.fire();
-  });
-},300)
+setInterval(function() {
+    Shoots.forEach((item) => {
+        item.fire();
+    });
+}, 300)
 
 //GAME LOGIC
 function draw() {
@@ -174,15 +169,12 @@ class Shoot {
     }
 }
 
-Shoot.prototype.findEnemy = function() {
-    let maxX = Math.max.apply(Math, Enemies.map(function(foo) {
-        return foo.xPos;
-    }));
-    return Enemies.forEach((item) => {
-        if (item.xPos == maxX) {
-            return item;
-        }
+Shoot.prototype.findEnemy = function(howManyth) {
+    let sortedEnemies = Enemies.slice(0).sort((a, b) => {
+        return b.time - a.time;
     });
+    console.log(sortedEnemies)
+    return sortedEnemies[howManyth];
 }
 
 Shoot.prototype.fire = function() {
@@ -190,10 +182,15 @@ Shoot.prototype.fire = function() {
         //no enemies
         return;
     }
-    console.log(this.findEnemy());
-    let enemy = Enemies[0];
-    if (enemy.futureHealth <= 0) {
-        return;
+    let enemy;
+    for (let i = 0; i < Enemies.length; i++) {
+        enemy = this.findEnemy(i);
+        if (enemy.futureHealth > 0) {
+            break;
+        }
+    }
+    if (!enemy){
+      return;
     }
     enemy.futureHealth -= this.force;
     let aimFor = getPosition(enemy.time + this.time);
