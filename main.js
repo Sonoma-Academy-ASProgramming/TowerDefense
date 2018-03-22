@@ -30,8 +30,8 @@ function draw() {
     Time += 1;
     push();
     noStroke();
-    fill('peru')
-    rect(-10, height / 2 - 50, width + 10, 100)
+    fill('peru');
+    rect(-10, height / 2 - 50, width + 10, 100);
     pop();
     Towers.forEach((tower) => {
         tower.draw();
