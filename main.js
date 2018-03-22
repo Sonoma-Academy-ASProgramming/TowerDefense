@@ -60,7 +60,6 @@ function mousePressed() {
 function getPosition(t) {
   const a = 1;
   const b = 0.5;
-<<<<<<< HEAD
   let x1 = b*t*Math.cos(t/50+a)+width/2;
   let y1 = b*t*Math.sin(t/50+a)+height/2;
   let x2 = 1000-t;
@@ -68,11 +67,6 @@ function getPosition(t) {
     return {
         x: (t<750)?x1:x2,
         y:(t<750)?y1:y2
-=======
-    return {
-        x: b*t*Math.cos(t/50+a)+width/2,
-        y: b*t*Math.sin(t/50+a)+height/2
->>>>>>> a67c19e15e6bebac14b08cce137c840580fe7def
     };
 }
 
@@ -111,11 +105,7 @@ class Enemy {
         this.xPos = 0;
         this.yPos = height / 2;
         this.radius = 50;
-<<<<<<< HEAD
         this.time = 1000;//random(0, -100);
-=======
-        this.time = 750;//random(0, -100);
->>>>>>> a67c19e15e6bebac14b08cce137c840580fe7def
         this.speed = 1;
         this.value = value;
         this.futureHealth = value;
