@@ -5,12 +5,12 @@ class EmptyPlot {
     this.parent = _parent;
     this.selected = false;
     this.sprite = createSprite(this.xPos, this.yPos, 100, 100);
-    this.sprite.shapeColor = 'green';
+    this.sprite.shapeColor = 'red';
     this.sprite.onMouseOver = () => {
-      this.sprite.shapeColor = 'darkgreen';
+      this.sprite.shapeColor = 'yellow';
     };
     this.sprite.onMouseOut = () => {
-      this.sprite.shapeColor = 'green';
+      this.sprite.shapeColor = 'red';
     }
     this.sprite.onMousePressed = () => {
       this.selected = true;
