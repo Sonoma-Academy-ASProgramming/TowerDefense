@@ -10,6 +10,14 @@ class Button {
     }
 }
 
+class Menu {
+  constructor(_button1, _button2, _button3, _button4) {
+    this.button1 = option1;
+    this.button2 = button2;
+    this.button3 = button3;
+    this.button4 = button4;
+  }
+}
 /*The menu class is a set of four buttons that appear as options when the user selects a Plot/Building object in the game.
 They should be attatched to the building object of a plot rather than the plot itself as every building will need its own set of options.
 Examples of options are 'build(typeofbuilding), selll current building, or upgrade current building'
