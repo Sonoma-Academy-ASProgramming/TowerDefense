@@ -9,7 +9,7 @@ var UI;
 
 function setup() {
     for(var i = 0; i < 4; i++) {
-      Buttons.push(new Button(i * 100, 700));
+      Buttons.push(new Button(i * 100 + 20, 400, () => {console.log(i)}));
     }
     UI = new Menu(Buttons[0], Buttons[1], Buttons[2], Buttons[3]);
     //Center all balls
@@ -19,7 +19,7 @@ function setup() {
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     backgroundSprite.shapeColor = 'green';
     Towers.push(new Plot(250, 250));
-    generateEnemies(50);
+    generateEnemies(100);
 
 
     Shoots.push(new Shoot(250, 250, 1));
@@ -36,11 +36,6 @@ function draw() {
     drawSprite(backgroundSprite);
     drawSprites();
     Time += 1;
-    push();
-    noStroke();
-    fill('peru');
-    rect(-10, height / 2 - 50, width + 10, 100);
-    pop();
     Towers.forEach((tower) => {
         tower.draw();
     });
@@ -63,12 +58,15 @@ function mousePressed() {
 //------------------------FUNCTIONS-----------------------------------------
 
 function getPosition(t) {
-let x = t;
-let y = width/2;
-
+  const a = 1;
+  const b = 0.5;
+  let x1 = b*t*Math.cos(t/50+a)+width/2;
+  let y1 = b*t*Math.sin(t/50+a)+height/2;
+  let x2 = 1000-t;
+  let y2 = height/2;
     return {
-        x,
-        y
+        x: (t<750)?x1:x2,
+        y:(t<750)?y1:y2
     };
 }
 
@@ -107,7 +105,7 @@ class Enemy {
         this.xPos = 0;
         this.yPos = height / 2;
         this.radius = 50;
-        this.time = random(0, -100);
+        this.time = 1000;//random(0, -100);
         this.speed = 1;
         this.value = value;
         this.futureHealth = value;
@@ -141,20 +139,20 @@ class Enemy {
 }
 Enemy.prototype.hit = function(force) {
     this.value -= force;
-    if (this.value <= 0) {
-        this.delete()
-    }
+     if (this.value <= 0) {
+         this.delete()
+     }
 }
 Enemy.prototype.delete = function() {
     Enemies.splice(Enemies.indexOf(this), 1);
 }
 Enemy.prototype.draw = function() {
-    this.time += this.speed;
+    this.time -= this.speed;
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
     fill(this.color);
     ellipse(this.xPos, this.yPos, this.radius, this.radius);
-    if (this.xPos > width) {
+    if (this.time <= 0) {
         this.delete();
     }
 }
@@ -187,7 +185,7 @@ Shoot.prototype.fire = function() {
     for (let i = 0; i < Enemies.length; i++) {
       try{
         tmp = this.findEnemy(i);
-        if (tmp.futureHealth > 0) {
+        if (tmp.futureHealth > 0 && tmp.time - this.time>0) {
             enemy = tmp;
             break;
         }
@@ -197,7 +195,7 @@ Shoot.prototype.fire = function() {
         return;
     }
     enemy.futureHealth -= this.force;
-    let aimFor = getPosition(enemy.time + this.time);
+    let aimFor = getPosition(enemy.time - this.time);
     let Xinc = (aimFor.x - this.x) / this.time,
         Yinc = (aimFor.y - this.y) / this.time;
     let newObj = {
