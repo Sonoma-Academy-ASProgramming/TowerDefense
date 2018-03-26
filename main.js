@@ -2,16 +2,15 @@ let Towers = [],
     Enemies = [],
     Shoots = [];
 let Time = 0;
-var backgroundSprite;
+let backgroundSprite;
 //SETUP
 let Buttons = [];
-var UI;
-
+let UI;
+let cannonImg;
+function preload() {
+  cannonImg = loadImage('./icons/cannonIcon.png');
+}
 function setup() {
-    for(var i = 0; i < 4; i++) {
-      Buttons.push(new Button(i * 100 + 20, 400, () => {console.log(i)}));
-    }
-    UI = new Menu(Buttons[0], Buttons[1], Buttons[2], Buttons[3]);
     //Center all balls
     ellipseMode(CENTER);
 
@@ -20,9 +19,11 @@ function setup() {
     backgroundSprite.shapeColor = 'green';
     Towers.push(new Plot(250, 250));
     generateEnemies(100);
-
-
     Shoots.push(new Shoot(250, 250, 1));
+    for(var i = 1; i < 5; i++) {
+      Buttons.push(new Button(i * 180 + (width/3 - 180), 650, () => {console.log(i)}));
+    }
+    UI = new Menu(Buttons[0], Buttons[1], Buttons[2], Buttons[3]);
 }
 
 setInterval(function() {
@@ -33,21 +34,16 @@ setInterval(function() {
 
 //GAME LOGIC
 function draw() {
-    drawSprite(backgroundSprite);
     drawSprites();
     Time += 1;
-    Towers.forEach((tower) => {
-        tower.draw();
-    });
     Enemies.forEach((enemy) => {
         enemy.draw();
     });
     Shoots.forEach((shoot) => {
         shoot.draw();
     });
-    Towers.forEach((tower) => {
-        tower.draw();
-    });
+    //GUI should always be rendered last
+    UI.update();
 }
 
 //SPECIAL MOUSE EVENT HANDLING

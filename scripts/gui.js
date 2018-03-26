@@ -12,13 +12,22 @@ class Button {
 
 class Menu {
   constructor(_button1, _button2, _button3, _button4) {
-    this.button1 = _button1;
-    this.button2 = _button2;
-    this.button3 = _button3;
-    this.button4 = _button4;
+    this.buttons = [_button1, _button2, _button3, _button4];
   }
 }
-/*The menu class is a set of four buttons that appear as options when the user selects a Plot/Building object in the game.
-They should be attatched to the building object of a plot rather than the plot itself as every building will need its own set of options.
-Examples of options are 'build(typeofbuilding), selll current building, or upgrade current building'
-*/
+
+Menu.prototype.update = function() {
+  this.buttons.forEach((button) => {
+    drawSprite(button.sprite);
+  });
+}
+
+Menu.prototype.setFunction = function(buttonNumber, newFunction) {
+  const buttonIndex = buttonNumber - 1;
+  this.buttons[buttonIndex].onClicked = newFunction;
+}
+
+Menu.prototype.setIcon = function(buttonNumber, icon) {
+  const buttonIndex = buttonNumber - 1;
+  this.buttons[buttonIndex].sprite.addImage('icon', icon);
+}
