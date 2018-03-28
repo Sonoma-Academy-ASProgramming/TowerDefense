@@ -29,7 +29,6 @@ EmptyPlot.prototype.makeMenu = function() {
     buttons.push(new Button((i + 1) * 180 + (width/3 - 180), 650, buttonFunctions[i]));
   }
   UI = new Menu(buttons[0], buttons[1], buttons[2], buttons[3]);
-  console.log('worked');
 }
 ////using Shoot:
 

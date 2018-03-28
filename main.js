@@ -9,7 +9,7 @@ let UI;
 let cannonImg;
 let popSound;
 function preload() {
-  popSound = loadSound('./sounds/popSound.mp3');
+  popSound = loadSound('sounds/popSound.mp3');
   cannonImg = loadImage('./icons/cannonIcon.png');
 }
 function setup() {
@@ -146,7 +146,8 @@ class Enemy {
 Enemy.prototype.hit = function(force) {
     this.value -= force;
      if (this.value <= 0) {
-         this.delete()
+         popSound.play();
+         this.delete();
      }
 }
 Enemy.prototype.delete = function() {
