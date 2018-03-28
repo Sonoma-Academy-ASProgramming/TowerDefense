@@ -7,23 +7,26 @@ let backgroundSprite;
 let Buttons = [];
 let UI;
 let cannonImg;
+let popSound;
 function preload() {
+  popSound = loadSound('./sounds/popSound.mp3');
   cannonImg = loadImage('./icons/cannonIcon.png');
 }
 function setup() {
+    UI = null;
     //Center all balls
+    cannonImg.resize(80, 80);
     ellipseMode(CENTER);
 
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     backgroundSprite.shapeColor = 'green';
+    backgroundSprite.onMousePressed = () => {
+      UI = null;
+    }
     Towers.push(new Plot(250, 250));
     generateEnemies(100);
     Shoots.push(new Shoot(250, 250, 1));
-    for(var i = 1; i < 5; i++) {
-      Buttons.push(new Button(i * 180 + (width/3 - 180), 650, () => {console.log(i)}));
-    }
-    UI = new Menu(Buttons[0], Buttons[1], Buttons[2], Buttons[3]);
 }
 
 setInterval(function() {
@@ -34,7 +37,7 @@ setInterval(function() {
 
 //GAME LOGIC
 function draw() {
-    drawSprites();
+    drawSprite(backgroundSprite);
     Time += 1;
     Enemies.forEach((enemy) => {
         enemy.draw();
@@ -42,8 +45,15 @@ function draw() {
     Shoots.forEach((shoot) => {
         shoot.draw();
     });
+    Towers.forEach((tower) => {
+        tower.update();
+    });
     //GUI should always be rendered last
-    UI.update();
+    try{
+      UI.update();
+    } catch(e) {
+
+    }
 }
 
 //SPECIAL MOUSE EVENT HANDLING
@@ -146,7 +156,8 @@ Enemy.prototype.draw = function() {
     this.time -= this.speed;
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
-    fill(this.color);
+    this.radius = ((50/this.futureHealth) * 40);
+    fill(255/this.futureHealth * 10, 0, 0);
     ellipse(this.xPos, this.yPos, this.radius, this.radius);
     if (this.time <= 0) {
         this.delete();

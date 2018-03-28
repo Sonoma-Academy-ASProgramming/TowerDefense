@@ -1,8 +1,8 @@
 class Button {
-    constructor(xPosition, yPosition, _onclicked) {
+    constructor(xPosition, yPosition, _onClicked) {
         this.xPos = xPosition;
         this.yPos = yPosition;
-        this.onClicked = _onclicked;
+        this.onClicked = _onClicked;
         this.sprite = createSprite(this.xPos, this.yPos, 80, 80);
         this.sprite.onMousePressed = () => {
             this.onClicked();
@@ -20,14 +20,4 @@ Menu.prototype.update = function() {
   this.buttons.forEach((button) => {
     drawSprite(button.sprite);
   });
-}
-
-Menu.prototype.setFunction = function(buttonNumber, newFunction) {
-  const buttonIndex = buttonNumber - 1;
-  this.buttons[buttonIndex].onClicked = newFunction;
-}
-
-Menu.prototype.setIcon = function(buttonNumber, icon) {
-  const buttonIndex = buttonNumber - 1;
-  this.buttons[buttonIndex].sprite.addImage('icon', icon);
 }
