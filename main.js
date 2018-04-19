@@ -8,10 +8,14 @@ let Buttons = [];
 let UI;
 let cannonImg;
 let popSound;
+const ENEMYSTARTINGPOS = 0;
+const ENEMYSPEED = 1;
+
 function preload() {
-  popSound = loadSound('sounds/popSound.mp3');
-  cannonImg = loadImage('./icons/cannonIcon.png');
+    popSound = loadSound('sounds/popSound.mp3');
+    cannonImg = loadImage('./icons/cannonIcon.png');
 }
+
 function setup() {
     UI = null;
     //Center all balls
@@ -22,11 +26,14 @@ function setup() {
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     backgroundSprite.shapeColor = 'green';
     backgroundSprite.onMousePressed = () => {
-      UI = null;
+        UI = null;
     }
     Towers.push(new Plot(250, 250));
-    generateEnemies(100);
     Shoots.push(new Shoot(250, 250, 1));
+
+
+    //CREATE LEVELS
+    generateEnemies(100);
 }
 
 setInterval(function() {
@@ -49,9 +56,9 @@ function draw() {
         tower.update();
     });
     //GUI should always be rendered last
-    try{
-      UI.update();
-    } catch(e) {
+    try {
+        UI.update();
+    } catch (e) {
 
     }
 }
@@ -64,37 +71,33 @@ function mousePressed() {
 //------------------------FUNCTIONS-----------------------------------------
 
 function getPosition(t) {
-  const a = 1;
-  const b = 0.5;
-  let x1 = b*t*Math.cos(t/50+a)+width/2;
-  let y1 = b*t*Math.sin(t/50+a)+height/2;
-  let x2 = 1000-t;
-  let y2 = height/2;
+    let x = t;
+    let y = height / 2;
     return {
-        x: (t<750)?x1:x2,
-        y:(t<750)?y1:y2
+        x,
+        y
     };
 }
 
 function generateEnemies(val) {
     while (val > 0) {
         switch (true) {
-             case val >= 100:
-                 val -= 100;
-                 Enemies.push(new Enemy(100));
-                 break;
-             case val >= 50:
-                 val -= 50;
-                 Enemies.push(new Enemy(50));
-                 break;
-             case val >= 25:
-                 val -= 25;
-                 Enemies.push(new Enemy(25));
-                 break;
-             case val >= 10:
-                 val -= 10;
-                 Enemies.push(new Enemy(10));
-                 break;
+            case val >= 100:
+                val -= 100;
+                Enemies.push(new Enemy(100));
+                break;
+            case val >= 50:
+                val -= 50;
+                Enemies.push(new Enemy(50));
+                break;
+            case val >= 25:
+                val -= 25;
+                Enemies.push(new Enemy(25));
+                break;
+            case val >= 10:
+                val -= 10;
+                Enemies.push(new Enemy(10));
+                break;
             case val >= 1:
                 val -= 1;
                 Enemies.push(new Enemy(1));
@@ -111,7 +114,7 @@ class Enemy {
         this.xPos = 0;
         this.yPos = height / 2;
         this.radius = 50;
-        this.time = 1000;//random(0, -100);
+        this.time = 0; //random(0, -100);
         this.speed = 1;
         this.value = value;
         this.futureHealth = value;
@@ -145,20 +148,19 @@ class Enemy {
 }
 Enemy.prototype.hit = function(force) {
     this.value -= force;
-     if (this.value <= 0) {
-         popSound.play();
-         this.delete();
-     }
+    if (this.value <= 0) {
+        popSound.play();
+        this.delete();
+    }
 }
 Enemy.prototype.delete = function() {
     Enemies.splice(Enemies.indexOf(this), 1);
 }
 Enemy.prototype.draw = function() {
-    this.time -= this.speed;
+    this.time += this.speed * ENEMYSPEED;
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
-    this.radius = ((50/this.futureHealth) * 40);
-    fill(255/this.futureHealth * 10, 0, 0);
+    fill(255 / this.futureHealth * 10, 0, 0);
     ellipse(this.xPos, this.yPos, this.radius, this.radius);
     if (this.time <= 0) {
         this.delete();
@@ -191,19 +193,24 @@ Shoot.prototype.fire = function() {
     let enemy = null;
     let tmp;
     for (let i = 0; i < Enemies.length; i++) {
-      try{
-        tmp = this.findEnemy(i);
-        if (tmp.futureHealth > 0 && tmp.time - this.time>0) {
-            enemy = tmp;
-            break;
-        }
-      }catch (e){}
+        try {
+            tmp = this.findEnemy(i);
+            if (tmp.futureHealth > 0 && tmp.time - this.time > 0) {
+                enemy = tmp;
+                break;
+            }
+        } catch (e) {}
     }
     if (!enemy) { //no valid enemies
         return;
     }
     enemy.futureHealth -= this.force;
-    let aimFor = getPosition(enemy.time - this.time);
+    let aimFor
+    if (ENEMYSTARTINGPOS == 0) {
+        aimFor = getPosition(enemy.time + this.time * ENEMYSPEED);
+    } else {
+        aimFor = getPosition(ENEMYSTARTINGPOS - enemy.time + this.time * ENEMYSPEED);
+    }
     let Xinc = (aimFor.x - this.x) / this.time,
         Yinc = (aimFor.y - this.y) / this.time;
     let newObj = {
@@ -239,9 +246,4 @@ Shoot.prototype.draw = function() {
         fill('black');
         ellipse(item.x, item.y, 5, 5);
     });
-}
-
-
-function getX(time){
-  return sin(time);
 }
