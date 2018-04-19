@@ -102,7 +102,7 @@ class Enemy {
         console.log(value);
         this.xPos = 0;
         this.yPos = height / 2;
-        this.radius = 50;
+        this.radius = 25;
         this.time = 1000;//random(0, -100);
         this.speed = 1;
         this.value = value;

@@ -22,7 +22,7 @@ class EmptyPlot {
     this.parent = _parent;
     this.xPos = xPosition;
     this.yPos = yPosition;
-    this.sprite = createSprite(this.xPos, this.yPos, 100, 100);
+    this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
     this.sprite.shapeColor = 'red';
     this.sprite.onMouseOver = () => {
       this.sprite.shapeColor = 'yellow';
@@ -64,7 +64,7 @@ class Cannon {
     this.xPos = xPosition;
     this.yPos = yPosition;
     this.level = towerLevel;
-    this.sprite = createSprite(this.xPos, this.yPos, 100, 100);
+    this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
     this.sprite.shapeColor = 'black';
     this.gun = new Shoot(this.xPos, this.yPos, this.level);
     console.log(typeof(this.gun));
