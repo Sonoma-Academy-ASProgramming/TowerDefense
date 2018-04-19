@@ -5,5 +5,6 @@ function nextLevel(){
 }
 
 function nextLevelAnimation(){
-  ellipse(0, 0)
+  ellipseMode('CENTER');
+  ellipse(width/2, height/2, radius)
 }
