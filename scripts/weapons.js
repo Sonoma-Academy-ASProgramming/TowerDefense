@@ -19,19 +19,24 @@ Shoot.prototype.fire = function() {
     let enemy = null;
     let tmp;
     for (let i = 0; i < Enemies.length; i++) {
-      try{
-        tmp = this.findEnemy(i);
-        if (tmp.futureHealth > 0 && tmp.time - this.time>0) {
-            enemy = tmp;
-            break;
-        }
-      }catch (e){}
+        try {
+            tmp = this.findEnemy(i);
+            if (tmp.futureHealth > 0 && tmp.time - this.time > 0) {
+                enemy = tmp;
+                break;
+            }
+        } catch (e) {}
     }
     if (!enemy) { //no valid enemies
         return;
     }
     enemy.futureHealth -= this.force;
-    let aimFor = getPosition(enemy.time - this.time);
+    let aimFor
+    if (ENEMYSTARTINGPOS == 0) {
+        aimFor = getPosition(enemy.time + this.time * ENEMYSPEED);
+    } else {
+        aimFor = getPosition(ENEMYSTARTINGPOS - enemy.time + this.time * ENEMYSPEED);
+    }
     let Xinc = (aimFor.x - this.x) / this.time,
         Yinc = (aimFor.y - this.y) / this.time;
     let newObj = {
@@ -65,6 +70,6 @@ Shoot.prototype.draw = function() {
     this.update();
     this.Bullets.forEach((item) => {
         fill('black');
-        ellipse(item.x, item.y, 5, 5);
+        ellipse(item.x, item.y, 2, 2);
     });
 }
