@@ -23,12 +23,12 @@ class EmptyPlot {
     this.xPos = xPosition;
     this.yPos = yPosition;
     this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
-    this.sprite.shapeColor = 'red';
+    this.sprite.shapeColor = 'brown';
     this.sprite.onMouseOver = () => {
-      this.sprite.shapeColor = 'yellow';
+      this.sprite.shapeColor = 'burlywood';
     };
     this.sprite.onMouseOut = () => {
-      this.sprite.shapeColor = 'red';
+      this.sprite.shapeColor = 'brown';
     }
     this.sprite.onMousePressed = () => {
       this.makeMenu();
@@ -42,7 +42,10 @@ EmptyPlot.prototype.makeMenu = function() {
       removeSprite(this.sprite);
       this.parent.setBuilding(new Cannon(this.xPos, this.yPos, 1));
     },
-    () => {console.log('option2')},
+    () => {
+      removeSprite(this.sprite);
+      this.parent.setBuilding(new PowerUp(this.xPos, this.yPos, 1));
+    },
     () => {console.log('option3')},
     () => {console.log('option4')}
   ];
@@ -67,8 +70,6 @@ class Cannon {
     this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
     this.sprite.shapeColor = 'black';
     this.gun = new Shoot(this.xPos, this.yPos, this.level);
-    console.log(typeof(this.gun));
-    console.log(this.gun);
     this.sprite.onMousePressed = () => {
       console.log('clicked a cannon');
     }
@@ -83,4 +84,21 @@ Cannon.prototype.update = function() {
     this.gun.fire();
   }
   this.gun.draw();
+}
+
+class PowerUp {
+  constructor(xPosition, yPosition, towerLevel){
+    this.xPos = xPosition;
+    this.yPos = yPosition;
+    this.level = towerLevel;
+    this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
+    this.sprite.shapeColor = 'lightblue';
+    this.sprite.onMousePressed = () => {
+      console.log('clicked a powerup tower');
+    }
+  }
+}
+
+PowerUp.prototype.update = function() {
+  drawSprite(this.sprite);
 }
