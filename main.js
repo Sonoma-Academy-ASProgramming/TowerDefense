@@ -2,6 +2,7 @@ let Towers = [],
     Enemies = [],
     Shoots = [];
 let Time = 0;
+let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let Buttons = [];
@@ -29,7 +30,8 @@ function setup() {
     backgroundSprite.onMousePressed = () => {
         UI = null;
     }
-    Towers.push(new Plot(250, 250));
+    Towers.push(new EmptyPlot(250, 250));
+    Towers.push(new EmptyPlot(650, 250));
     Shoots.push(new Shoot(250, 250, 1));
 
 
