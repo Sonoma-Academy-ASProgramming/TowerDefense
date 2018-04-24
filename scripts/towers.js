@@ -8,10 +8,10 @@ class EmptyPlot {
         plotImg.resize(50, 50);
         this.sprite.addImage("EmptyPlot", plotImg);
         this.sprite.onMouseOver = () => {
-            plotImg.resize(70, 70);
+            this.sprite.scale = 1.2;
         };
         this.sprite.onMouseOut = () => {
-            plotImg.resize(50, 50);
+            this.sprite.scale = 1;
         }
         this.sprite.onMousePressed = () => {
             selectedTower = this;
