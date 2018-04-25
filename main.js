@@ -11,6 +11,8 @@ let popSound, backgroundImg, plotImg;
 const ENEMYSTARTINGPOS = 0;
 const ENEMYSPEED = 1;
 
+//----------\vars/---------/main\---------------
+
 function preload() {
     popSound = loadSound('sounds/popSound.mp3');
     backgroundImg = loadImage('./images/background.png');
