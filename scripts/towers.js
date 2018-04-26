@@ -12,7 +12,7 @@ class EmptyPlot {
         };
         this.sprite.onMouseOut = () => {
             this.sprite.scale = 1;
-        }
+        };
         this.sprite.onMousePressed = () => {
             selectedTower = this;
             this.makeMenu();
@@ -57,7 +57,7 @@ EmptyPlot.prototype.makeMenu = function() {
 
 EmptyPlot.prototype.update = function() {
     drawSprite(this.sprite);
-}
+};
 
 //CANNON CLASS
 //This is the simpliest type of combat tower. It shoot the bullets. That is all.
@@ -67,7 +67,7 @@ class Cannon {
         this.yPos = yPosition;
         this.level = towerLevel;
         this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
-        this.sprite.shapeColor = (towerType == 0) ? 'black' : 'pink';
+        this.sprite.shapeColor = (towerType === 0) ? 'black' : 'pink';
         this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType);
         this.sprite.onMousePressed = () => {
             try {
