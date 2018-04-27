@@ -84,7 +84,7 @@ class Cannon {
 }
 
 Cannon.prototype.update = function() {
-    console.log(this.gun)
+    // console.log(this.gun)
     drawSprite(this.sprite);
     if (frameCount % 6 === 0) {
         this.gun.fire();

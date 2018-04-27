@@ -1,3 +1,38 @@
+function getPosition(t) {
+    if (t < width * 5 / 6) {
+        return {
+            x: t,
+            y: f
+        };
+    } else if ((t >= r) && (t < r + rl)) {
+        return {
+            x: r,
+            y: t - r + f
+        }
+    } else if ((t >= r + rl) && (t < r + r + rl - l)) {
+        return {
+            x: r - (t - r - rl),
+            y: s
+        }
+    } else if ((t >= r + r + rl - l) && (t < r + r + rl - l + rl)) {
+        return {
+            x: l,
+            y: t - (r + r + rl - l) + s
+        }
+    } else if ((t >= r + r + rl - l + rl + height * 0.02) && (t < r + r + rl - l + rl + r - l)) {
+        return {
+            x: t - (r + r + rl - l + rl) + l,
+            y: th
+        }
+    } else {
+        return {
+            x: -1000,
+            y: -1000
+        }
+    }
+
+}
+
 function generateEnemies(val) {
     while (val > 0) {
         switch (true) {
@@ -42,19 +77,14 @@ class Enemy {
 
 Enemy.prototype.hit = function (force) {
     this.value -= force;
-    Game.score += force;
     if (this.value <= 0) {
         popSound.play();
         this.delete();
-        //Levels up if all enemies have been killed and no new enemies are being created
-        if (Enemies.length === 0 && Game.spawning === 0) {
-            Game.levelUp();
-        }
     }
-};
+}
 Enemy.prototype.delete = function () {
     Enemies.splice(Enemies.indexOf(this), 1);
-};
+}
 Enemy.prototype.draw = function () {
     this.time += this.speed * ENEMYSPEED;
     this.xPos = getPosition(this.time).x;
@@ -62,16 +92,11 @@ Enemy.prototype.draw = function () {
     fill(this.color);
     //  fill(255 / this.futureHealth * 10, 0, 0);
     ellipse(this.xPos, this.yPos, this.radius, this.radius);
-    if (this.time <= 0) {
-        this.delete();
+    // if (this.time <= 0) {
+    //     this.delete();
+    // }
+    if (this.time > r + r + rl - l + rl + r - l){
+        alert("game over");
+        console.log(this);
     }
-};
-
-function getPosition(t) {
-    let x = t;
-    let y = height / 2;
-    return {
-        x,
-        y
-    };
 }
