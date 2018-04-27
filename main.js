@@ -34,7 +34,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     console.log(plotImg);
-    //backgroundImg.resize(windowWidth, windowHeight);
+    backgroundImg.resize(windowWidth, windowHeight);
     backgroundSprite.addImage("Background", backgroundImg);
     backgroundSprite.onMousePressed = () => {
         UI = null;
