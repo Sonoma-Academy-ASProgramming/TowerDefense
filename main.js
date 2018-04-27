@@ -11,6 +11,13 @@ let popSound, backgroundImg, plotImg;
 const ENEMYSTARTINGPOS = 0;
 const ENEMYSPEED = 1;
 
+//
+let rl;
+let f;
+let s;
+let th;
+let r;
+let l;
 //----------\vars/---------/main\---------------
 
 function preload() {
@@ -34,10 +41,22 @@ function setup() {
     }
     Towers.push(new EmptyPlot(250, 230));
     Towers.push(new EmptyPlot(500, 230));
-
+    Towers.push(new EmptyPlot(750, 230));
+    Towers.push(new EmptyPlot(1000, 230));
+    rl = height * 0.17;
+    f = height * 0.4;
+    s = f + rl;//height * 0.57;
+    th = s + rl + height * 0.02;
+    r = width * 5 / 6;
+    l = width / 6;
 
     //CREATE LEVELS
-    generateEnemies(120);
+    setInterval(testGenEmys, 750);
+    generateEnemies(60);
+}
+
+function testGenEmys() {
+    generateEnemies(Math.floor(Math.random() * 90) + 20);
 }
 
 //GAME LOGIC
@@ -67,12 +86,38 @@ function mousePressed() {
 //------------------------FUNCTIONS-----------------------------------------
 
 function getPosition(t) {
-    let x = t;
-    let y = height / 2;
-    return {
-        x,
-        y
-    };
+    if (t < width * 5 / 6) {
+        return {
+            x: t,
+            y: f
+        };
+    } else if ((t >= r) && (t < r + rl)) {
+        return {
+            x: r,
+            y: t - r + f
+        }
+    } else if ((t >= r + rl) && (t < r + r + rl - l)) {
+        return {
+            x: r - (t - r - rl),
+            y: s
+        }
+    } else if ((t >= r + r + rl - l) && (t < r + r + rl - l + rl)) {
+        return {
+            x: l,
+            y: t - (r + r + rl - l) + s
+        }
+    } else if ((t >= r + r + rl - l + rl + height * 0.02) && (t < r + r + rl - l + rl + r - l)) {
+        return {
+            x: t - (r + r + rl - l + rl) + l,
+            y: th
+        }
+    } else {
+        return {
+            x: -1000,
+            y: -1000
+        }
+    }
+
 }
 
 function generateEnemies(val) {
@@ -111,30 +156,36 @@ class Enemy {
         this.radius = 25;
         this.time = 0;
         this.speed = speed;
+        this.speed = 5;
         this.value = value;
         this.futureHealth = value;
         this.color = color;
     }
 }
-Enemy.prototype.hit = function(force) {
+
+Enemy.prototype.hit = function (force) {
     this.value -= force;
     if (this.value <= 0) {
         popSound.play();
         this.delete();
     }
 }
-Enemy.prototype.delete = function() {
+Enemy.prototype.delete = function () {
     Enemies.splice(Enemies.indexOf(this), 1);
 }
-Enemy.prototype.draw = function() {
+Enemy.prototype.draw = function () {
     this.time += this.speed * ENEMYSPEED;
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
     fill(this.color);
     //  fill(255 / this.futureHealth * 10, 0, 0);
     ellipse(this.xPos, this.yPos, this.radius, this.radius);
-    if (this.time <= 0) {
-        this.delete();
+    // if (this.time <= 0) {
+    //     this.delete();
+    // }
+    if (this.time > r + r + rl - l + rl + r - l){
+        alert("game over");
+        console.log(this);
     }
 }
 
