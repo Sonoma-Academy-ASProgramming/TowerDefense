@@ -69,6 +69,7 @@ class Enemy {
         this.radius = 25;
         this.time = 0;
         this.speed = speed;
+        this.speed = 5;
         this.value = value;
         this.futureHealth = value;
         this.color = color;
@@ -96,7 +97,7 @@ Enemy.prototype.draw = function () {
     //     this.delete();
     // }
     if (this.time > r + r + rl - l + rl + r - l){
-        alert("game over");
-        console.log(this);
+        console.log("game over",this);
+        Game.gameOver();
     }
 }

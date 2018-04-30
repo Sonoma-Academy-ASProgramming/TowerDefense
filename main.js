@@ -30,7 +30,8 @@ function setup() {
     UI = null;
     //Center all balls
     ellipseMode(CENTER);
-
+    scoreHeight = height*.3;
+    leftScoreLeft = width * .05;
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     console.log(plotImg);
@@ -65,6 +66,7 @@ function draw() {
     Towers.forEach((tower) => {
         tower.update();
     });
+    drawScore();
     //GUI should always be rendered last
     try {
         UI.update();
