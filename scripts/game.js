@@ -19,6 +19,7 @@ let Game = {
         Game.gameTime = 0;
         Game.gameState = GameStates.InGame;
 
+
         /*Start Game and Clock*/
         setInterval(() => {
             Game.gameTime++;

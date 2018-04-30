@@ -62,6 +62,7 @@ function generateEnemies(val) {
 
 //CLASSES ------------------------------------------------------------------------------
 
+
 class Enemy {
     constructor(value, color, speed) {
         this.xPos = 0;

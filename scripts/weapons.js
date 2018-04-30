@@ -1,11 +1,12 @@
-const cout = console.log;
+const cout = console.log; //do not delete: program will crash
 
 class Shoot {
     constructor(towerX, towerY, force, type, howManyframesForTheBulletToGetToTheEnemy) {
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
-        this.force = force || 1;
+        this.force = force || 20;
+
         this.type = type || 0;
         // this.type = 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
@@ -134,7 +135,7 @@ Shoot.prototype.dist = function (x0, y0, x1, y1) {
 
 }
 
-//trash
+//dump
 
 
 // const dist1 = Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y));
