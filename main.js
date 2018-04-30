@@ -8,7 +8,7 @@ let Buttons = [];
 let UI;
 let popSound, backgroundImg, plotImg;
 const ENEMYSTARTINGPOS = 0;
-const ENEMYSPEED = 1;
+let ENEMYSPEED = 5;
 
 //
 let rl;
@@ -17,6 +17,7 @@ let s;
 let th;
 let r;
 let l;
+
 //----------\vars/---------/main\---------------
 
 function preload() {
@@ -49,27 +50,32 @@ function setup() {
     th = s + rl + height * 0.02;
     r = width * 5 / 6;
     l = width / 6;
-
-    //Setup Game
-    Game.startGame();
 }
 
 //GAME LOGIC
 function draw() {
-    drawSprite(backgroundSprite);
-    Time += 1;
-    Enemies.forEach((enemy) => {
-        enemy.draw();
-    });
+    if (Game.gameState === GameStates.InGame) {
 
-    Towers.forEach((tower) => {
-        tower.update();
-    });
-    //GUI should always be rendered last
-    try {
-        UI.update();
-    } catch (e) {
+        drawSprite(backgroundSprite);
+        Time += 1;
+        Enemies.forEach((enemy) => {
+            enemy.draw();
+        });
 
+        Towers.forEach((tower) => {
+            tower.update();
+        });
+        //GUI should always be rendered last
+        try {
+            UI.update();
+        } catch (e) {
+
+        }
+    } else if (Game.gameState === GameStates.GameStart) {
+        //Start Screen
+        Game.startGame();
+    } else if (Game.gameState === GameStates.GameOver) {
+        //GAME OVER
     }
 }
 
@@ -79,7 +85,6 @@ function mousePressed() {
 }
 
 //------------------------FUNCTIONS-----------------------------------------
-
 
 
 let mouseInArea = (xMin, xMax, yMin, yMax) => {
