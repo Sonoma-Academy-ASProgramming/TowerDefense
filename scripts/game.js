@@ -10,6 +10,9 @@ let Game = {
     gameTime: 0,
     gameState: GameStates.GameStart,
     spawning: 10,
+    getSpawning: () => {
+        return this.spawning;
+    },
     startGame: () => {
         /*Define Variables*/
         this.spawning = 10;
@@ -22,9 +25,10 @@ let Game = {
         /*Start Game and Clock*/
         setInterval(() => {
             this.gameTime++;
+            console.log(this.spawning);
             if (this.spawning > 0) {
                 this.spawning--;
-                generateEnemies(level * 20);
+                generateEnemies(level * 19);
             }
         }, 1000);
     },
@@ -34,7 +38,7 @@ let Game = {
     levelUp: () => {
         this.level++;
         setTimeout(() => {
-            this.spawnEnemies();
+            Game.spawnEnemies();
         }, 2000)
     },
     gameOver: () => {
