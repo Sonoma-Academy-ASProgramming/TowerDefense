@@ -6,6 +6,7 @@ class Shoot {
         this.x = towerX;
         this.y = towerY;
         this.force = force || 20;
+
         this.type = type || 0;
         // this.type = 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;

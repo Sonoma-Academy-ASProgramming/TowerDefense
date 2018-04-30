@@ -41,6 +41,7 @@ function setup() {
     backgroundSprite.onMousePressed = () => {
         UI = null;
     };
+
     Towers.push(new EmptyPlot(250, 230));
     Towers.push(new EmptyPlot(500, 230));
     Towers.push(new EmptyPlot(750, 230));
