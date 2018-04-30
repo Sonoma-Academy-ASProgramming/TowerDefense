@@ -23,7 +23,6 @@ let Game = {
         /*Start Game and Clock*/
         setInterval(() => {
             Game.gameTime++;
-            //  console.log(Game.spawning);
             if (Game.spawning > 0) {
                 Game.spawning--;
                 generateEnemies(Game.level * 19);
