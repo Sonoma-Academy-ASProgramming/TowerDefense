@@ -82,7 +82,7 @@ Enemy.prototype.hit = function (force) {
         popSound.play();
         this.delete();
         //Levels up if all enemies have been killed and no new enemies are being created
-        if (Enemies.length === 0 && Game.getSpawning() === 0) {
+        if (Enemies.length === 0 && Game.spawning === 0 && Game.gameState === GameStates.InGame) {
             Game.levelUp();
         }
     }
