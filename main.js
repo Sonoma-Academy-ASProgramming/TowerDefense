@@ -31,8 +31,6 @@ function setup() {
     UI = null;
     //Center all balls
     ellipseMode(CENTER);
-    scoreHeight = height*.3;
-    leftScoreLeft = width * .05;
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
     console.log(plotImg);
@@ -46,6 +44,9 @@ function setup() {
     Towers.push(new EmptyPlot(500, 230));
     Towers.push(new EmptyPlot(750, 230));
     Towers.push(new EmptyPlot(1000, 230));
+
+    score.scoreHeight = height * .25;
+    score.leftScoreLeft = width * .03;
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
@@ -64,14 +65,14 @@ function draw() {
             enemy.draw();
         });
 
-    Towers.forEach((tower) => {
-        tower.update();
-    });
-    drawScore();
-    //GUI should always be rendered last
-    try {
-        UI.update();
-    } catch (e) {
+        Towers.forEach((tower) => {
+            tower.update();
+        });
+        score.drawScore();
+        //GUI should always be rendered last
+        try {
+            UI.update();
+        } catch (e) {
 
         }
     } else if (Game.gameState === GameStates.GameStart) {
