@@ -14,7 +14,7 @@ function getPosition(t) {
             x: r - (t - r - rl),
             y: s
         }
-    } else if ((t >= r + r + rl - l) && (t < r + r + rl - l + rl)) {
+    } else if ((t >= r + r + rl - l) && (t < r + r + rl - l + rl+height * 0.02)) {
         return {
             x: l,
             y: t - (r + r + rl - l) + s

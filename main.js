@@ -47,6 +47,7 @@ function setup() {
 
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
+    score.levelLeft = width*.45;
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
