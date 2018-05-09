@@ -10,12 +10,9 @@ class EmptyPlot {
         this.sprite.onMouseOver = () => {
             //this.sprite.scale = 1.2;
         };
-<<<<<<< HEAD
         this.sprite.onMouseOut = () => {
             //this.sprite.scale = 1;
         }
-=======
->>>>>>> fb669ec162df704b0eaeb501e49589b96218df42
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
@@ -61,11 +58,7 @@ EmptyPlot.prototype.makeMenu = function() {
 
 EmptyPlot.prototype.update = function() {
     this.sprite.display();
-<<<<<<< HEAD
 }
-=======
-};
->>>>>>> fb669ec162df704b0eaeb501e49589b96218df42
 
 //CANNON CLASS
 //This is the simpliest type of combat tower. It shoot the bullets. That is all.
