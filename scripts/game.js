@@ -30,12 +30,10 @@ let Game = {
         }, 1000);
     },
     levelUp: () => {
-        if (Game.gameState === GameStates.InGame) {
-            Game.level++;
-            setTimeout(() => {
-                Game.spawning = 10;
-            }, 2000)
-        }
+        Game.level++;
+        setTimeout(() => {
+            Game.spawning = 10;
+        }, 2000)
     },
     gameOver: () => {
         Enemies = [];
