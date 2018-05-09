@@ -6,10 +6,10 @@ let backgroundSprite;
 //SETUP
 let Buttons = [];
 let UI;
-let popSound, backgroundImg, plotImg;
+let popSound, backgroundImg, plotImg, enemyImages = [];
 const ENEMYSTARTINGPOS = 0;
-let ENEMYSPEED = 5;
-
+let ENEMYSPEED = 1;
+let gameOverRadius = 10;
 //
 let rl;
 let f;
@@ -24,6 +24,9 @@ function preload() {
     popSound = loadSound('sounds/popSound.mp3');
     backgroundImg = loadImage('./images/background.png');
     plotImg = loadImage('./images/emptyPlot.png');
+    for (let i = 1; i < 6; i++) {
+        enemyImages[i] = loadImage(`./images/enemy${i}.png`);
+    }
 }
 
 function setup() {
@@ -31,7 +34,8 @@ function setup() {
     UI = null;
     //Center all balls
     ellipseMode(CENTER);
-    scoreHeight = height*.3;
+    imageMode(CENTER);
+    scoreHeight = height * .3;
     leftScoreLeft = width * .05;
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = createSprite(width / 2, height / 2, width, height);
@@ -64,14 +68,14 @@ function draw() {
             enemy.draw();
         });
 
-    Towers.forEach((tower) => {
-        tower.update();
-    });
-    drawScore();
-    //GUI should always be rendered last
-    try {
-        UI.update();
-    } catch (e) {
+        Towers.forEach((tower) => {
+            tower.update();
+        });
+        drawScore();
+        //GUI should always be rendered last
+        try {
+            UI.update();
+        } catch (e) {
 
         }
     } else if (Game.gameState === GameStates.GameStart) {
@@ -79,19 +83,16 @@ function draw() {
         Game.startGame();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
-    }
-}
-
-//SPECIAL MOUSE EVENT HANDLING
-function mousePressed() {
-
-}
-
-//------------------------FUNCTIONS-----------------------------------------
-
-
-let mouseInArea = (xMin, xMax, yMin, yMax) => {
-    if (mouseX > xMin && mouseX < xMax && mouseY > yMin && mouseY < yMax) {
-        return true;
+        /*Animate Game Over*/
+        if (gameOverRadius < Math.sqrt(width * width + height * height)) {
+            gameOverRadius += 50;
+        }
+        ellipse(width / 2, height / 2, gameOverRadius);
+        push();
+        fill("white");
+        textAlign(CENTER, BOTTOM);
+        textSize(100);
+        text("Game Over!", width / 2, height / 2);
+        pop();
     }
 }
