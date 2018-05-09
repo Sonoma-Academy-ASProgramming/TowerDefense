@@ -31,20 +31,9 @@ function setup() {
     //Center all balls
     ellipseMode(CENTER);
     createCanvas(windowWidth, windowHeight);
-<<<<<<< HEAD
     backgroundSprite = new Supersprite(width / 2, height / 2, width, height);
     backgroundSprite.addImage(backgroundImg);
-    backgroundSprite.onMousePressed = () => {UI.delete(); console.log('background clicked');};
-=======
-    backgroundSprite = createSprite(width / 2, height / 2, width, height);
-    console.log(plotImg);
-    backgroundImg.resize(windowWidth, windowHeight);
-    backgroundSprite.addImage("Background", backgroundImg);
-    backgroundSprite.onMousePressed = () => {
-        UI = null;
-    };
-
->>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
+    backgroundSprite.onMousePressed = UI.delete
     Towers.push(new EmptyPlot(250, 230));
     Towers.push(new EmptyPlot(500, 230));
     Towers.push(new EmptyPlot(750, 230));
@@ -63,24 +52,9 @@ function setup() {
 
 //GAME LOGIC
 function draw() {
-<<<<<<< HEAD
-    backgroundSprite.display();
-    Time += 1;
-    Enemies.forEach((enemy) => {
-        enemy.draw();
-    });
-
-    Towers.forEach((tower) => {
-        tower.update();
-    });
-    //GUI should always be rendered last
-    try {
-        UI.update();
-    } catch (e) {
-=======
     if (Game.gameState === GameStates.InGame) {
 
-        drawSprite(backgroundSprite);
+          backgroundSprite.display();
         Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
@@ -91,12 +65,7 @@ function draw() {
         });
         score.drawScore();
         //GUI should always be rendered last
-        try {
             UI.update();
-        } catch (e) {
->>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
-
-        }
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
         Game.startGame();
