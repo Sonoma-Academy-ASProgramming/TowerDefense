@@ -5,7 +5,6 @@ let Time = 0;
 let selectedTower = null;
 let backgroundSprite;
 //SETUP
-let Buttons = [];
 let UI;
 let popSound, backgroundImg, plotImg;
 const ENEMYSTARTINGPOS = 0;
@@ -18,18 +17,15 @@ function preload() {
 }
 
 function setup() {
+  UI = new GUI();
     frameRate(60);
-    UI = null;
     //Center all balls
     ellipseMode(CENTER);
 
     createCanvas(windowWidth, windowHeight);
-    backgroundSprite = createSprite(width / 2, height / 2, width, height);
-    backgroundImg.resize(windowWidth, windowHeight);
-    backgroundSprite.addImage("Background", backgroundImg);
-    backgroundSprite.onMousePressed = () => {
-        UI = null;
-    }
+    backgroundSprite = new Supersprite(width / 2, height / 2, width, height);
+    backgroundSprite.addImage(backgroundImg);
+    backgroundSprite.onMousePressed = () => {UI.delete(); console.log('background clicked');};
     Towers.push(new EmptyPlot(250, 230));
     Towers.push(new EmptyPlot(500, 230));
 
@@ -40,7 +36,7 @@ function setup() {
 
 //GAME LOGIC
 function draw() {
-    drawSprite(backgroundSprite);
+    backgroundSprite.display();
     Time += 1;
     Enemies.forEach((enemy) => {
         enemy.draw();
