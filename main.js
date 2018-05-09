@@ -38,7 +38,9 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     backgroundSprite = new Supersprite(width / 2, height / 2, width, height);
     backgroundSprite.addImage(backgroundImg);
-    backgroundSprite.onMousePressed = UI.delete()
+    backgroundSprite.onMousePressed = () => {
+        UI.delete();
+    };
 
     Towers.push(new EmptyPlot(250, 230));
     Towers.push(new EmptyPlot(500, 230));
