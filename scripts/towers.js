@@ -7,12 +7,6 @@ class EmptyPlot {
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         plotImg.resize(50, 50);
         this.sprite.addImage(plotImg);
-        this.sprite.onMouseOver = () => {
-            //this.sprite.scale = 1.2;
-        };
-        this.sprite.onMouseOut = () => {
-            //this.sprite.scale = 1;
-        }
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
