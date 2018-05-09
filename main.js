@@ -29,11 +29,10 @@ function preload() {
 }
 
 function setup() {
-  UI = new GUI();
+    UI = new GUI();
     frameRate(60);
     //Center all balls
     ellipseMode(CENTER);
-    imageMode(CENTER);
     scoreHeight = height * .3;
     leftScoreLeft = width * .05;
     createCanvas(windowWidth, windowHeight);
@@ -48,7 +47,7 @@ function setup() {
 
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
-    score.levelLeft = width*.45;
+    score.levelLeft = width * .45;
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
@@ -59,11 +58,8 @@ function setup() {
 
 //GAME LOGIC
 function draw() {
-    backgroundSprite.display();
-    Time += 1;
     if (Game.gameState === GameStates.InGame) {
-
-        drawSprite(backgroundSprite);
+        backgroundSprite.display();
         Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
@@ -72,9 +68,9 @@ function draw() {
         Towers.forEach((tower) => {
             tower.update();
         });
-        drawScore();
+        score.drawScore();
         //GUI should always be rendered last
-            UI.update();
+        UI.update();
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
         Game.startGame();

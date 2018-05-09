@@ -10,16 +10,7 @@ class EmptyPlot {
         this.sprite.onMouseOver = () => {
             //this.sprite.scale = 1.2;
         };
-        this.sprite.onMouseOut = () => {
-<<<<<<< HEAD
-            //this.sprite.scale = 1;
-        }
-=======
-            this.sprite.scale = 1;
-        };
->>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
         this.sprite.onMousePressed = () => {
-          console.log('tower clicked');
             UI.delete();
             selectedTower = this;
             this.makeMenu();
@@ -28,13 +19,13 @@ class EmptyPlot {
 }
 
 EmptyPlot.prototype.setBuilding = function(building) {
-    for (var i = 0; i < Towers.length; i++) {
+    for (let i = 0; i < Towers.length; i++) {
         if (Towers[i] === this) {
             Towers.splice(i, 1);
             Towers.push(building);
         }
     }
-}
+};
 
 EmptyPlot.prototype.makeMenu = function() {
     const buttonFunctions = [
@@ -56,20 +47,15 @@ EmptyPlot.prototype.makeMenu = function() {
         }
     ];
     let buttons = [];
-    for (var i = 0; i < buttonFunctions.length; i++) {
+    for (let i = 0; i < buttonFunctions.length; i++) {
         buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), 650, buttonFunctions[i]));
     }
     UI.menu = new Menu(buttons[0], buttons[1], buttons[2], buttons[3]);
-}
+};
 
 EmptyPlot.prototype.update = function() {
-<<<<<<< HEAD
     this.sprite.display();
-}
-=======
-    drawSprite(this.sprite);
 };
->>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
 
 //CANNON CLASS
 //This is the simpliest type of combat tower. It shoot the bullets. That is all.
@@ -78,13 +64,8 @@ class Cannon {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.level = towerLevel;
-<<<<<<< HEAD
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
-        this.sprite.color = (towerType == 0) ? 'black' : 'pink';
-=======
-        this.sprite = createSprite(this.xPos, this.yPos, 50, 50);
-        this.sprite.shapeColor = (towerType === 0) ? 'black' : 'pink';
->>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
+        this.sprite.color = (towerType === 0) ? 'black' : 'pink';
         this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType);
         this.sprite.onMousePressed = () => {
           UI.delete();
@@ -101,17 +82,12 @@ class Cannon {
 }
 
 Cannon.prototype.update = function() {
-<<<<<<< HEAD
   this.sprite.display();
-=======
-    // console.log(this.gun)
-    drawSprite(this.sprite);
->>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
     if (frameCount % 6 === 0) {
         this.gun.fire();
     }
     this.gun.draw();
-}
+};
 
 class PowerUp {
     constructor(xPosition, yPosition, towerLevel) {
@@ -129,9 +105,9 @@ class PowerUp {
 
 PowerUp.prototype.update = function() {
     this.sprite.display();
-}
+};
 
 PowerUp.prototype.exitCode = function(towerToPower) {
     this.target = towerToPower;
     this.target.level = constrain(this.target.level + 1, 1, this.target.level + 1);
-}
+};

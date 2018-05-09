@@ -105,6 +105,7 @@ Enemy.prototype.draw = function () {
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
     push();
+    imageMode(CENTER);
     translate(this.xPos, this.yPos);
     rotate(radians(getPosition(this.time).r));
     image(enemyImages[this.id], 0, 0, 50, 50);

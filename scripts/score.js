@@ -26,7 +26,6 @@ let score = {
     drawscore() {
         if (Game.score - this.flastInterval >= this.lastFlash) {
             this.progress = 0;
-            // console.log("prog=0");
             this.lastFlash = Math.floor(Game.score / this.flastInterval) * this.flastInterval;
         }
         this.progress += 1;

@@ -5,13 +5,12 @@ class GUI {
 }
 
 GUI.prototype.delete = function() {
-  if(this.menu != null) {
+  if(this.menu !== null) {
     this.menu.delete();
     this.menu = null;
   }else{
-    console.log('no menu to delete');
   }
-}
+};
 
 GUI.prototype.update = function() {
   try {
@@ -19,7 +18,7 @@ GUI.prototype.update = function() {
   } catch(e) {
 
   }
-}
+};
 
 class Button {
     constructor(xPosition, yPosition, _onClicked) {
@@ -41,12 +40,11 @@ Menu.prototype.update = function() {
   this.buttons.forEach((button) => {
     button.sprite.display();
   });
-}
+};
 
 Menu.prototype.delete = function(){
-  console.log(this.buttons.length)
-  for(var i = 0; i < this.buttons.length; i++) {
+  for(let i = 0; i < this.buttons.length; i++) {
     this.buttons[i].sprite.delete();
   }
   this.buttons = [];
-}
+};
