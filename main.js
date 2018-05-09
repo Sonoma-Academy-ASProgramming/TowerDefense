@@ -1,6 +1,5 @@
 let Towers = [],
-    Enemies = [],
-    Shoots = [];
+    Enemies = [];
 let Time = 0;
 let selectedTower = null;
 let backgroundSprite;
@@ -8,7 +7,17 @@ let backgroundSprite;
 let UI;
 let popSound, backgroundImg, plotImg;
 const ENEMYSTARTINGPOS = 0;
-const ENEMYSPEED = 1;
+let ENEMYSPEED = 5;
+
+//
+let rl;
+let f;
+let s;
+let th;
+let r;
+let l;
+
+//----------\vars/---------/main\---------------
 
 function preload() {
     popSound = loadSound('sounds/popSound.mp3');
@@ -21,21 +30,40 @@ function setup() {
     frameRate(60);
     //Center all balls
     ellipseMode(CENTER);
-
     createCanvas(windowWidth, windowHeight);
+<<<<<<< HEAD
     backgroundSprite = new Supersprite(width / 2, height / 2, width, height);
     backgroundSprite.addImage(backgroundImg);
     backgroundSprite.onMousePressed = () => {UI.delete(); console.log('background clicked');};
+=======
+    backgroundSprite = createSprite(width / 2, height / 2, width, height);
+    console.log(plotImg);
+    backgroundImg.resize(windowWidth, windowHeight);
+    backgroundSprite.addImage("Background", backgroundImg);
+    backgroundSprite.onMousePressed = () => {
+        UI = null;
+    };
+
+>>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
     Towers.push(new EmptyPlot(250, 230));
     Towers.push(new EmptyPlot(500, 230));
+    Towers.push(new EmptyPlot(750, 230));
+    Towers.push(new EmptyPlot(1000, 230));
 
-
-    //CREATE LEVELS
-    generateEnemies(120);
+    score.scoreHeight = height * .25;
+    score.leftScoreLeft = width * .03;
+    score.levelLeft = width*.45;
+    rl = height * 0.17;
+    f = height * 0.4;
+    s = f + rl;//height * 0.57;
+    th = s + rl + height * 0.02;
+    r = width * 5 / 6;
+    l = width / 6;
 }
 
 //GAME LOGIC
 function draw() {
+<<<<<<< HEAD
     backgroundSprite.display();
     Time += 1;
     Enemies.forEach((enemy) => {
@@ -49,7 +77,31 @@ function draw() {
     try {
         UI.update();
     } catch (e) {
+=======
+    if (Game.gameState === GameStates.InGame) {
 
+        drawSprite(backgroundSprite);
+        Time += 1;
+        Enemies.forEach((enemy) => {
+            enemy.draw();
+        });
+
+        Towers.forEach((tower) => {
+            tower.update();
+        });
+        score.drawScore();
+        //GUI should always be rendered last
+        try {
+            UI.update();
+        } catch (e) {
+>>>>>>> e96d20f4f6e849b0a1b057e06ca5675830037531
+
+        }
+    } else if (Game.gameState === GameStates.GameStart) {
+        //Start Screen
+        Game.startGame();
+    } else if (Game.gameState === GameStates.GameOver) {
+        //GAME OVER
     }
 }
 
@@ -60,79 +112,8 @@ function mousePressed() {
 
 //------------------------FUNCTIONS-----------------------------------------
 
-function getPosition(t) {
-    let x = t;
-    let y = height / 2;
-    return {
-        x,
-        y
-    };
-}
 
-function generateEnemies(val) {
-    while (val > 0) {
-        switch (true) {
-            case val >= 160000:
-                val -= 160000;
-                Enemies.push(new Enemy(100, 'orange', 0.7));
-                break;
-            case val >= 8000:
-                val -= 8000;
-                Enemies.push(new Enemy(50, 'purple', 0.9));
-                break;
-            case val >= 400:
-                val -= 400;
-                Enemies.push(new Enemy(25, 'red', 1.1));
-                break;
-            case val >= 20:
-                val -= 20;
-                Enemies.push(new Enemy(10, 'blue', 1.3));
-                break;
-            case val >= 1:
-                val -= 1;
-                Enemies.push(new Enemy(1, 'green', 1.5));
-                break;
-        }
-    }
-}
-
-//CLASSES ------------------------------------------------------------------------------
-
-class Enemy {
-    constructor(value, color, speed) {
-        this.xPos = 0;
-        this.yPos = height / 2;
-        this.radius = 25;
-        this.time = 0;
-        this.speed = speed;
-        this.value = value;
-        this.futureHealth = value;
-        this.color = color;
-    }
-}
-Enemy.prototype.hit = function(force) {
-    this.value -= force;
-    if (this.value <= 0) {
-        popSound.play();
-        this.delete();
-    }
-}
-Enemy.prototype.delete = function() {
-    Enemies.splice(Enemies.indexOf(this), 1);
-}
-Enemy.prototype.draw = function() {
-    this.time += this.speed * ENEMYSPEED;
-    this.xPos = getPosition(this.time).x;
-    this.yPos = getPosition(this.time).y;
-    fill(this.color);
-    //  fill(255 / this.futureHealth * 10, 0, 0);
-    ellipse(this.xPos, this.yPos, this.radius, this.radius);
-    if (this.time <= 0) {
-        this.delete();
-    }
-}
-
-var mouseInArea = (xMin, xMax, yMin, yMax) => {
+let mouseInArea = (xMin, xMax, yMin, yMax) => {
     if (mouseX > xMin && mouseX < xMax && mouseY > yMin && mouseY < yMax) {
         return true;
     }
