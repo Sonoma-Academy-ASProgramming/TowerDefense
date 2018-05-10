@@ -6,7 +6,8 @@ let score = {
     lastFlash: 0,
     progress: 21,
     lastMoney: 0,
-    coinIMG: loadImage("coin.svg"),
+    coinIMG: NaN,
+    coinRotate:0,
     getSize(x) {
         if (x > 20) {
             return 28;
@@ -23,7 +24,7 @@ let score = {
     drawScore() {
         this.drawscore();
         this.drawLevel();
-
+        this.drawMoney();
     },
     drawscore() {
         if (Game.score - this.flastInterval >= this.lastFlash) {
@@ -44,6 +45,12 @@ let score = {
         fill(0, 0, 0);
         textSize(30);
         text("Level: " + Game.level, this.levelLeft, this.scoreHeight - height * 0.01);
+        push();
+        imageMode(CENTER);
+        translate(width / 2, height / 2);
+        rotate(Math.sin());
+        image(this.coinIMG, 0, 0,300,300);
+        pop();
     }
 
 };

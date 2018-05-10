@@ -20,9 +20,10 @@ let l;
 //----------\vars/---------/main\---------------
 
 function preload() {
-    popSound = loadSound('sounds/popSound.mp3');
+    popSound = loadSound('./sounds/popSound.mp3');
     backgroundImg = loadImage('./images/background.png');
     plotImg = loadImage('./images/emptyPlot.png');
+    score.coinIMG = loadImage(`./images/coin.svg`);
     for (let i = 1; i < 6; i++) {
         enemyImages[i] = loadImage(`./images/enemy${i}.png`);
     }
