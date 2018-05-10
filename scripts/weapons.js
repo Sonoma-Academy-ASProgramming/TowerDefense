@@ -1,10 +1,10 @@
 class Shoot {
-    constructor(towerX, towerY, force, type, howManyframesForTheBulletToGetToTheEnemy) {
+    constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy) {
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
         this.force = force || 20;
-
+        this.range = range || 500;
         this.type = type || 0;
         // this.type = 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
@@ -22,7 +22,7 @@ Shoot.prototype.sortEnemy = function () {
         } else {
             p1 = getPosition(ENEMYSTARTINGPOS - emy.time + this.time * emy.speed * ENEMYSPEED);
         }
-        return Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y)) < 500;
+        return Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y)) < this.range;
     });
     return sortedEnemies;
 };
