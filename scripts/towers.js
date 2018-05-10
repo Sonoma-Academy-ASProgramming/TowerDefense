@@ -61,7 +61,7 @@ class Cannon {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.level = towerLevel;
-        this.range = 350 * this.level/2;
+        this.range = 600 * this.level/2;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = (towerType === 0) ? 'black' : 'pink';
         this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range);
