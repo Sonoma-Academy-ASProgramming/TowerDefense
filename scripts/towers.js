@@ -61,9 +61,10 @@ class Cannon {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.level = towerLevel;
+        this.range = 600 * this.level/2;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = (towerType === 0) ? 'black' : 'pink';
-        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType);
+        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range);
         this.sprite.onMousePressed = () => {
           UI.delete();
             try {
@@ -79,6 +80,10 @@ class Cannon {
 }
 
 Cannon.prototype.update = function() {
+  if(selectedTower == this) {
+    fill(0, 0, 255, 45);
+    ellipse(this.xPos, this.yPos, this.range, this.range);
+  }
   this.sprite.display();
     if (frameCount % 6 === 0) {
         this.gun.fire();
@@ -91,6 +96,7 @@ class PowerUp {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.level = towerLevel;
+        this.range = 0;
         this.target = null;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = 'lightblue';
