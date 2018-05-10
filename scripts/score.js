@@ -7,7 +7,7 @@ let score = {
     progress: 21,
     lastMoney: 0,
     coinIMG: NaN,
-    coinRotate:0,
+    coinRotate: 0,
     getSize(x) {
         if (x > 20) {
             return 28;
@@ -48,8 +48,9 @@ let score = {
         push();
         imageMode(CENTER);
         translate(width / 2, height / 2);
-        rotate(Math.sin());
-        image(this.coinIMG, 0, 0,300,300);
+        rotate(Math.sin(this.coinRotate));
+        this.coinRotate+=0.05;
+        image(this.coinIMG, 0, 0, 300, 300);
         pop();
     }
 
