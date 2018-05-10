@@ -5,6 +5,8 @@ let score = {
     flastInterval: 50,
     lastFlash: 0,
     progress: 21,
+    lastMoney: 0,
+    coinIMG: loadImage("coin.svg"),
     getSize(x) {
         if (x > 20) {
             return 28;
@@ -13,9 +15,9 @@ let score = {
     },
     getLevelUpYPos() {
         if (x > 0) {
-        return -10000;
+            return -10000;
         }
-            return (-1 + 0.0595833 * x - 0.0011875 * x * x + 7.91667 * Math.pow(10, -6) * x * x * x)*height;
+        return (-1 + 0.0595833 * x - 0.0011875 * x * x + 7.91667 * Math.pow(10, -6) * x * x * x) * height;
 
     },
     drawScore() {
@@ -36,7 +38,12 @@ let score = {
     drawLevel() {
         fill(0, 0, 0);
         textSize(30);
-        text("Level: " + Game.level, this.levelLeft, this.scoreHeight-height*0.01);
+        text("Level: " + Game.level, this.levelLeft, this.scoreHeight - height * 0.01);
+    },
+    drawMoney() {
+        fill(0, 0, 0);
+        textSize(30);
+        text("Level: " + Game.level, this.levelLeft, this.scoreHeight - height * 0.01);
     }
 
 };

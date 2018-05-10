@@ -39,6 +39,9 @@ Shoot.prototype.fire = function () {
         } catch (e) {
         }
     }
+    if (!enemy){
+        return;
+    }
     enemy.futureHealth -= this.force;
     let aimFor;
     if (ENEMYSTARTINGPOS === 0) {
