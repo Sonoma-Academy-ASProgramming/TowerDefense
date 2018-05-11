@@ -5,7 +5,7 @@ let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let UI;
-let popSound, backgroundImg, plotImg, enemyImages = [];
+let popSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
@@ -24,8 +24,11 @@ function preload() {
     backgroundImg = loadImage('./images/background.png');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 7; i++) {
         enemyImages[i] = loadImage(`./images/enemy${i}.png`);
+    }
+    for (let i = 1; i < 5; i++) {
+        towerImages[i] = loadImage(`./images/tower${i}.png`);
     }
 }
 

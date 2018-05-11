@@ -42,7 +42,7 @@ class Supersprite {
         this.image = image || null;
         this.xOffSet = width / 2 || null;
         this.yOffSet = height / 2 || null;
-        this.color = (random(255), random(255), random(255));
+        this.color = "black";
         this.onMouseOver = null;
         this.onMouseOut = null;
         this.onMousePressed = null;
@@ -91,27 +91,24 @@ Supersprite.prototype.eventHandler = function () {
 };
 
 Supersprite.prototype.resize = function (width, height) {
+    if (!image) return null;
     this.width = width;
     this.height = height;
     this.xOffSet = this.width / 2;
     this.yOffSet = this.height / 2;
-    try {
-        this.image.resize(this.width, this.height);
-    } catch (e) {
 
-    }
+    this.image.resize(this.width, this.height);
 };
 
 Supersprite.prototype.addImage = function (newImage) {
-    newImage.resize(this.width, this.height);
     this.image = newImage;
 };
 
 Supersprite.prototype.display = function () {
     this.eventHandler();
-    try {
-        image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet);
-    } catch (e) {
+    if (this.image !== undefined) {
+        image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
+    } else {
         fill(this.color);
         rect(this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
     }
