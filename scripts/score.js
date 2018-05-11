@@ -8,6 +8,8 @@ let score = {
     lastMoney: 0,
     coinIMG: NaN,
     coinRotate: 0,
+    coinLeft: 0,
+    coinTop:0,
     getSize(x) {
         if (x > 20) {
             return 28;
@@ -22,6 +24,7 @@ let score = {
 
     },
     drawScore() {
+        textFont(gameFont);
         this.drawscore();
         this.drawLevel();
         this.drawMoney();
@@ -39,19 +42,21 @@ let score = {
     drawLevel() {
         fill(0, 0, 0);
         textSize(30);
-        text("Level: " + Game.level, this.levelLeft, this.scoreHeight - height * 0.01);
+        text("Level: " + Game.level, this.levelLeft, this.coinTop);
     },
     drawMoney() {
-        fill(0, 0, 0);
-        textSize(30);
-        text("Level: " + Game.level, this.levelLeft, this.scoreHeight - height * 0.01);
         push();
         imageMode(CENTER);
-        translate(width / 2, height / 2);
-        rotate(Math.sin(this.coinRotate));
-        this.coinRotate+=0.05;
-        image(this.coinIMG, 0, 0, 300, 300);
+        translate(this.coinLeft,this.scoreHeight-height*0.025);
+        rotate(Math.sin((this.coinRotate < 9.42) ? this.coinRotate : 0));
+        image(this.coinIMG, 0, 0, 30,30);
         pop();
+        text(Game.money, this.coinLeft+70,this.scoreHeight);
+        if (this.coinRotate > 10 * 3.14) {
+            this.coinRotate = 0;
+        }
+        this.coinRotate += 0.1;
+        // console.log(this.coinRotate);
     }
 
 };

@@ -5,6 +5,7 @@ class Shoot {
         this.y = towerY;
         this.force = force || 20;
         this.range = range || 500;
+        console.log(this.range);
         this.type = type || 0;
         // this.type = 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
@@ -24,6 +25,17 @@ Shoot.prototype.sortEnemy = function () {
         }
         return Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y)) < this.range;
     });
+    // // console.log(this.range);
+    // console.log(sortedEnemies+"___________________");
+    // sortedEnemies.forEach((emy)=>{
+    //     let p1;
+    //     if (ENEMYSTARTINGPOS === 0) {
+    //         p1 = getPosition(emy.time + this.time * emy.speed * ENEMYSPEED);
+    //     } else {
+    //         p1 = getPosition(ENEMYSTARTINGPOS - emy.time + this.time * emy.speed * ENEMYSPEED);
+    //     }
+    //     console.log(Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y)));
+    // })
     return sortedEnemies;
 };
 
@@ -39,7 +51,7 @@ Shoot.prototype.fire = function () {
         } catch (e) {
         }
     }
-    if (!enemy){
+    if (!enemy) {
         return;
     }
     enemy.futureHealth -= this.force;

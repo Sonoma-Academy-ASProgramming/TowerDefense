@@ -16,10 +16,12 @@ let s;
 let th;
 let r;
 let l;
+let gameFont;
 
 //----------\vars/---------/main\---------------
 
 function preload() {
+    gameFont = loadFont('./Fonts/coolstory regular.ttf');
     popSound = loadSound('./sounds/popSound.mp3');
     backgroundImg = loadImage('./images/background.png');
     plotImg = loadImage('./images/emptyPlot.png');
@@ -51,6 +53,9 @@ function setup() {
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
+    score.coinLeft = width * 0.8;
+
+    score.coinTop = score.scoreHeight - height * 0.01
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
