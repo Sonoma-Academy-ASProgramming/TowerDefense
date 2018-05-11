@@ -6,7 +6,7 @@ class Shoot {
         this.force = force || 20;
         this.range = range || 500;
         console.log(this.range);
-        this.type = type || 0;
+        this.type = type || 1;
         // this.type = 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
     }
@@ -102,7 +102,7 @@ Shoot.prototype.draw = function () {
 };
 
 Shoot.prototype.GetPos = function (t, x0, y0, x1, y1, x2, y2) {
-    if (this.type === 0)
+    if (this.type === 2)
         return {
             x: (1 - t) * (1 - t) * x0 + 2 * (1 - t) * t * x1 + t * t * x2,
             y: (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * y1 + t * t * y2
@@ -112,7 +112,7 @@ Shoot.prototype.GetPos = function (t, x0, y0, x1, y1, x2, y2) {
             x: (x2 - x0) * t + x0,
             y: (y2 - y0) * t + y0,
         };
-    else if (this.type === 2) {
+    else if (this.type === 3) {
         const a = 1;
         const b = 0.5;
         return {
@@ -124,7 +124,7 @@ Shoot.prototype.GetPos = function (t, x0, y0, x1, y1, x2, y2) {
 
 Shoot.prototype.GetSize = function (t) {
     const org = 5;
-    if (this.type === 0) {
+    if (this.type === 2) {
         const max = 20;
         return max - Math.abs(t - .5) * 2 * max + org;
     } else if (this.type === 1) {
