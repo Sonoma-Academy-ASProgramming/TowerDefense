@@ -40,7 +40,7 @@ EmptyPlot.prototype.makeMenu = function () {
         },
         () => {
             UI.delete();
-            this.setBuilding(new PowerUp(this.xPos, this.yPos, 1));
+            this.setBuilding(new Mine(this.xPos, this.yPos, 1));
         }
     ];
     let buttons = [];
@@ -93,13 +93,12 @@ Cannon.prototype.update = function () {
     this.gun.draw();
 };
 
-class PowerUp {
+class Mine {
     constructor(xPosition, yPosition, towerLevel) {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.level = towerLevel;
         this.range = 0;
-        this.target = null;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[4]);
@@ -109,11 +108,13 @@ class PowerUp {
     }
 }
 
-PowerUp.prototype.update = function () {
+Mine.prototype.update = function () {
     this.sprite.display();
+    if(frameCount % 60 === 0) {
+      Game.money += 2;
+    }
 };
 
-PowerUp.prototype.exitCode = function (towerToPower) {
-    this.target = towerToPower;
-    this.target.level = constrain(this.target.level + 1, 1, this.target.level + 1);
+Mine.prototype.exitCode = function (towerToPower) {
+
 };
