@@ -5,7 +5,7 @@ let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let UI;
-let popSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
+let popSound, cashSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
@@ -21,8 +21,12 @@ let gameFont;
 //----------\vars/---------/main\---------------
 
 function preload() {
+  //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
+    //sound
     popSound = loadSound('./sounds/popSound.mp3');
+    cashSound = loadSound('./sounds/cashSound.mp3');
+    //images
     backgroundImg = loadImage('./images/background.png');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
@@ -46,6 +50,7 @@ function setup() {
     backgroundSprite.addImage(backgroundImg);
     backgroundSprite.onMousePressed = () => {
         UI.delete();
+        selectedTower = null;
     };
 
     Towers.push(new EmptyPlot(250, 230));

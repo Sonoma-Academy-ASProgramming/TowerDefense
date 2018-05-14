@@ -105,6 +105,7 @@ class Mine {
         this.sprite.onMousePressed = () => {
             selectedTower = this;
         }
+        cashSound.play();
     }
 }
 
