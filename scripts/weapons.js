@@ -1,5 +1,5 @@
 class Shoot {
-    constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy) {
+    constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy, sprite) {
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
@@ -7,8 +7,8 @@ class Shoot {
         this.range = range || 500;
         console.log(this.range);
         this.type = type || 1;
-        // this.type = 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
+        this.sprite = sprite;
     }
 }
 
@@ -76,6 +76,8 @@ Shoot.prototype.fire = function () {
         type: this.type,
         enemy
     };
+    console.log("HERE");
+    this.sprite.rotation = this.time;
     this.Bullets.push(newObj);
 };
 

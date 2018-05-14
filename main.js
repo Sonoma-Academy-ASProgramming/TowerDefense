@@ -91,6 +91,7 @@ function draw() {
         if (gameOverRadius < Math.sqrt(width * width + height * height)) {
             gameOverRadius += 50;
         }
+        fill("black");
         ellipse(width / 2, height / 2, gameOverRadius);
         push();
         fill("white");
