@@ -66,7 +66,7 @@ let score = {
         rotate(Math.sin((this.coinRotate < 9.42) ? this.coinRotate : 0));
         image(this.coinIMG, 0, 0, 30, 30);
         pop();
-        // textSize(30);
+        textSize(30);
         text(Game.money, this.coinLeft + 45, this.coinTop);
         if (this.coinRotate > 10 * 3.14) {
             this.coinRotate = 0;
