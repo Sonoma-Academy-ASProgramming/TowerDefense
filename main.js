@@ -5,6 +5,7 @@ let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let UI;
+let backgroundMusic;
 let popSound, cashSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
@@ -23,6 +24,8 @@ let gameFont;
 function preload() {
   //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
+    //music
+    backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
     //sound
     popSound = loadSound('./sounds/popSound.mp3');
     cashSound = loadSound('./sounds/cashSound.mp3');
@@ -39,6 +42,7 @@ function preload() {
 }
 
 function setup() {
+  backgroundMusic.play();
     UI = new GUI();
     frameRate(60);
     //Center all balls

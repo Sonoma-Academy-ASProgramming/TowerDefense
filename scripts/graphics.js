@@ -113,3 +113,13 @@ Supersprite.prototype.display = function () {
         rect(this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
     }
 };
+
+function horizontal(percent) {
+  let position = (percent/100) * window.innerWidth;
+  return position;
+}
+
+function verticle(percent) {
+  let position = (percent/100) * window.innerHeight;
+  return position;
+}
