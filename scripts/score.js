@@ -38,11 +38,11 @@ let score = {
         }
         this.progress += 1;
         textSize(this.getSize(this.progress));
-        fill(0, 0, 0);
+        fill('#736357');
         text("Score: " + Game.score, this.leftScoreLeft, this.scoreHeight);
     },
     drawLevel() {
-        fill(0, 0, 0);
+        fill('#736357');
         textSize(30);
         text("Level: " + Game.level, this.levelLeft, this.coinTop);
         push();
