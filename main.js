@@ -59,16 +59,9 @@ function setup() {
         selectedTower = null;
     };
 
-<<<<<<< HEAD
-    Towers.push(new EmptyPlot(horizontal(20), verticle(32)));
-    Towers.push(new EmptyPlot(horizontal(36), verticle(32)));
-    Towers.push(new EmptyPlot(horizontal(49), verticle(32)));
-    Towers.push(new EmptyPlot(horizontal(62), verticle(32)));
-=======
     for (let pos of EmptyPlotPositions) {
         Towers.push(new EmptyPlot(horizontal(pos[0]), verticle(pos[1])));
     }
->>>>>>> df189fcd3e909f83ff85f82be0ab000aed51bbbd
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
