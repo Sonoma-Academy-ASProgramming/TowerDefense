@@ -1,3 +1,6 @@
+//GAME SETTINGS
+const EmptyPlotPositions = [[20, 32], [36, 32], [49, 32], [62, 32]];
+
 let Towers = [],
     Enemies = [];
 let Time = 0;
@@ -22,9 +25,9 @@ let gameFont;
 //----------\vars/---------/main\---------------
 
 function preload() {
-  //music
-  //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
-  //font
+    //music
+    //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
+    //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
     //sound
     popSound = loadSound('./sounds/popSound.mp3');
@@ -56,16 +59,22 @@ function setup() {
         selectedTower = null;
     };
 
+<<<<<<< HEAD
     Towers.push(new EmptyPlot(horizontal(20), verticle(32)));
     Towers.push(new EmptyPlot(horizontal(36), verticle(32)));
     Towers.push(new EmptyPlot(horizontal(49), verticle(32)));
     Towers.push(new EmptyPlot(horizontal(62), verticle(32)));
+=======
+    for (let pos of EmptyPlotPositions) {
+        Towers.push(new EmptyPlot(horizontal(pos[0]), verticle(pos[1])));
+    }
+>>>>>>> df189fcd3e909f83ff85f82be0ab000aed51bbbd
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
     score.coinLeft = width * 0.8;
 
-    score.coinTop = score.scoreHeight - height * 0.01
+    score.coinTop = score.scoreHeight - height * 0.01;
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
@@ -91,7 +100,17 @@ function draw() {
         UI.update();
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
-        Game.startGame();
+        if (mouseIsPressed) {
+            Game.startGame();
+        }
+        fill("black");
+        rect(0, 0, width, height);
+        push();
+        fill("white");
+        textAlign(CENTER, BOTTOM);
+        textSize(100);
+        text("Click to Start", width / 2, height / 2);
+        pop();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
         /*Animate Game Over*/

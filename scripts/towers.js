@@ -62,11 +62,9 @@ class Cannon {
         this.yPos = yPosition;
         this.level = towerLevel;
         this.range = 150 * this.level;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
-        this.sprite.color = (towerType === 2) ? 'black' : 'pink';
-        console.log(towerType);
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, true);
         this.sprite.addImage(towerImages[towerType]);
-        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range);
+        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range, (towerType === 1) ? 10 : 50, this.sprite);
         this.sprite.onMousePressed = () => {
             UI.delete();
             try {
@@ -76,19 +74,23 @@ class Cannon {
             }
             selectedTower = this;
         }
-        // this.gun.fire();
-        // setInterval(function(){this.gun.fire()},1000);
     }
 }
 
 Cannon.prototype.update = function () {
     if (selectedTower === this) {
         fill(0, 0, 255, 45);
-        ellipse(this.xPos, this.yPos, this.range, this.range);
+        ellipse(this.xPos, this.yPos, this.range * 2);
     }
     this.sprite.display();
-    if (frameCount % 6 === 0) {
-        this.gun.fire();
+    if (this.towerType === 1) {
+        if (frameCount % 40 === 0) {
+            this.gun.fire();
+        }
+    } else {
+        if (frameCount % 6 === 0) {
+            this.gun.fire();
+        }
     }
     this.gun.draw();
 };
@@ -111,8 +113,8 @@ class Mine {
 
 Mine.prototype.update = function () {
     this.sprite.display();
-    if(frameCount % 60 === 0) {
-      Game.money += 2;
+    if (frameCount % 60 === 0) {
+        Game.money += 2;
     }
 };
 
