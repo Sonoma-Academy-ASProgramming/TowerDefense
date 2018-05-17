@@ -1,5 +1,5 @@
 //GAME SETTINGS
-const EmptyPlotPositions = [[250, 230], [500, 230], [750, 230], [1000, 230]];
+const EmptyPlotPositions = [[20, 32], [36, 32], [49, 32], [62, 32]];
 
 let Towers = [],
     Enemies = [];
@@ -25,9 +25,9 @@ let gameFont;
 //----------\vars/---------/main\---------------
 
 function preload() {
-  //music
-  //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
-  //font
+    //music
+    //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
+    //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
     //sound
     popSound = loadSound('./sounds/popSound.mp3');
@@ -60,7 +60,7 @@ function setup() {
     };
 
     for (let pos of EmptyPlotPositions) {
-        Towers.push(new EmptyPlot(pos[0], pos[1]));
+        Towers.push(new EmptyPlot(horizontal(pos[0]), verticle(pos[1])));
     }
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
