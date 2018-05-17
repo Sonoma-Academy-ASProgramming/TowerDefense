@@ -60,7 +60,6 @@ function setup() {
     Towers.push(new EmptyPlot(horizontal(36), verticle(32)));
     Towers.push(new EmptyPlot(horizontal(49), verticle(32)));
     Towers.push(new EmptyPlot(horizontal(62), verticle(32)));
-
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
