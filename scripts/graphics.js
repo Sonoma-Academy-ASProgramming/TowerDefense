@@ -57,7 +57,9 @@ Supersprite.prototype.stackOrder = function () {
         Sprites.push(this);
     }
 };
-
+Supersprite.prototype.setRotation = function (value) {
+    this.rotation = value;
+};
 Supersprite.prototype.delete = function () {
     spriteCount -= 1;
     for (let x = 0; x < Sprites.length; x++) {
@@ -104,9 +106,6 @@ Supersprite.prototype.resize = function (width, height) {
 
 Supersprite.prototype.addImage = function (newImage) {
     this.image = newImage;
-};
-Supersprite.prototype.setRotation = function (value) {
-    this.rotation = value
 };
 Supersprite.prototype.display = function () {
     this.eventHandler();

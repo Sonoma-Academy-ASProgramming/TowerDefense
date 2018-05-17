@@ -1,3 +1,6 @@
+//GAME SETTINGS
+const EmptyPlotPositions = [[250, 230], [500, 230], [750, 230], [1000, 230]];
+
 let Towers = [],
     Enemies = [];
 let Time = 0;
@@ -48,17 +51,15 @@ function setup() {
         UI.delete();
     };
 
-    Towers.push(new EmptyPlot(250, 230));
-    Towers.push(new EmptyPlot(500, 230));
-    Towers.push(new EmptyPlot(750, 230));
-    Towers.push(new EmptyPlot(1000, 230));
-
+    for (let pos of EmptyPlotPositions) {
+        Towers.push(new EmptyPlot(pos[0], pos[1]));
+    }
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
     score.coinLeft = width * 0.8;
 
-    score.coinTop = score.scoreHeight - height * 0.01
+    score.coinTop = score.scoreHeight - height * 0.01;
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
@@ -84,7 +85,17 @@ function draw() {
         UI.update();
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
-        Game.startGame();
+        if (mouseIsPressed) {
+            Game.startGame();
+        }
+        fill("black");
+        rect(0, 0, width, height);
+        push();
+        fill("white");
+        textAlign(CENTER, BOTTOM);
+        textSize(100);
+        text("Click to Start", width / 2, height / 2);
+        pop();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
         /*Animate Game Over*/

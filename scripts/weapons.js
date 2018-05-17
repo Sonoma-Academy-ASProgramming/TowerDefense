@@ -5,10 +5,9 @@ class Shoot {
         this.y = towerY;
         this.force = force || 20;
         this.range = range || 500;
-        console.log(this.range);
+        this.sprite = sprite || null;
         this.type = type || 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
-        this.sprite = sprite;
     }
 }
 
@@ -76,8 +75,12 @@ Shoot.prototype.fire = function () {
         type: this.type,
         enemy
     };
-    console.log("HERE");
-    this.sprite.rotation = this.time;
+    let angle = Math.atan2(newObj.x - newObj.aimX, newObj.y - newObj.aimY);
+    angle = angle * (180 / Math.PI);
+    if (angle < 0) {
+        angle = 360 +angle;
+    }
+    this.sprite.rotation = 360 - angle;
     this.Bullets.push(newObj);
 };
 
