@@ -22,10 +22,10 @@ let gameFont;
 //----------\vars/---------/main\---------------
 
 function preload() {
+  //music
+  //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
   //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
-    //music
-    backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
     //sound
     popSound = loadSound('./sounds/popSound.mp3');
     cashSound = loadSound('./sounds/cashSound.mp3');
@@ -42,7 +42,6 @@ function preload() {
 }
 
 function setup() {
-  backgroundMusic.play();
     UI = new GUI();
     frameRate(60);
     //Center all balls
@@ -57,10 +56,10 @@ function setup() {
         selectedTower = null;
     };
 
-    Towers.push(new EmptyPlot(250, 230));
-    Towers.push(new EmptyPlot(500, 230));
-    Towers.push(new EmptyPlot(750, 230));
-    Towers.push(new EmptyPlot(1000, 230));
+    Towers.push(new EmptyPlot(horizontal(20), verticle(32)));
+    Towers.push(new EmptyPlot(horizontal(36), verticle(32)));
+    Towers.push(new EmptyPlot(horizontal(49), verticle(32)));
+    Towers.push(new EmptyPlot(horizontal(62), verticle(32)));
 
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
@@ -100,6 +99,7 @@ function draw() {
         if (gameOverRadius < Math.sqrt(width * width + height * height)) {
             gameOverRadius += 50;
         }
+        fill("black");
         ellipse(width / 2, height / 2, gameOverRadius);
         push();
         fill("white");
