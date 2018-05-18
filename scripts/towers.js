@@ -83,11 +83,6 @@ Cannon.prototype.update = function () {
         ellipse(this.xPos, this.yPos, this.range * 2);
     }
     this.sprite.display();
-<<<<<<< HEAD
-    this.gun.type
-    if (frameCount % ((this.gun.type==2)?30:6 )=== 0) {
-        this.gun.fire();
-=======
     if (this.towerType === 1) {
         if (frameCount % 40 === 0) {
             this.gun.fire();
@@ -96,7 +91,6 @@ Cannon.prototype.update = function () {
         if (frameCount % 6 === 0) {
             this.gun.fire();
         }
->>>>>>> 0b5f582315d86c3a95a6ac6d5498f4f6dd3de5ea
     }
     this.gun.draw();
 };
@@ -107,6 +101,7 @@ class Mine {
         this.yPos = yPosition;
         this.level = towerLevel;
         this.range = 0;
+        this.target = null;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[4]);

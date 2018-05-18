@@ -1,26 +1,15 @@
 class Shoot {
-<<<<<<< HEAD
-    constructor(towerX, towerY, force, type, range, areaDamage, areaDamageRange, howManyframesForTheBulletToGetToTheEnemy) {
-=======
     constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy, sprite) {
->>>>>>> 0b5f582315d86c3a95a6ac6d5498f4f6dd3de5ea
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
         this.force = force || 20;
         this.range = range || 500;
-<<<<<<< HEAD
+        this.sprite = sprite || null;
         this.areaDamage = areaDamage || 0;
         this.areaDamageRange = areaDamageRange || 0;
         // console.log(this.range);
         this.type = type || 1;
-        this.p1 = false;
-        this.p2 = false;
-        // this.type = 1;
-=======
-        this.sprite = sprite || null;
-        this.type = type || 1;
->>>>>>> 0b5f582315d86c3a95a6ac6d5498f4f6dd3de5ea
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
     }
 }
