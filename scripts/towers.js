@@ -28,11 +28,11 @@ EmptyPlot.prototype.makeMenu = function () {
     const buttonFunctions = [
         () => {
             UI.delete();
-            this.setBuilding(new Cannon(this.xPos, this.yPos, 1, 1));
+            this.setBuilding(new Cannon(this.xPos, this.yPos, 1));
         },
         () => {
             UI.delete();
-            this.setBuilding(new Cannon(this.xPos, this.yPos, 1, 2))
+            this.setBuilding(new Cannon(this.xPos, this.yPos, 2))
         },
         () => {
             UI.delete();
@@ -57,14 +57,15 @@ EmptyPlot.prototype.update = function () {
 //CANNON CLASS
 //This is the simpliest type of combat tower. It shoot the bullets. That is all.
 class Cannon {
-    constructor(xPosition, yPosition, towerLevel, towerType) {
+    constructor(xPosition, yPosition, towerType) {
         this.xPos = xPosition;
         this.yPos = yPosition;
-        this.level = towerLevel;
-        this.range = 150 * this.level;
+        this.rangeLevel = 1;
+        this.frequencyLevel = 1;
+        this.forceLevel = 1;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, true);
         this.sprite.addImage(towerImages[towerType]);
-        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range, (towerType === 1) ? 10 : 50, this.sprite);
+        this.gun = new Shoot(this.xPos, this.yPos, towerType, (towerType === 1) ? 10 : 50, this.sprite);
         this.sprite.onMousePressed = () => {
             UI.delete();
             try {
@@ -80,11 +81,11 @@ class Cannon {
 Cannon.prototype.update = function () {
     if (selectedTower === this) {
         fill(0, 0, 255, 45);
-        ellipse(this.xPos, this.yPos, this.range * 2);
+        ellipse(this.xPos, this.yPos, 150 * this.range * 2);
     }
     this.sprite.display();
     if (this.towerType === 1) {
-        if (frameCount % 40 === 0) {
+        if (frameCount % 40+ this.towerType === 0) {
             this.gun.fire();
         }
     } else {
@@ -106,7 +107,7 @@ class Mine {
         this.sprite.addImage(towerImages[4]);
         this.sprite.onMousePressed = () => {
             selectedTower = this;
-        }
+        };
         cashSound.play();
     }
 }
@@ -118,6 +119,16 @@ Mine.prototype.update = function () {
     }
 };
 
-Mine.prototype.exitCode = function (towerToPower) {
-
+//FIXME Figure out correct level up amounts
+Cannon.prototype.forceLevelUp = function () {
+    this.forceLevel += 1;
+    this.gun.force = this.forceLevel;
+};
+Cannon.prototype.frequencyLevelUp = function () {
+    this.frequencyLevel += 1;
+    this.gun.force = this.frequencyLevel;
+};
+Cannon.prototype.rangeLevelUp = function () {
+    this.rangeLevel += 1;
+    this.gun.range = 150 * this.rangeLevel;
 };

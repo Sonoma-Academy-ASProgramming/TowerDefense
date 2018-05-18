@@ -1,10 +1,10 @@
 class Shoot {
-    constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy, sprite) {
+    constructor(towerX, towerY, type, howManyframesForTheBulletToGetToTheEnemy, sprite) {
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
-        this.force = force || 20;
-        this.range = range || 500;
+        this.force = 1;
+        this.range = 150;
         this.sprite = sprite || null;
         this.type = type || 1;
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
