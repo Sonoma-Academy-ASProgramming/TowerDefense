@@ -1,13 +1,26 @@
 class Shoot {
-    constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy) {
+<<<<<<< HEAD
+    constructor(towerX, towerY, force, type, range, areaDamage, areaDamageRange, howManyframesForTheBulletToGetToTheEnemy) {
+=======
+    constructor(towerX, towerY, force, type, range, howManyframesForTheBulletToGetToTheEnemy, sprite) {
+>>>>>>> 0b5f582315d86c3a95a6ac6d5498f4f6dd3de5ea
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
         this.force = force || 20;
         this.range = range || 500;
-        console.log(this.range);
+<<<<<<< HEAD
+        this.areaDamage = areaDamage || 0;
+        this.areaDamageRange = areaDamageRange || 0;
+        // console.log(this.range);
         this.type = type || 1;
+        this.p1 = false;
+        this.p2 = false;
         // this.type = 1;
+=======
+        this.sprite = sprite || null;
+        this.type = type || 1;
+>>>>>>> 0b5f582315d86c3a95a6ac6d5498f4f6dd3de5ea
         this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
     }
 }
@@ -25,19 +38,50 @@ Shoot.prototype.sortEnemy = function () {
         }
         return Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y)) < this.range;
     });
-    // // console.log(this.range);
-    // console.log(sortedEnemies+"___________________");
-    // sortedEnemies.forEach((emy)=>{
-    //     let p1;
+
+    return sortedEnemies;
+};
+
+Shoot.prototype.getAreaDamagedEmies = function (targetEmy) {
+    let sortedEnemies = Enemies.slice(0).filter((emy) => {
+        let p1, p2;
+        if (ENEMYSTARTINGPOS === 0) {
+            p1 = getPosition(emy.time + this.time * emy.speed * ENEMYSPEED);
+        } else {
+            p1 = getPosition(ENEMYSTARTINGPOS - emy.time + this.time * emy.speed * ENEMYSPEED);
+        }
+        if (ENEMYSTARTINGPOS === 0) {
+            p2 = getPosition(targetEmy.time + this.time * targetEmy.speed * ENEMYSPEED);
+        } else {
+            p2 = getPosition(ENEMYSTARTINGPOS - targetEmy.time + this.time * targetEmy.speed * ENEMYSPEED);
+        }
+        // console.log(p1,Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
+        return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)) <= this.areaDamageRange;
+    });
+    // sortedEnemies.forEach((emy, index) => {
+    //     let p1, p2;
     //     if (ENEMYSTARTINGPOS === 0) {
     //         p1 = getPosition(emy.time + this.time * emy.speed * ENEMYSPEED);
     //     } else {
     //         p1 = getPosition(ENEMYSTARTINGPOS - emy.time + this.time * emy.speed * ENEMYSPEED);
     //     }
-    //     console.log(Math.sqrt((p1.x - this.x) * (p1.x - this.x) + (p1.y - this.y) * (p1.y - this.y)));
-    // })
+    //     if (ENEMYSTARTINGPOS === 0) {
+    //         p2 = getPosition(targetEmy.time + this.time * targetEmy.speed * ENEMYSPEED);
+    //     } else {
+    //         p2 = getPosition(ENEMYSTARTINGPOS - targetEmy.time + this.time * targetEmy.speed * ENEMYSPEED);
+    //     }
+    //     this.p1 = p1;
+    //     this.p2 = p2;
+    //     p1.tint = 180;
+    //     p2.tint = 180;
+    //     console.log("p1:"+p1.x+"  p2:"+p2.x+"  index " + index + ": " + Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
+    // });
+    // alert("");
+    // console.log(p1,Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
+// console.log(sortedEnemies);
     return sortedEnemies;
 };
+
 
 Shoot.prototype.fire = function () {
     let enemy = null;
@@ -55,6 +99,14 @@ Shoot.prototype.fire = function () {
         return;
     }
     enemy.futureHealth -= this.force;
+    let areaDamagedEmies;
+    if (this.type === 2) {
+        areaDamagedEmies = this.getAreaDamagedEmies(enemy);
+        areaDamagedEmies.forEach((item, index) => {
+            Enemies[Enemies.indexOf(item)].futureHealth -= this.areaDamage;
+        });
+    }
+
     let aimFor;
     if (ENEMYSTARTINGPOS === 0) {
         aimFor = getPosition(enemy.time + this.time * enemy.speed * ENEMYSPEED);
@@ -73,9 +125,16 @@ Shoot.prototype.fire = function () {
         frame: 0,
         inc: 1 / this.time,
         force: this.force,
+        additionalForceToTheseEmies: areaDamagedEmies,
         type: this.type,
         enemy
     };
+    let angle = Math.atan2(newObj.x - newObj.aimX, newObj.y - newObj.aimY);
+    angle = angle * (180 / Math.PI);
+    if (angle < 0) {
+        angle = 360 +angle;
+    }
+    this.sprite.rotation = 360 - angle;
     this.Bullets.push(newObj);
 };
 
@@ -85,8 +144,18 @@ Shoot.prototype.update = function () {
         // item.y += item.Yinc;
         item.frame += item.inc;
         //CHECK FOR COLLISION
-        if (item.frame > 1) {
+        if (item.frame > 1.0) {
             item.enemy.hit(this.force);
+            if (this.type === 2) {
+                // let outp = "";
+                item.additionalForceToTheseEmies.forEach((emy) => {
+                    // outp += emy.xPos.toString()+", ";
+                    // if (Enemies.indexOf(emy)>-1)
+                    Enemies[Enemies.indexOf(emy)].hit(this.areaDamage);
+                });
+                // console.log(outp);
+
+            }
             this.Bullets.splice(index, 1);
         }
     });
@@ -96,23 +165,46 @@ Shoot.prototype.draw = function () {
     this.update();
     this.Bullets.forEach((item) => {
         let pos = this.GetPos(item.frame, item.x, item.y, item.mX, item.mY, item.aimX, item.aimY);
-        fill('black');
+        this.setColor(item.frame);
         ellipse(pos.x, pos.y, this.GetSize(item.frame));
     });
 };
 
+Shoot.prototype.setColor = function (t) {
+    if (this.type === 1) {
+        fill(0, 0, 0);
+        // console.log("1")
+    } else if (this.type === 2) {
+        // let alpha = (0.5-Math.abs(t - .5)) * 2 * 200 + 55;
+        let a = Math.sin(t * 2 * 5 * Math.PI) * 153
+        fill(255, a, 30, 100);
+        noStroke();
+        // console.log("2")
+    } else if (this.type === 3) {
+        let alpha = 0, red = 255;
+        if (t >= .25) {
+            red = 255 - t * (1 / .75) * 150;
+        }
+        if (t >= .5) {
+            alpha = 255 - ((t - .5) * 2 * 100);
+        }
+        fill(red, 255, 255, alpha);
+        stroke(1);
+    }
+}
+
 Shoot.prototype.GetPos = function (t, x0, y0, x1, y1, x2, y2) {
-    if (this.type === 2)
+    if (this.type === 3) //bubble bullets && area damage bullets
         return {
             x: (1 - t) * (1 - t) * x0 + 2 * (1 - t) * t * x1 + t * t * x2,
             y: (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * y1 + t * t * y2
         };
-    else if (this.type === 1)
+    else if (this.type === 2 || this.type === 1) //normal bullets
         return {
             x: (x2 - x0) * t + x0,
             y: (y2 - y0) * t + y0,
         };
-    else if (this.type === 3) {
+    else if (this.type === 4) { // feature coming in the future
         const a = 1;
         const b = 0.5;
         return {
@@ -124,11 +216,16 @@ Shoot.prototype.GetPos = function (t, x0, y0, x1, y1, x2, y2) {
 
 Shoot.prototype.GetSize = function (t) {
     const org = 5;
-    if (this.type === 2) {
+    if (this.type === 200) {
         const max = 20;
         return max - Math.abs(t - .5) * 2 * max + org;
     } else if (this.type === 1) {
         return org;
+    } else if (this.type === 3) {
+        return t * 25 + 5;
+    } else if (this.type === 2) {
+        const max = 20;
+        return 60 + t * (this.areaDamageRange - 60);
     }
 };
 

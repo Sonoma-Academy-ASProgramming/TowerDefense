@@ -36,11 +36,11 @@ EmptyPlot.prototype.makeMenu = function () {
         },
         () => {
             UI.delete();
-            console.log('option3')
+            this.setBuilding(new Cannon(this.xPos, this.yPos, 1, 3))
         },
         () => {
             UI.delete();
-            this.setBuilding(new PowerUp(this.xPos, this.yPos, 1));
+            this.setBuilding(new Mine(this.xPos, this.yPos, 1));
         }
     ];
     let buttons = [];
@@ -62,11 +62,9 @@ class Cannon {
         this.yPos = yPosition;
         this.level = towerLevel;
         this.range = 150 * this.level;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
-        this.sprite.color = (towerType === 2) ? 'black' : 'pink';
-        console.log(towerType);
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, true);
         this.sprite.addImage(towerImages[towerType]);
-        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range);
+        this.gun = new Shoot(this.xPos, this.yPos, this.level, towerType, this.range, (towerType === 1) ? 10 : 50, this.sprite);
         this.sprite.onMousePressed = () => {
             UI.delete();
             try {
@@ -76,44 +74,76 @@ class Cannon {
             }
             selectedTower = this;
         }
-        // this.gun.fire();
-        // setInterval(function(){this.gun.fire()},1000);
     }
 }
 
 Cannon.prototype.update = function () {
     if (selectedTower === this) {
         fill(0, 0, 255, 45);
-        ellipse(this.xPos, this.yPos, this.range, this.range);
+        ellipse(this.xPos, this.yPos, this.range * 2);
     }
     this.sprite.display();
-    if (frameCount % 6 === 0) {
+<<<<<<< HEAD
+    this.gun.type
+    if (frameCount % ((this.gun.type==2)?30:6 )=== 0) {
         this.gun.fire();
+=======
+    if (this.towerType === 1) {
+        if (frameCount % 40 === 0) {
+            this.gun.fire();
+        }
+    } else {
+        if (frameCount % 6 === 0) {
+            this.gun.fire();
+        }
+>>>>>>> 0b5f582315d86c3a95a6ac6d5498f4f6dd3de5ea
     }
     this.gun.draw();
 };
 
-class PowerUp {
+class Mine {
     constructor(xPosition, yPosition, towerLevel) {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.level = towerLevel;
         this.range = 0;
-        this.target = null;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[4]);
         this.sprite.onMousePressed = () => {
             selectedTower = this;
+            this.makeMenu();
         }
+        cashSound.play();
     }
 }
 
-PowerUp.prototype.update = function () {
+Mine.prototype.update = function () {
     this.sprite.display();
+    if (frameCount % 60 === 0) {
+        Game.money += 2;
+    }
 };
 
-PowerUp.prototype.exitCode = function (towerToPower) {
-    this.target = towerToPower;
-    this.target.level = constrain(this.target.level + 1, 1, this.target.level + 1);
+Mine.prototype.upgrade = function () {
+  this.level++;
+  UI.delete();
+}
+
+Mine.prototype.sell = function () {
+  console.log('mine sold');
+  UI.delete();
+}
+
+Mine.prototype.makeMenu = function () {
+  let buttonFunctions = [this.upgrade, this.sell];
+  let upgradeButtons = [
+    new Button(horizontal(40), verticle(80), buttonFunctions[0]),
+    new Button(horizontal(60), verticle(80), buttonFunctions[1])
+  ];
+  UI.menu = new Menu(upgradeButtons[0], upgradeButtons[1], null, null);
+}
+
+Mine.prototype.exitCode = function (towerToPower) {
+
 };

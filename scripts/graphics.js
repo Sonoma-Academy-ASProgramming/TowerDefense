@@ -32,14 +32,16 @@ const mouseInRect = (xMin, xMax, yMin, yMax) => {
 };
 
 class Supersprite {
-    constructor(xPosition, yPosition, width, height, image) {
+    constructor(xPosition, yPosition, width, height, isTower) {
         spriteCount++;
         this.stackOrder();
         this.xPos = xPosition;
         this.yPos = yPosition;
+        this.rotation = 0;
         this.width = width || defaultWidth;
         this.height = height || defaultHeight;
-        this.image = image || null;
+        this.isTower = isTower || false;
+        this.image = null;
         this.xOffSet = width / 2 || null;
         this.yOffSet = height / 2 || null;
         this.color = "black";
@@ -55,7 +57,9 @@ Supersprite.prototype.stackOrder = function () {
         Sprites.push(this);
     }
 };
-
+Supersprite.prototype.setRotation = function (value) {
+    this.rotation = value;
+};
 Supersprite.prototype.delete = function () {
     spriteCount -= 1;
     for (let x = 0; x < Sprites.length; x++) {
@@ -103,13 +107,31 @@ Supersprite.prototype.resize = function (width, height) {
 Supersprite.prototype.addImage = function (newImage) {
     this.image = newImage;
 };
-
 Supersprite.prototype.display = function () {
     this.eventHandler();
     if (this.image !== undefined) {
-        image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
+        if (this.isTower) {
+            push();
+            imageMode(CENTER);
+            translate(this.xPos, this.yPos);
+            rotate(radians(this.rotation));
+            image(this.image, 0, 0, this.width, this.height);
+            pop();
+        } else {
+            image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
+        }
     } else {
         fill(this.color);
         rect(this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
     }
 };
+
+function horizontal(percent) {
+  let position = (percent/100) * window.innerWidth;
+  return position;
+}
+
+function verticle(percent) {
+  let position = (percent/100) * window.innerHeight;
+  return position;
+}

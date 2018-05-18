@@ -1,3 +1,6 @@
+//GAME SETTINGS
+const EmptyPlotPositions = [[20, 32], [36, 32], [49, 32], [62, 32]];
+
 let Towers = [],
     Enemies = [];
 let Time = 0;
@@ -5,7 +8,8 @@ let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let UI;
-let popSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
+let backgroundMusic;
+let popSound, cashSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
@@ -21,8 +25,14 @@ let gameFont;
 //----------\vars/---------/main\---------------
 
 function preload() {
+    //music
+    //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
+    //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
+    //sound
     popSound = loadSound('./sounds/popSound.mp3');
+    cashSound = loadSound('./sounds/cashSound.mp3');
+    //images
     backgroundImg = loadImage('./images/background.png');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
@@ -46,19 +56,18 @@ function setup() {
     backgroundSprite.addImage(backgroundImg);
     backgroundSprite.onMousePressed = () => {
         UI.delete();
+        selectedTower = null;
     };
 
-    Towers.push(new EmptyPlot(250, 230));
-    Towers.push(new EmptyPlot(500, 230));
-    Towers.push(new EmptyPlot(750, 230));
-    Towers.push(new EmptyPlot(1000, 230));
-
+    for (let pos of EmptyPlotPositions) {
+        Towers.push(new EmptyPlot(horizontal(pos[0]), verticle(pos[1])));
+    }
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
     score.coinLeft = width * 0.8;
 
-    score.coinTop = score.scoreHeight - height * 0.01
+    score.coinTop = score.scoreHeight - height * 0.01;
     rl = height * 0.17;
     f = height * 0.4;
     s = f + rl;//height * 0.57;
@@ -84,13 +93,24 @@ function draw() {
         UI.update();
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
-        Game.startGame();
+        if (mouseIsPressed) {
+            Game.startGame();
+        }
+        fill("black");
+        rect(0, 0, width, height);
+        push();
+        fill("white");
+        textAlign(CENTER, BOTTOM);
+        textSize(100);
+        text("Click to Start", width / 2, height / 2);
+        pop();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
         /*Animate Game Over*/
         if (gameOverRadius < Math.sqrt(width * width + height * height)) {
             gameOverRadius += 50;
         }
+        fill("black");
         ellipse(width / 2, height / 2, gameOverRadius);
         push();
         fill("white");
@@ -100,3 +120,10 @@ function draw() {
         pop();
     }
 }
+
+$(document).keydown(function (event) {
+    if ((event.keyCode == 123)|| (event.ctrlKey && event.shiftKey && event.keyCode == 73)) { // Prevent F12
+        alert("Please respect this game!")
+        return false;
+    }
+});

@@ -24,11 +24,16 @@ class Button {
         this.yPos = yPosition;
         this.onClicked = _onClicked;
         this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80);
-        this.sprite.addImage(towerImages[buttonTower]);
+        try {
+          this.sprite.addImage(towerImages[buttonTower]);
+        }catch(e) {
+          
+        }
         this.sprite.onMousePressed = _onClicked;
     }
 }
 
+//update this code later to make it work with any number of buttons, it will be more efficient - Liev
 class Menu {
     constructor(_button1, _button2, _button3, _button4) {
         this.buttons = [_button1, _button2, _button3, _button4];
@@ -37,7 +42,10 @@ class Menu {
 
 Menu.prototype.update = function () {
     this.buttons.forEach((button) => {
-        button.sprite.display();
+      try {
+          button.sprite.display();
+      }catch(e) {
+      }
     });
 };
 
