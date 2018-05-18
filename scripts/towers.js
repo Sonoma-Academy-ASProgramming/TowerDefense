@@ -106,6 +106,7 @@ class Mine {
         this.sprite.addImage(towerImages[4]);
         this.sprite.onMousePressed = () => {
             selectedTower = this;
+            this.makeMenu();
         }
         cashSound.play();
     }
@@ -117,6 +118,25 @@ Mine.prototype.update = function () {
         Game.money += 2;
     }
 };
+
+Mine.prototype.upgrade = function () {
+  this.level++;
+  UI.delete();
+}
+
+Mine.prototype.sell = function () {
+  console.log('mine sold');
+  UI.delete();
+}
+
+Mine.prototype.makeMenu = function () {
+  let buttonFunctions = [this.upgrade, this.sell];
+  let upgradeButtons = [
+    new Button(horizontal(40), verticle(80), buttonFunctions[0]),
+    new Button(horizontal(60), verticle(80), buttonFunctions[1])
+  ];
+  UI.menu = new Menu(upgradeButtons[0], upgradeButtons[1], null, null);
+}
 
 Mine.prototype.exitCode = function (towerToPower) {
 
