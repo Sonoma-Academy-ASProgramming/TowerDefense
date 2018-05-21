@@ -127,11 +127,9 @@ Supersprite.prototype.display = function () {
 };
 
 function horizontal(percent) {
-  let position = (percent/100) * window.innerWidth;
-  return position;
+    return (percent / 100) * window.innerWidth;
 }
 
-function verticle(percent) {
-  let position = (percent/100) * window.innerHeight;
-  return position;
+function vertical(percent) {
+    return (percent / 100) * window.innerHeight;
 }

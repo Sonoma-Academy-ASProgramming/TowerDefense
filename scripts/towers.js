@@ -108,7 +108,7 @@ class Mine {
         this.sprite.onMousePressed = () => {
             selectedTower = this;
             this.makeMenu();
-        }
+        };
         cashSound.play();
     }
 }
@@ -142,13 +142,11 @@ Mine.prototype.makeMenu = function () {
     this.sell();
   }];
   let upgradeButtons = [
-    new Button(horizontal(40), verticle(80), buttonFunctions[0]),
-    new Button(horizontal(60), verticle(80), buttonFunctions[1])
+    new Button(horizontal(40), vertical(80), buttonFunctions[0]),
+    new Button(horizontal(60), vertical(80), buttonFunctions[1])
   ];
   UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
 }
-
-Mine.prototype.exitCode = function (towerToPower) {
 
 //FIXME Figure out correct level up amounts
 Cannon.prototype.forceLevelUp = function () {

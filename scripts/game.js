@@ -40,3 +40,17 @@ let Game = {
         Game.gameState = GameStates.GameOver;
     }
 };
+
+function MenuScreen() {
+    if (mouseIsPressed) {
+        Game.startGame();
+    }
+    fill("black");
+    rect(0, 0, width, height);
+    push();
+    fill("white");
+    textAlign(CENTER, BOTTOM);
+    textSize(100);
+    text("Click to Start", width / 2, height / 2);
+    pop();
+}

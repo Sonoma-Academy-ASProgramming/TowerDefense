@@ -61,7 +61,7 @@ function setup() {
     };
 
     for (let pos of EmptyPlotPositions) {
-        Towers.push(new EmptyPlot(horizontal(pos[0]), verticle(pos[1])));
+        Towers.push(new EmptyPlot(horizontal(pos[0]), vertical(pos[1])));
     }
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
@@ -81,7 +81,7 @@ function setup() {
 function draw() {
     if (Game.gameState === GameStates.InGame) {
         backgroundSprite.display();
-        image(rewardImg, 100, 200, 100, 100);
+        image(rewardImg, width - 210, height - 230, 100, 100);
         Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
@@ -95,17 +95,7 @@ function draw() {
         UI.update();
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
-        if (mouseIsPressed) {
-            Game.startGame();
-        }
-        fill("black");
-        rect(0, 0, width, height);
-        push();
-        fill("white");
-        textAlign(CENTER, BOTTOM);
-        textSize(100);
-        text("Click to Start", width / 2, height / 2);
-        pop();
+        MenuScreen();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
         /*Animate Game Over*/
@@ -123,9 +113,11 @@ function draw() {
     }
 }
 
+/*
 $(document).keydown(function (event) {
     if ((event.keyCode == 123)|| (event.ctrlKey && event.shiftKey && event.keyCode == 73)) { // Prevent F12
         alert("Please respect this game!")
         return false;
     }
 });
+*/
