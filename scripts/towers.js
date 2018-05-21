@@ -47,7 +47,7 @@ EmptyPlot.prototype.makeMenu = function () {
     for (let i = 0; i < buttonFunctions.length; i++) {
         buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), 670, buttonFunctions[i], i + 1));
     }
-    UI.menu = new Menu(buttons[0], buttons[1], buttons[2], buttons[3]);
+    UI.menu = new Menu([buttons[0], buttons[1], buttons[2], buttons[3]]);
 };
 
 EmptyPlot.prototype.update = function () {
@@ -120,7 +120,9 @@ Mine.prototype.update = function () {
 };
 
 Mine.prototype.upgrade = function () {
-  this.level++;
+  this.level += 1;
+  console.log('mine upgraded');
+  console.log(this.level);
   UI.delete();
 }
 
@@ -130,12 +132,19 @@ Mine.prototype.sell = function () {
 }
 
 Mine.prototype.makeMenu = function () {
-  let buttonFunctions = [this.upgrade, this.sell];
+  console.log(this);
+  let buttonFunctions = [() => {
+    this.upgrade();
+    console.log(this);
+  },
+  () => {
+    this.sell();
+  }];
   let upgradeButtons = [
     new Button(horizontal(40), verticle(80), buttonFunctions[0]),
     new Button(horizontal(60), verticle(80), buttonFunctions[1])
   ];
-  UI.menu = new Menu(upgradeButtons[0], upgradeButtons[1], null, null);
+  UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
 }
 
 Mine.prototype.exitCode = function (towerToPower) {
