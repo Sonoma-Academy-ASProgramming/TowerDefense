@@ -36,7 +36,7 @@ EmptyPlot.prototype.makeMenu = function () {
         },
         () => {
             UI.delete();
-            console.log('option3')
+            this.setBuilding(new Cannon(this.xPos, this.yPos, 1, 3))
         },
         () => {
             UI.delete();
@@ -101,6 +101,7 @@ class Mine {
         this.yPos = yPosition;
         this.level = towerLevel;
         this.range = 0;
+        this.target = null;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50);
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[4]);

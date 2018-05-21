@@ -82,6 +82,8 @@ class Enemy {
         this.value = value;
         this.futureHealth = value;
         this.id = id;
+        //FIXME Remove
+        this.tint = 0;
     }
 }
 
@@ -107,7 +109,7 @@ Enemy.prototype.draw = function () {
     push();
     imageMode(CENTER);
     translate(this.xPos, this.yPos);
-    rotate(radians(getPosition(this.time).r));
+    rotate(radians(getPosition(this.time).r+this.tint));
     image(enemyImages[this.id], 0, 0, 50, 50);
     pop();
     if (this.time > r + r + rl - l + rl + r - l) {

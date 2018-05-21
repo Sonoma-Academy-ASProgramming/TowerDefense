@@ -48,8 +48,8 @@ let score = {
         push();
         imageMode(CENTER);
         translate(width *0.5-150, this.getLevelUpYPos(this.levelUpPos));
-        textSize(100);
-        rotate(radians(30));
+        textSize(150);
+        rotate(radians(25));
         text("Level " + Game.level, 0, 0)
         pop();
         this.levelUpPos -= 1;
