@@ -36,7 +36,7 @@ EmptyPlot.prototype.makeMenu = function () {
         },
         () => {
             UI.delete();
-            this.setBuilding(new Cannon(this.xPos, this.yPos, 1, 3))
+            this.setBuilding(new Cannon(this.xPos, this.yPos, 3))
         },
         () => {
             UI.delete();
@@ -63,16 +63,12 @@ class Cannon {
         this.rangeLevel = 1;
         this.frequencyLevel = 1;
         this.forceLevel = 1;
+        this.towerType = towerType;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, true);
         this.sprite.addImage(towerImages[towerType]);
-        this.gun = new Shoot(this.xPos, this.yPos, towerType, (towerType === 1) ? 10 : 50, this.sprite);
+        this.gun = new Shoot(this.xPos, this.yPos, towerType, this.sprite);
         this.sprite.onMousePressed = () => {
             UI.delete();
-            try {
-                selectedTower.exitCode(this);
-            } catch (e) {
-
-            }
             selectedTower = this;
         }
     }
@@ -85,10 +81,15 @@ Cannon.prototype.update = function () {
     }
     this.sprite.display();
     if (this.towerType === 1) {
-        if (frameCount % 40 === 0) {
+        if (frameCount % 6 === 0) {
             this.gun.fire();
         }
-    } else {
+    }
+    else if (this.towerType === 2) {
+        if (frameCount % 20 === 0) {
+            this.gun.fire();
+        }
+    } else if (this.towerType === 3) {
         if (frameCount % 6 === 0) {
             this.gun.fire();
         }
@@ -121,32 +122,32 @@ Mine.prototype.update = function () {
 };
 
 Mine.prototype.upgrade = function () {
-  this.level += 1;
-  console.log('mine upgraded');
-  console.log(this.level);
-  UI.delete();
+    this.level += 1;
+    console.log('mine upgraded');
+    console.log(this.level);
+    UI.delete();
 }
 
 Mine.prototype.sell = function () {
-  console.log('mine sold');
-  UI.delete();
+    console.log('mine sold');
+    UI.delete();
 }
 
 Mine.prototype.makeMenu = function () {
-  console.log(this);
-  let buttonFunctions = [() => {
-    this.upgrade();
     console.log(this);
-  },
-  () => {
-    this.sell();
-  }];
-  let upgradeButtons = [
-    new Button(horizontal(40), vertical(80), buttonFunctions[0]),
-    new Button(horizontal(60), vertical(80), buttonFunctions[1])
-  ];
-  UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
-}
+    let buttonFunctions = [() => {
+        this.upgrade();
+        console.log(this);
+    },
+        () => {
+            this.sell();
+        }];
+    let upgradeButtons = [
+        new Button(horizontal(40), vertical(80), buttonFunctions[0]),
+        new Button(horizontal(60), vertical(80), buttonFunctions[1])
+    ];
+    UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
+};
 
 //FIXME Figure out correct level up amounts
 Cannon.prototype.forceLevelUp = function () {

@@ -1,16 +1,15 @@
 class Shoot {
-    constructor(towerX, towerY, type, howManyframesForTheBulletToGetToTheEnemy, sprite) {
+    constructor(towerX, towerY, type, sprite) {
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
         this.force = 1;
         this.range = 150;
-        this.sprite = sprite || null;
-        this.areaDamage = areaDamage || 0;
-        this.areaDamageRange = areaDamageRange || 0;
-        // console.log(this.range);
-        this.type = type || 1;
-        this.time = howManyframesForTheBulletToGetToTheEnemy || 50;
+        this.sprite = sprite;
+        this.areaDamage = (type === 2) ? 2 : 0;
+        this.areaDamageRange = (type === 2) ? 50 : 0;
+        this.type = type;
+        this.time = (type === 1) ? 10 : 50;
     }
 }
 
@@ -121,7 +120,7 @@ Shoot.prototype.fire = function () {
     let angle = Math.atan2(newObj.x - newObj.aimX, newObj.y - newObj.aimY);
     angle = angle * (180 / Math.PI);
     if (angle < 0) {
-        angle = 360 +angle;
+        angle = 360 + angle;
     }
     this.sprite.rotation = 360 - angle;
     this.Bullets.push(newObj);
@@ -139,8 +138,8 @@ Shoot.prototype.update = function () {
                 // let outp = "";
                 item.additionalForceToTheseEmies.forEach((emy) => {
                     // outp += emy.xPos.toString()+", ";
-                    // if (Enemies.indexOf(emy)>-1)
-                    Enemies[Enemies.indexOf(emy)].hit(this.areaDamage);
+                    if (Enemies.indexOf(emy) > -1)
+                        Enemies[Enemies.indexOf(emy)].hit(this.areaDamage);
                 });
                 // console.log(outp);
 
@@ -165,7 +164,7 @@ Shoot.prototype.setColor = function (t) {
         // console.log("1")
     } else if (this.type === 2) {
         // let alpha = (0.5-Math.abs(t - .5)) * 2 * 200 + 55;
-        let a = Math.sin(t * 2 * 5 * Math.PI) * 153
+        let a = Math.sin(t * 2 * 5 * Math.PI) * 153;
         fill(255, a, 30, 100);
         noStroke();
         // console.log("2")
