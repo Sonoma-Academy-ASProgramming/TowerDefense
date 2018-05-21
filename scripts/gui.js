@@ -27,7 +27,7 @@ class Button {
         try {
           this.sprite.addImage(towerImages[buttonTower]);
         }catch(e) {
-          
+
         }
         this.sprite.onMousePressed = _onClicked;
     }
@@ -35,17 +35,14 @@ class Button {
 
 //update this code later to make it work with any number of buttons, it will be more efficient - Liev
 class Menu {
-    constructor(_button1, _button2, _button3, _button4) {
-        this.buttons = [_button1, _button2, _button3, _button4];
+    constructor(buttons) {
+      this.buttons = buttons;
     }
 }
 
 Menu.prototype.update = function () {
     this.buttons.forEach((button) => {
-      try {
-          button.sprite.display();
-      }catch(e) {
-      }
+      button.sprite.display();
     });
 };
 
