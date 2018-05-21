@@ -36,7 +36,7 @@ EmptyPlot.prototype.makeMenu = function () {
         },
         () => {
             UI.delete();
-            console.log('option3')
+            this.setBuilding(new Cannon(this.xPos, this.yPos, 1, 3))
         },
         () => {
             UI.delete();
@@ -81,11 +81,11 @@ class Cannon {
 Cannon.prototype.update = function () {
     if (selectedTower === this) {
         fill(0, 0, 255, 45);
-        ellipse(this.xPos, this.yPos, 150 * this.range * 2);
+        ellipse(this.xPos, this.yPos, 150 * this.rangeLevel * 2);
     }
     this.sprite.display();
     if (this.towerType === 1) {
-        if (frameCount % 40+ this.towerType === 0) {
+        if (frameCount % 40 === 0) {
             this.gun.fire();
         }
     } else {
@@ -107,7 +107,8 @@ class Mine {
         this.sprite.addImage(towerImages[4]);
         this.sprite.onMousePressed = () => {
             selectedTower = this;
-        };
+            this.makeMenu();
+        }
         cashSound.play();
     }
 }
@@ -118,6 +119,27 @@ Mine.prototype.update = function () {
         Game.money += 2;
     }
 };
+
+Mine.prototype.upgrade = function () {
+  this.level++;
+  UI.delete();
+}
+
+Mine.prototype.sell = function () {
+  console.log('mine sold');
+  UI.delete();
+}
+
+Mine.prototype.makeMenu = function () {
+  let buttonFunctions = [this.upgrade, this.sell];
+  let upgradeButtons = [
+    new Button(horizontal(40), verticle(80), buttonFunctions[0]),
+    new Button(horizontal(60), verticle(80), buttonFunctions[1])
+  ];
+  UI.menu = new Menu(upgradeButtons[0], upgradeButtons[1], null, null);
+}
+
+Mine.prototype.exitCode = function (towerToPower) {
 
 //FIXME Figure out correct level up amounts
 Cannon.prototype.forceLevelUp = function () {
