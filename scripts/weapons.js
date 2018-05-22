@@ -1,12 +1,15 @@
 class Shoot {
     constructor(towerX, towerY, type, sprite) {
+        //TOWER TYPES WEIRD WORKAROUND
+        let bullTypes = [0, 1, 3, 2];
+        type = bullTypes[type];
         this.Bullets = [];
         this.x = towerX;
         this.y = towerY;
         this.force = 1;
         this.range = 150;
         this.sprite = sprite;
-        this.areaDamage = (type === 2) ? 2 : 0;
+        this.areaDamage = (type === 2) ? 0.5 : 0;
         this.areaDamageRange = (type === 2) ? 50 : 0;
         this.type = type;
         this.time = (type === 1) ? 10 : 50;
@@ -153,8 +156,10 @@ Shoot.prototype.draw = function () {
     this.update();
     this.Bullets.forEach((item) => {
         let pos = this.GetPos(item.frame, item.x, item.y, item.mX, item.mY, item.aimX, item.aimY);
+        push();
         this.setColor(item.frame);
         ellipse(pos.x, pos.y, this.GetSize(item.frame));
+        pop();
     });
 };
 
