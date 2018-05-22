@@ -117,7 +117,7 @@ class Mine {
 Mine.prototype.update = function () {
     this.sprite.display();
     if (frameCount % 60 === 0) {
-        Game.money += 2;
+        Game.money += 2 + this.level;
     }
 };
 
