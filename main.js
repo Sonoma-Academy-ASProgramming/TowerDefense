@@ -81,7 +81,8 @@ function setup() {
 function draw() {
     if (Game.gameState === GameStates.InGame) {
         backgroundSprite.display();
-        image(rewardImg, width - 210, height - 230, 100, 100);
+        //Draw Cookie
+        image(rewardImg, horizontal(83), vertical(71), 60, 60);
         Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
@@ -112,12 +113,3 @@ function draw() {
         pop();
     }
 }
-
-/*
-$(document).keydown(function (event) {
-    if ((event.keyCode == 123)|| (event.ctrlKey && event.shiftKey && event.keyCode == 73)) { // Prevent F12
-        alert("Please respect this game!")
-        return false;
-    }
-});
-*/

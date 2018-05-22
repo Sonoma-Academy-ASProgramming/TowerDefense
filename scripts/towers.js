@@ -66,7 +66,9 @@ class Cannon {
         this.towerType = towerType;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, true);
         this.sprite.addImage(towerImages[towerType]);
-        this.gun = new Shoot(this.xPos, this.yPos, towerType, this.sprite);
+        //TOWER TYPES WEIRD WORKAROUND
+        let bullTypes = [0, 1, 3, 2];
+        this.gun = new Shoot(this.xPos, this.yPos, bullTypes[towerType], this.sprite);
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
@@ -86,11 +88,11 @@ Cannon.prototype.update = function () {
         }
     }
     else if (this.towerType === 2) {
-        if (frameCount % 20 === 0) {
+        if (frameCount % 6 === 0) {
             this.gun.fire();
         }
     } else if (this.towerType === 3) {
-        if (frameCount % 6 === 0) {
+        if (frameCount % 20 === 0) {
             this.gun.fire();
         }
     }
