@@ -130,12 +130,8 @@ Mine.prototype.upgrade = function () {
 
 Mine.prototype.sell = function () {
     UI.delete();
-<<<<<<< HEAD
     Towers[Towers.indexOf(this)] = new EmptyPlot(this.xPos, this.yPos);
 }
-=======
-};
->>>>>>> f802791cd93a2bfdbb4d20891f813413a65c6156
 
 Mine.prototype.makeMenu = function () {
     let buttonFunctions = [
