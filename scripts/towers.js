@@ -72,6 +72,7 @@ class Cannon {
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
+            this.makeMenu();
         }
     }
 }
@@ -125,25 +126,24 @@ Mine.prototype.update = function () {
 
 Mine.prototype.upgrade = function () {
     this.level += 1;
-    console.log('mine upgraded');
-    console.log(this.level);
+    Game.money -= 5;
     UI.delete();
 }
 
 Mine.prototype.sell = function () {
-    console.log('mine sold');
     UI.delete();
+    Towers[Towers.indexOf(this)] = new EmptyPlot(this.xPos, this.yPos);
 }
 
 Mine.prototype.makeMenu = function () {
-    console.log(this);
-    let buttonFunctions = [() => {
+    let buttonFunctions = [
+      () => {
         this.upgrade();
-        console.log(this);
-    },
-        () => {
-            this.sell();
-        }];
+          },
+      () => {
+        this.sell();
+        }
+      ];
     let upgradeButtons = [
         new Button(horizontal(40), vertical(80), buttonFunctions[0]),
         new Button(horizontal(60), vertical(80), buttonFunctions[1])
@@ -164,3 +164,27 @@ Cannon.prototype.rangeLevelUp = function () {
     this.rangeLevel += 1;
     this.gun.range = 150 * this.rangeLevel;
 };
+
+Cannon.prototype.makeMenu = function () {
+  let buttonFunctions = [
+  () => {
+    this.forceLevelUp();
+    UI.delete();
+    },
+  () => {
+    this.rangeLevelUp();
+    UI.delete();
+    },
+  () => {
+    this.frequencyLevelUp();
+    UI.delete();
+    }
+];
+  let upgradeButtons = [
+    new Button(horizontal(20), vertical(80), buttonFunctions[0]),
+    new Button(horizontal(40), vertical(80), buttonFunctions[1]),
+    new Button(horizontal(60), vertical(80), buttonFunctions[2]),
+    new Button(horizontal(80), vertical(80), buttonFunctions[3])
+  ];
+  UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
+}
