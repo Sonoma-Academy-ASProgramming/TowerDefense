@@ -9,7 +9,7 @@ let backgroundSprite;
 //SETUP
 let UI;
 let backgroundMusic;
-let popSound, cashSound, backgroundImg, plotImg, rewardImg, enemyImages = [], towerImages = [];
+let popSound, cashSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
@@ -33,10 +33,9 @@ function preload() {
     popSound = loadSound('./sounds/popSound.mp3');
     cashSound = loadSound('./sounds/cashSound.mp3');
     //images
-    backgroundImg = loadImage('./images/background.png');
+    backgroundImg = loadImage('./images/background.jpg');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
-    rewardImg = loadImage(`./images/reward.png`);
     for (let i = 1; i < 7; i++) {
         enemyImages[i] = loadImage(`./images/enemy${i}.png`);
     }
@@ -81,8 +80,6 @@ function setup() {
 function draw() {
     if (Game.gameState === GameStates.InGame) {
         backgroundSprite.display();
-        //Draw Cookie
-        image(rewardImg, horizontal(83), vertical(71), 60, 60);
         Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();

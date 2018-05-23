@@ -66,9 +66,7 @@ class Cannon {
         this.towerType = towerType;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, true);
         this.sprite.addImage(towerImages[towerType]);
-        //TOWER TYPES WEIRD WORKAROUND
-        let bullTypes = [0, 1, 3, 2];
-        this.gun = new Shoot(this.xPos, this.yPos, bullTypes[towerType], this.sprite);
+        this.gun = new Shoot(this.xPos, this.yPos, towerType, this.sprite);
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
@@ -84,16 +82,16 @@ Cannon.prototype.update = function () {
     }
     this.sprite.display();
     if (this.towerType === 1) {
-        if (frameCount % 6 === 0) {
+        if (frameCount % constrain(10 - this.frequencyLevel, 0, 10) === 0) {
             this.gun.fire();
         }
     }
     else if (this.towerType === 2) {
-        if (frameCount % 6 === 0) {
+        if (frameCount % constrain(10 - this.frequencyLevel, 0, 10) === 0) {
             this.gun.fire();
         }
     } else if (this.towerType === 3) {
-        if (frameCount % 20 === 0) {
+        if (frameCount % constrain(20 - this.frequencyLevel, 0, 20) === 0) {
             this.gun.fire();
         }
     }
@@ -120,7 +118,7 @@ class Mine {
 Mine.prototype.update = function () {
     this.sprite.display();
     if (frameCount % 60 === 0) {
-        Game.money += 2;
+        Game.money += 2 + this.level;
     }
 };
 
@@ -128,12 +126,16 @@ Mine.prototype.upgrade = function () {
     this.level += 1;
     Game.money -= 5;
     UI.delete();
-}
+};
 
 Mine.prototype.sell = function () {
     UI.delete();
+<<<<<<< HEAD
     Towers[Towers.indexOf(this)] = new EmptyPlot(this.xPos, this.yPos);
 }
+=======
+};
+>>>>>>> f802791cd93a2bfdbb4d20891f813413a65c6156
 
 Mine.prototype.makeMenu = function () {
     let buttonFunctions = [
@@ -155,14 +157,15 @@ Mine.prototype.makeMenu = function () {
 Cannon.prototype.forceLevelUp = function () {
     this.forceLevel += 1;
     this.gun.force = this.forceLevel;
+    this.gun.areaDamage = (this.gun.type === 2) ? 0.5 * this.force : 0;
 };
 Cannon.prototype.frequencyLevelUp = function () {
     this.frequencyLevel += 1;
-    this.gun.force = this.frequencyLevel;
 };
 Cannon.prototype.rangeLevelUp = function () {
     this.rangeLevel += 1;
     this.gun.range = 150 * this.rangeLevel;
+    this.gun.areaDamageRange = (this.gun.type === 2) ? this.range / 3 : 0;
 };
 
 Cannon.prototype.makeMenu = function () {
