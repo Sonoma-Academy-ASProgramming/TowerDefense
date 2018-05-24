@@ -45,7 +45,7 @@ function preload() {
 }
 
 function setup() {
-    UI = new GUI();
+
     frameRate(60);
     //Center all balls
     ellipseMode(CENTER);
@@ -58,10 +58,6 @@ function setup() {
         UI.delete();
         selectedTower = null;
     };
-
-    for (let pos of EmptyPlotPositions) {
-        Towers.push(new EmptyPlot(horizontal(pos[0]), vertical(pos[1])));
-    }
     score.scoreHeight = height * .25;
     score.leftScoreLeft = width * .03;
     score.levelLeft = width * .45;
@@ -101,7 +97,7 @@ function draw() {
             gameOverRadius += 50;
         }
         fill("black");
-        ellipse(width / 2, height / 2, gameOverRadius);
+        ellipse(width / 2, height / 2, gameOverRadius, gameOverRadius);
         push();
         fill("white");
         textAlign(CENTER, BOTTOM);

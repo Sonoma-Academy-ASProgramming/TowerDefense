@@ -28,6 +28,11 @@ let Game = {
                 generateEnemies(Game.level * 19);
             }
         }, 1000);
+
+        UI = new GUI();
+        for (let pos of EmptyPlotPositions) {
+            Towers.push(new EmptyPlot(horizontal(pos[0]), vertical(pos[1])));
+        }
     },
     levelUp: () => {
         Game.level++;
@@ -37,6 +42,8 @@ let Game = {
     },
     gameOver: () => {
         Enemies = [];
+        Towers = [];
+        UI.delete();
         Game.gameState = GameStates.GameOver;
     }
 };
