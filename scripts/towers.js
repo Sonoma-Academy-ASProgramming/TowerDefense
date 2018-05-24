@@ -144,8 +144,8 @@ Mine.prototype.makeMenu = function () {
         }
     ];
     let upgradeButtons = [
-        new Button(horizontal(40), vertical(80), buttonFunctions[0]),
-        new Button(horizontal(60), vertical(80), buttonFunctions[1])
+        new Button(horizontal(40), vertical(91), buttonFunctions[0]),
+        new Button(horizontal(60), vertical(91), buttonFunctions[1])
     ];
     UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
 };
@@ -166,25 +166,25 @@ Cannon.prototype.rangeLevelUp = function () {
 };
 
 Cannon.prototype.makeMenu = function () {
-    let buttonFunctions = [
-        () => {
-            this.forceLevelUp();
-            UI.delete();
-        },
-        () => {
-            this.rangeLevelUp();
-            UI.delete();
-        },
-        () => {
-            this.frequencyLevelUp();
-            UI.delete();
-        }
-    ];
-    let upgradeButtons = [
-        new Button(horizontal(20), vertical(80), buttonFunctions[0]),
-        new Button(horizontal(40), vertical(80), buttonFunctions[1]),
-        new Button(horizontal(60), vertical(80), buttonFunctions[2]),
-        new Button(horizontal(80), vertical(80), buttonFunctions[3])
-    ];
-    UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
+  let buttonFunctions = [
+  () => {
+    this.forceLevelUp();
+    UI.delete();
+    },
+  () => {
+    this.rangeLevelUp();
+    UI.delete();
+    },
+  () => {
+    this.frequencyLevelUp();
+    UI.delete();
+    }
+];
+  let upgradeButtons = [
+    new Button(horizontal(20), vertical(91), buttonFunctions[0]),
+    new Button(horizontal(40), vertical(91), buttonFunctions[1]),
+    new Button(horizontal(60), vertical(91), buttonFunctions[2]),
+    new Button(horizontal(80), vertical(91), buttonFunctions[3])
+  ];
+  UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
 }
