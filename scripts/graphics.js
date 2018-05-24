@@ -32,7 +32,7 @@ const mouseInRect = (xMin, xMax, yMin, yMax) => {
 };
 
 class Supersprite {
-    constructor(xPosition, yPosition, width, height, type, options) {
+    constructor(xPosition, yPosition, width, height, options) {
         spriteCount++;
         this.stackOrder();
         this.xPos = xPosition;
@@ -40,7 +40,6 @@ class Supersprite {
         this.rotation = 0;
         this.width = width || defaultWidth;
         this.height = height || defaultHeight;
-        this.type = type || 'none';
         this.options = options || {};
         this.image = null;
         this.xOffSet = width / 2 || null;
@@ -110,16 +109,17 @@ Supersprite.prototype.addImage = function (newImage) {
 };
 Supersprite.prototype.display = function () {
     this.eventHandler();
-    console.log(this.type);
     if (this.image !== undefined) {
-        if (this.type === 'tower') {
+        if (this.options.type === 'tower') {
             push();
             imageMode(CENTER);
             translate(this.xPos, this.yPos);
             rotate(radians(this.rotation));
             image(this.image, 0, 0, this.width, this.height);
             pop();
-        } else if (this.type === 'button') {
+        } else if (this.options.type === 'button') {
+            let price = (this.options.hasOwnProperty('tower')) ? this.options.tower.price : this.options.upgrade.price;
+            let name = (this.options.hasOwnProperty('tower')) ? this.options.tower.name : this.options.upgrade.name;
             push();
             stroke('#736357');
             strokeWeight(4);
@@ -127,9 +127,9 @@ Supersprite.prototype.display = function () {
             rect(this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40, this.width + 20, this.height + 50, 10, 10, 10, 10);
             image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
             textSize(30);
-            text(this.price, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40);
+            text(price, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40);
             textSize(30);
-            text(this.name, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40);
+            text(name, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 30);
             pop();
         } else {
             image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);

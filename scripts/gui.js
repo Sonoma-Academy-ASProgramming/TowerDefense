@@ -19,12 +19,11 @@ GUI.prototype.update = function () {
 };
 
 class Button {
-    constructor(xPosition, yPosition, _onClicked, buttonTower, price) {
+    constructor(xPosition, yPosition, _onClicked, buttonTower) {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.onClicked = _onClicked;
-        this.price = price;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80, 'button', {price});
+        this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80, {type: 'button', tower: TOWER_CONST[buttonTower]});
         this.sprite.addImage(towerImages[buttonTower]);
         this.sprite.onMousePressed = _onClicked;
     }

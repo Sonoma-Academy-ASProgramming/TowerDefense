@@ -40,7 +40,7 @@ EmptyPlot.prototype.makeMenu = function () {
         },
         () => {
             UI.delete();
-            this.setBuilding(new Mine(this.xPos, this.yPos, 1));
+            this.setBuilding(new Mine(this.xPos, this.yPos, 4));
         }
     ];
     let buttons = [];
@@ -63,8 +63,9 @@ class Cannon {
         this.rangeLevel = 1;
         this.frequencyLevel = 1;
         this.forceLevel = 1;
+        this.price = TOWER_CONST[towerType];
         this.towerType = towerType;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, 'tower');
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', upgrade: this});
         this.sprite.addImage(towerImages[towerType]);
         this.gun = new Shoot(this.xPos, this.yPos, towerType, this.sprite);
         this.sprite.onMousePressed = () => {
@@ -99,14 +100,15 @@ Cannon.prototype.update = function () {
 };
 
 class Mine {
-    constructor(xPosition, yPosition, towerLevel) {
+    constructor(xPosition, yPosition, towerType) {
         this.xPos = xPosition;
         this.yPos = yPosition;
-        this.level = towerLevel;
+        this.level = 1;
         this.range = 0;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, 'tower');
+        this.price = TOWER_CONST[towerType];
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', upgrade: this});
         this.sprite.color = 'lightblue';
-        this.sprite.addImage(towerImages[4]);
+        this.sprite.addImage(towerImages[towerType]);
         this.sprite.onMousePressed = () => {
             selectedTower = this;
             this.makeMenu();
@@ -166,25 +168,25 @@ Cannon.prototype.rangeLevelUp = function () {
 };
 
 Cannon.prototype.makeMenu = function () {
-  let buttonFunctions = [
-  () => {
-    this.forceLevelUp();
-    UI.delete();
-    },
-  () => {
-    this.rangeLevelUp();
-    UI.delete();
-    },
-  () => {
-    this.frequencyLevelUp();
-    UI.delete();
-    }
-];
-  let upgradeButtons = [
-    new Button(horizontal(20), vertical(91), buttonFunctions[0]),
-    new Button(horizontal(40), vertical(91), buttonFunctions[1]),
-    new Button(horizontal(60), vertical(91), buttonFunctions[2]),
-    new Button(horizontal(80), vertical(91), buttonFunctions[3])
-  ];
-  UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
-}
+    let buttonFunctions = [
+        () => {
+            this.forceLevelUp();
+            UI.delete();
+        },
+        () => {
+            this.rangeLevelUp();
+            UI.delete();
+        },
+        () => {
+            this.frequencyLevelUp();
+            UI.delete();
+        }
+    ];
+    let upgradeButtons = [
+        new Button(horizontal(20), vertical(91), buttonFunctions[0]),
+        new Button(horizontal(40), vertical(91), buttonFunctions[1]),
+        new Button(horizontal(60), vertical(91), buttonFunctions[2]),
+        new Button(horizontal(80), vertical(91), buttonFunctions[3])
+    ];
+    UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
+};
