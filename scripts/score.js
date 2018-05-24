@@ -50,14 +50,13 @@ let score = {
         translate(width *0.5-150, this.getLevelUpYPos(this.levelUpPos));
         textSize(150);
         rotate(radians(25));
-        text("Level " + Game.level, 0, 0)
+        text("Level " + Game.level, 0, 0);
         pop();
         this.levelUpPos -= 1;
         if (this.lastLevel !== Game.level) {
             this.levelUpPos = 100;
             this.lastLevel = Game.level;
         }
-        // console.log(this.getLevelUpYPos(this.levelUpPos))
     },
     drawMoney() {
         push();

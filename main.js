@@ -9,7 +9,7 @@ let backgroundSprite;
 //SETUP
 let UI;
 let backgroundMusic;
-let popSound, cashSound, backgroundImg, plotImg, enemyImages = [], towerImages = [];
+let popSound, cashSound, backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
@@ -34,6 +34,7 @@ function preload() {
     cashSound = loadSound('./sounds/cashSound.mp3');
     //images
     backgroundImg = loadImage('./images/background.jpg');
+    backgroundBlankImg = loadImage('./images/backgroundBlank.jpg');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
     for (let i = 1; i < 7; i++) {
@@ -80,6 +81,10 @@ function setup() {
 function draw() {
     if (Game.gameState === GameStates.InGame) {
         backgroundSprite.display();
+    } else {
+        image(backgroundBlankImg, 0, 0, this.width, this.height);
+    }
+    if (Game.gameState === GameStates.InGame) {
         Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
@@ -96,14 +101,8 @@ function draw() {
         MenuScreen();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
-        /*Animate Game Over*/
-        if (gameOverRadius < Math.sqrt(width * width + height * height)) {
-            gameOverRadius += 50;
-        }
-        fill("black");
-        ellipse(width / 2, height / 2, gameOverRadius);
         push();
-        fill("white");
+        fill('#736357');
         textAlign(CENTER, BOTTOM);
         textSize(100);
         text("Game Over!", width / 2, height / 2);

@@ -89,7 +89,7 @@ class Enemy {
 
 Enemy.prototype.hit = function (force) {
     this.value -= force;
-    Game.score += force;
+    Game.score += Math.round(force);
     if (this.value <= 0) {
         popSound.play();
         this.delete();
@@ -109,7 +109,7 @@ Enemy.prototype.draw = function () {
     push();
     imageMode(CENTER);
     translate(this.xPos, this.yPos);
-    rotate(radians(getPosition(this.time).r+this.tint));
+    rotate(radians(getPosition(this.time).r + this.tint));
     image(enemyImages[this.id], 0, 0, 50, 50);
     pop();
     if (this.time > r + r + rl - l + rl + r - l) {

@@ -1,7 +1,9 @@
 let GameStates = {
     'GameStart': 0,
     'InGame': 1,
-    'GameOver': 2
+    'GameOver': 2,
+    'Tutorial': 3,
+    'LeaderBoard': 4
 };
 let Game = {
     level: 1,
@@ -45,10 +47,8 @@ function MenuScreen() {
     if (mouseIsPressed) {
         Game.startGame();
     }
-    fill("black");
-    rect(0, 0, width, height);
     push();
-    fill("white");
+    fill('#736357');
     textAlign(CENTER, BOTTOM);
     textSize(100);
     text("Click to Start", width / 2, height / 2);

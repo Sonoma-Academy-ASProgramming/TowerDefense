@@ -184,7 +184,7 @@ Shoot.prototype.setColor = function (t) {
         fill(red, 255, 255, alpha);
         stroke(1);
     }
-}
+};
 
 Shoot.prototype.GetPos = function (t, x0, y0, x1, y1, x2, y2) {
     if (this.type === 3) //bubble bullets && area damage bullets

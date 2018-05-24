@@ -19,16 +19,13 @@ GUI.prototype.update = function () {
 };
 
 class Button {
-    constructor(xPosition, yPosition, _onClicked, buttonTower) {
+    constructor(xPosition, yPosition, _onClicked, buttonTower, price) {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.onClicked = _onClicked;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80);
-        try {
-          this.sprite.addImage(towerImages[buttonTower]);
-        }catch(e) {
-
-        }
+        this.price = price;
+        this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80, 'button', {price});
+        this.sprite.addImage(towerImages[buttonTower]);
         this.sprite.onMousePressed = _onClicked;
     }
 }
@@ -36,13 +33,13 @@ class Button {
 //update this code later to make it work with any number of buttons, it will be more efficient - Liev
 class Menu {
     constructor(buttons) {
-      this.buttons = buttons;
+        this.buttons = buttons;
     }
 }
 
 Menu.prototype.update = function () {
     this.buttons.forEach((button) => {
-      button.sprite.display();
+        button.sprite.display();
     });
 };
 
