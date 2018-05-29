@@ -154,11 +154,12 @@ Supersprite.prototype.display = function () {
             stroke('#736357');
             strokeWeight(4);
             fill('#afa095');
-            rect(this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40, this.width, this.height, 10, 10, 10, 10);
-            textSize(20);
+            rect(this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height, 10, 10, 10, 10);
+            textSize(30);
             fill('#736357');
             noStroke();
-            text(this.options.text, this.xPos - this.xOffSet, this.yPos - this.yOffSet);
+            textAlign(CENTER, CENTER);
+            text(this.options.text, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
             pop();
         } else {
             fill(this.color);

@@ -107,7 +107,7 @@ Enemy.prototype.draw = function () {
     push();
     imageMode(CENTER);
     translate(this.xPos, this.yPos);
-    rotate(radians(getPosition(this.time).r + this.tint));
+    rotate(radians(getPosition(this.time).r));
     image(enemyImages[this.id], 0, 0, 50, 50);
     pop();
     if (this.time > r + r + rl - l + rl + r - l) {
