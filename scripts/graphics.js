@@ -109,7 +109,7 @@ Supersprite.prototype.addImage = function (newImage) {
 };
 Supersprite.prototype.display = function () {
     this.eventHandler();
-    if (this.image !== undefined) {
+    if (this.image !== null) {
         if (this.options.type === 'tower') {
             push();
             imageMode(CENTER);
@@ -118,8 +118,15 @@ Supersprite.prototype.display = function () {
             image(this.image, 0, 0, this.width, this.height);
             pop();
         } else if (this.options.type === 'button') {
-            let price = (this.options.hasOwnProperty('tower')) ? this.options.tower.price : this.options.upgrade.price;
-            let name = (this.options.hasOwnProperty('tower')) ? this.options.tower.name : this.options.upgrade.name;
+          if(this.options.hasOwnProperty('tower')) {
+            let price = this.options.tower.price;
+            let name = this.options.tower.name;
+          }else{
+            let price = this.options.upgrade.price;
+            let name = this.options.upgrade.name;
+          }
+            //let price = (this.options.hasOwnProperty('tower')) ? this.options.tower.price : this.options.upgrade.price;
+            //let name = (this.options.hasOwnProperty('tower')) ? this.options.tower.name : this.options.upgrade.name;
             push();
             stroke('#736357');
             strokeWeight(4);

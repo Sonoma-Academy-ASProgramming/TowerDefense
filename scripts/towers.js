@@ -63,9 +63,10 @@ class Cannon {
         this.rangeLevel = 1;
         this.frequencyLevel = 1;
         this.forceLevel = 1;
-        this.price = TOWER_CONST[towerType];
+        this.price = TOWER_CONST[towerType].price;
+        this.name = TOWER_CONST[towerType].name;
         this.towerType = towerType;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', upgrade: this});
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', tower: this});
         this.sprite.addImage(towerImages[towerType]);
         this.gun = new Shoot(this.xPos, this.yPos, towerType, this.sprite);
         this.sprite.onMousePressed = () => {
@@ -106,7 +107,7 @@ class Mine {
         this.level = 1;
         this.range = 0;
         this.price = TOWER_CONST[towerType];
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', upgrade: this});
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', tower: this});
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[towerType]);
         this.sprite.onMousePressed = () => {
