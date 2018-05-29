@@ -24,9 +24,9 @@ let Game = {
         Game.gameTime = 0;
         Game.gameState = GameStates.InGame;
         try {
-          replayButton.delete();
-          exitButton.delete();
-        }catch(e) {
+            replayButton.delete();
+            exitButton.delete();
+        } catch (e) {
 
         }
         replayButton = null;
@@ -57,10 +57,14 @@ let Game = {
         Enemies = [];
         Towers = [];
         UI.delete();
-        replayButton = new Supersprite(horizontal(50), vertical(55), 250, 100);
-        exitButton = new Supersprite(horizontal(50), vertical(70), 250, 100);
-        replayButton.onMousePressed = () => {Game.startGame()};
-        exitButton.onMousePressed = () => {console.log('Exit Game -- GG')};
+        replayButton = new Supersprite(horizontal(50), vertical(55), 200, 75, {type: 'button', text: "Replay"});
+        exitButton = new Supersprite(horizontal(50), vertical(70), 200, 75, {type: 'button', text: "Exit Game"});
+        replayButton.onMousePressed = () => {
+            Game.startGame()
+        };
+        exitButton.onMousePressed = () => {
+            console.log('Exit Game -- GG')
+        };
         Game.gameState = GameStates.GameOver;
     }
 };
@@ -78,12 +82,12 @@ function StartScreen() {
 }
 
 function EndScreen() {
-  replayButton.display();
-  exitButton.display();
-  push();
-  fill('#736357');
-  textAlign(CENTER, BOTTOM);
-  textSize(100);
-  text("Game Over!", horizontal(50), vertical(40));
-  pop();
+    replayButton.display();
+    exitButton.display();
+    push();
+    fill('#736357');
+    textAlign(CENTER, BOTTOM);
+    textSize(100);
+    text("Game Over!", horizontal(50), vertical(40));
+    pop();
 }

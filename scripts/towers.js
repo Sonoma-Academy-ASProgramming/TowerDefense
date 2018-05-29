@@ -105,7 +105,7 @@ class Mine {
         this.yPos = yPosition;
         this.level = 1;
         this.range = 0;
-        this.price = TOWER_CONST[towerType];
+        this.price = TOWER_CONST[towerType].price;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower'});
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[towerType]);

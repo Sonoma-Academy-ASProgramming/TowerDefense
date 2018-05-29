@@ -109,7 +109,7 @@ Supersprite.prototype.addImage = function (newImage) {
 };
 Supersprite.prototype.display = function () {
     this.eventHandler();
-    if (this.image !== undefined) {
+    if (this.image !== null && this.image !== undefined) {
         if (this.options.type === 'tower') {
             push();
             imageMode(CENTER);
@@ -117,7 +117,7 @@ Supersprite.prototype.display = function () {
             rotate(radians(this.rotation));
             image(this.image, 0, 0, this.width, this.height);
             pop();
-        } else if (this.options.type === 'button') {
+        } else if (this.options.type === 'upgrade') {
             let level = selectedTower[`${this.options.upgrade}Level`];
             let towerType, price, name;
             if (this.options.hasOwnProperty('tower')) {
@@ -149,8 +149,21 @@ Supersprite.prototype.display = function () {
             image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
         }
     } else {
-        fill(this.color);
-        rect(this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
+        if (this.options.type === 'button') {
+            push();
+            stroke('#736357');
+            strokeWeight(4);
+            fill('#afa095');
+            rect(this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40, this.width, this.height, 10, 10, 10, 10);
+            textSize(20);
+            fill('#736357');
+            noStroke();
+            text(this.options.text, this.xPos - this.xOffSet, this.yPos - this.yOffSet);
+            pop();
+        } else {
+            fill(this.color);
+            rect(this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
+        }
     }
 };
 

@@ -23,7 +23,7 @@ class Button {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.onClicked = _onClicked;
-        let options = {type: 'button'};
+        let options = {type: 'upgrade'};
         if (buttonTower < 5) {
             options['tower'] = TOWER_CONST[buttonTower];
             options['towerType'] = buttonTower;

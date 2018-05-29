@@ -82,8 +82,6 @@ class Enemy {
         this.value = value;
         this.futureHealth = value;
         this.id = id;
-        //FIXME Remove
-        this.tint = 0;
     }
 }
 
