@@ -1,3 +1,6 @@
+let replayButton;
+let exitButton;
+
 let GameStates = {
     'GameStart': 0,
     'InGame': 1,
@@ -20,8 +23,14 @@ let Game = {
         Game.money = 110;
         Game.gameTime = 0;
         Game.gameState = GameStates.InGame;
+        try {
+          replayButton.delete();
+          exitButton.delete();
+        }catch(e) {
 
-
+        }
+        replayButton = null;
+        exitButton = null;
         /*Start Game and Clock*/
         setInterval(() => {
             Game.gameTime++;
@@ -43,14 +52,20 @@ let Game = {
         }, 2000)
     },
     gameOver: () => {
+        Sprites = [];
+        spriteCount = 0;
         Enemies = [];
         Towers = [];
         UI.delete();
+        replayButton = new Supersprite(horizontal(50), vertical(55), 250, 100);
+        exitButton = new Supersprite(horizontal(50), vertical(70), 250, 100);
+        replayButton.onMousePressed = () => {Game.startGame()};
+        exitButton.onMousePressed = () => {console.log('Exit Game -- GG')};
         Game.gameState = GameStates.GameOver;
     }
 };
 
-function MenuScreen() {
+function StartScreen() {
     if (mouseIsPressed) {
         Game.startGame();
     }
@@ -60,4 +75,15 @@ function MenuScreen() {
     textSize(100);
     text("Click to Start", width / 2, height / 2);
     pop();
+}
+
+function EndScreen() {
+  replayButton.display();
+  exitButton.display();
+  push();
+  fill('#736357');
+  textAlign(CENTER, BOTTOM);
+  textSize(100);
+  text("Game Over!", horizontal(50), vertical(40));
+  pop();
 }

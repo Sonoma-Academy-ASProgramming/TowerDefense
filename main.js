@@ -12,6 +12,7 @@ let backgroundSprite;
 //SETUP
 let UI;
 let backgroundMusic;
+let musicPlaying = false;
 let popSound, cashSound, backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
@@ -29,7 +30,7 @@ let gameFont;
 
 function preload() {
     //music
-    //backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
+    backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
     //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
     //sound
@@ -83,6 +84,10 @@ function setup() {
 //GAME LOGIC
 function draw() {
     if (Game.gameState === GameStates.InGame) {
+      if(!musicPlaying) {
+        musicPlaying = true;
+        backgroundMusic.play();
+      }
         backgroundSprite.display();
     } else {
         image(backgroundBlankImg, 0, 0, this.width, this.height);
@@ -101,14 +106,9 @@ function draw() {
         UI.update();
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
-        MenuScreen();
+        StartScreen();
     } else if (Game.gameState === GameStates.GameOver) {
-        //GAME OVER
-        push();
-        fill('#736357');
-        textAlign(CENTER, BOTTOM);
-        textSize(100);
-        text("Game Over!", width / 2, height / 2);
-        pop();
+      //GAME OVER
+      EndScreen();
     }
 }
