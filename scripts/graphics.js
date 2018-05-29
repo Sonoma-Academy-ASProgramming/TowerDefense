@@ -136,14 +136,18 @@ Supersprite.prototype.display = function () {
             strokeWeight(4);
             fill('#afa095');
             rect(this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40, this.width + 20, this.height + 50, 10, 10, 10, 10);
-            image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
-            textSize(20);
+            image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet - 10, this.width, this.height);
+            textSize(30);
             fill('#736357');
             noStroke();
-            text(price, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet);
-            image(score.coinIMG, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet, 10, 10);
-            textSize(30);
-            text(name, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet - 40);
+            textAlign(CENTER);
+            text(name, this.xPos - this.xOffSet, this.yPos - this.yOffSet - 10, this.width);
+
+            //Price
+            textSize(20);
+            textAlign(CENTER);
+            text(price, this.xPos - this.xOffSet, this.yPos - this.yOffSet + 30, this.width);
+            image(score.coinIMG, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet + 10, 10, 10);
             pop();
         } else {
             image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);
