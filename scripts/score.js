@@ -26,7 +26,6 @@ let score = {
 
     },
     drawScore() {
-        textFont(gameFont);
         this.drawscore();
         this.drawMoney();
         this.drawLevel();

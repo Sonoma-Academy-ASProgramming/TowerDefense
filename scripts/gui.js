@@ -23,7 +23,15 @@ class Button {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.onClicked = _onClicked;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80, {type: 'button', tower: TOWER_CONST[buttonTower]});
+        let options = {type: 'button'};
+        if (buttonTower < 5) {
+            options['tower'] = TOWER_CONST[buttonTower];
+            options['towerType'] = buttonTower;
+        } else {
+            options['upgrade'] = TOWER_UPGRADES[buttonTower];
+            options['towerType'] = buttonTower;
+        }
+        this.sprite = new Supersprite(this.xPos, this.yPos, 80, 80, options);
         this.sprite.addImage(towerImages[buttonTower]);
         this.sprite.onMousePressed = _onClicked;
     }

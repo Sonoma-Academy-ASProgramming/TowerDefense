@@ -61,11 +61,11 @@ class Cannon {
         this.xPos = xPosition;
         this.yPos = yPosition;
         this.rangeLevel = 1;
-        this.frequencyLevel = 1;
+        this.speedLevel = 1;
         this.forceLevel = 1;
         this.price = TOWER_CONST[towerType];
         this.towerType = towerType;
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', upgrade: this});
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower'});
         this.sprite.addImage(towerImages[towerType]);
         this.gun = new Shoot(this.xPos, this.yPos, towerType, this.sprite);
         this.sprite.onMousePressed = () => {
@@ -83,16 +83,16 @@ Cannon.prototype.update = function () {
     }
     this.sprite.display();
     if (this.towerType === 1) {
-        if (frameCount % constrain(10 - this.frequencyLevel, 0, 10) === 0) {
+        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
             this.gun.fire();
         }
     }
     else if (this.towerType === 2) {
-        if (frameCount % constrain(10 - this.frequencyLevel, 0, 10) === 0) {
+        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
             this.gun.fire();
         }
     } else if (this.towerType === 3) {
-        if (frameCount % constrain(20 - this.frequencyLevel, 0, 20) === 0) {
+        if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
             this.gun.fire();
         }
     }
@@ -106,7 +106,7 @@ class Mine {
         this.level = 1;
         this.range = 0;
         this.price = TOWER_CONST[towerType];
-        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower', upgrade: this});
+        this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower'});
         this.sprite.color = 'lightblue';
         this.sprite.addImage(towerImages[towerType]);
         this.sprite.onMousePressed = () => {
@@ -146,8 +146,8 @@ Mine.prototype.makeMenu = function () {
         }
     ];
     let upgradeButtons = [
-        new Button(horizontal(40), vertical(91), buttonFunctions[0]),
-        new Button(horizontal(60), vertical(91), buttonFunctions[1])
+        new Button(horizontal(40), vertical(91), buttonFunctions[0], 5),
+        new Button(horizontal(60), vertical(91), buttonFunctions[1], 8)
     ];
     UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
 };
@@ -159,34 +159,31 @@ Cannon.prototype.forceLevelUp = function () {
     this.gun.areaDamage = (this.gun.type === 2) ? 0.5 * this.force : 0;
 };
 Cannon.prototype.frequencyLevelUp = function () {
-    this.frequencyLevel += 1;
+    this.speedLevel += 1;
 };
 Cannon.prototype.rangeLevelUp = function () {
     this.rangeLevel += 1;
     this.gun.range = 150 * this.rangeLevel;
-    this.gun.areaDamageRange = (this.gun.type === 2) ? this.range / 3 : 0;
+    this.gun.areaDamageRange = (this.gun.type === 2) ? this.rangeLevel / 3 : 0;
 };
 
 Cannon.prototype.makeMenu = function () {
     let buttonFunctions = [
         () => {
             this.forceLevelUp();
-            UI.delete();
         },
         () => {
             this.rangeLevelUp();
-            UI.delete();
         },
         () => {
             this.frequencyLevelUp();
-            UI.delete();
         }
     ];
     let upgradeButtons = [
-        new Button(horizontal(20), vertical(91), buttonFunctions[0]),
-        new Button(horizontal(40), vertical(91), buttonFunctions[1]),
-        new Button(horizontal(60), vertical(91), buttonFunctions[2]),
-        new Button(horizontal(80), vertical(91), buttonFunctions[3])
+        new Button(horizontal(20), vertical(91), buttonFunctions[0], 5),
+        new Button(horizontal(40), vertical(91), buttonFunctions[1], 6),
+        new Button(horizontal(60), vertical(91), buttonFunctions[2], 7),
+        new Button(horizontal(80), vertical(91), buttonFunctions[3], 8)
     ];
     UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
 };
