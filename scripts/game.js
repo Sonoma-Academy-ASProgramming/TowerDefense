@@ -66,7 +66,8 @@ let Game = {
             console.log('Exit Game -- GG')
         };
         Game.gameState = GameStates.GameOver;
-    }
+    },
+
 };
 
 function StartScreen() {
