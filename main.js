@@ -54,6 +54,7 @@ function preload() {
 }
 
 function setup() {
+  setupStartScreen();
     textFont(gameFont);
     frameRate(60);
     //Center all balls

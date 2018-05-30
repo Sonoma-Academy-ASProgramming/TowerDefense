@@ -1,12 +1,17 @@
 let replayButton;
 let exitButton;
+let startButton;
+let tutorialButton;
+let leaderBoardButton;
+let creditsButton;
 
 let GameStates = {
     'GameStart': 0,
     'InGame': 1,
     'GameOver': 2,
     'Tutorial': 3,
-    'LeaderBoard': 4
+    'LeaderBoard': 4,
+    'Credits': 5
 };
 let Game = {
     level: 1,
@@ -69,16 +74,30 @@ let Game = {
     }
 };
 
+function setupStartScreen() {
+  startButton = new Supersprite(horizontal(50), vertical(30), 200, 75, {type: 'button', text: "Start Game"});
+  startButton.onMousePressed = () => {
+    Game.startGame();
+  };
+  tutorialButton = new Supersprite(horizontal(50), vertical(50), 200, 75, {type: 'button', text: "Tutorial"});
+  tutorialButton.onMousePressed = () => {
+    Window.open('https://www.roblox.com', _blank);
+  };
+  leaderBoardButton = new Supersprite(horizontal(50), vertical(70), 200, 75, {type: 'button', text: "View Leaderboard"});
+  leaderBoardButton.onMousePressed = () => {
+    console.log('opening leaderboard');
+  };
+  creditsButton = new Supersprite(horizontal(50), vertical(85), {type: 'button', text: "Credits"});
+  creditsButton.onMousePressed = () => {
+    console.log('This is a game made by some people');
+  }
+}
+
 function StartScreen() {
-    if (mouseIsPressed) {
-        Game.startGame();
-    }
-    push();
-    fill('#736357');
-    textAlign(CENTER, BOTTOM);
-    textSize(100);
-    text("Click to Start", width / 2, height / 2);
-    pop();
+  startButton.display();
+  tutorialButton.display();
+  leaderBoardButton.display();
+  creditsButton.display();
 }
 
 function EndScreen() {
