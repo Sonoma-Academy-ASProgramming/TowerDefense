@@ -62,16 +62,17 @@ let Game = {
         Enemies = [];
         Towers = [];
         UI.delete();
-        replayButton = new Supersprite(horizontal(50), vertical(55), 200, 75, {type: 'button', text: "Replay"});
-        exitButton = new Supersprite(horizontal(50), vertical(70), 200, 75, {type: 'button', text: "Exit Game"});
+        replayButton = new Supersprite(horizontal(35), vertical(90), 200, 75, {type: 'button', text: "Replay"});
+        exitButton = new Supersprite(horizontal(70), vertical(90), 200, 75, {type: 'button', text: "Leaderboard"});
         replayButton.onMousePressed = () => {
             Game.startGame()
         };
         exitButton.onMousePressed = () => {
-            console.log('Exit Game -- GG')
+            Game.gameState = GameStates.LeaderBoard;
         };
         Game.gameState = GameStates.GameOver;
-    }
+    },
+
 };
 
 function setupStartScreen() {
@@ -106,7 +107,7 @@ function EndScreen() {
     push();
     fill('#736357');
     textAlign(CENTER, BOTTOM);
-    textSize(100);
-    text("Game Over!", horizontal(50), vertical(40));
+    textSize(60);
+    text("Game Over!", horizontal(50), vertical(30));
     pop();
 }
