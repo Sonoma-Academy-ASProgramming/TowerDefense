@@ -10,6 +10,7 @@ class EmptyPlot {
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
+            towerSelectedSound.play();
             this.makeMenu();
         };
     }
