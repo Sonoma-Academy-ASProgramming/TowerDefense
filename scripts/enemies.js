@@ -87,7 +87,8 @@ class Enemy {
 
 Enemy.prototype.hit = function (force) {
     this.value -= force;
-    Game.score += Math.round(force);
+    Game.score += Math.round(force + (1000 - this.time) / 100);
+    Game.money += force / 3;
     if (this.value <= 0) {
         popSound.play();
         this.delete();

@@ -118,19 +118,31 @@ Supersprite.prototype.display = function () {
             image(this.image, 0, 0, this.width, this.height);
             pop();
         } else if (this.options.type === 'upgrade') {
-            let level = selectedTower[`${this.options.upgrade}Level`];
-            let towerType, price, name;
+            let level, towerType, price, name;
             if (this.options.hasOwnProperty('tower')) {
                 towerType = this.options.towerType;
                 price = this.options.tower.price;
                 name = this.options.tower.name;
 
             } else {
+                level = selectedTower[`${this.options.upgrade.toLowerCase()}Level`];
                 towerType = this.options.towerType;
-                price = 20;
+                if (isNaN(level)) {
+                    //Selling
+                    if (selectedTower.rangeLevel !== undefined) {
+                        let totalUpgrade = selectedTower.price / 4 * (Math.pow(selectedTower.rangeLevel - 1, 2) + Math.pow(selectedTower.speedLevel - 1, 2) + Math.pow(selectedTower.forceLevel - 1, 2));
+                        price = Math.round(totalUpgrade + selectedTower.price / 5);
+                    } else {
+                        let totalUpgrade = selectedTower.price / 4 * Math.pow(selectedTower.level - 1, 2);
+                        price = Math.round(totalUpgrade + selectedTower.price / 5);
+                    }
+                } else {
+                    //Normal Upgrade
+                    price = Math.round(selectedTower.price * 2 * level * level);
+                    if (level > 4) price = "MAX";
+                }
                 name = this.options.upgrade;
             }
-            //console.log(towerType, price, name, level, selectedTower);
             push();
             stroke('#736357');
             strokeWeight(4);
@@ -146,8 +158,8 @@ Supersprite.prototype.display = function () {
             //Price
             textSize(20);
             textAlign(CENTER);
-            text(price, this.xPos - this.xOffSet, this.yPos - this.yOffSet + 30, this.width);
-            image(score.coinIMG, this.xPos - this.xOffSet - 10, this.yPos - this.yOffSet + 10, 10, 10);
+            text(price, this.xPos - this.xOffSet + 10, this.yPos - this.yOffSet + 85, this.width);
+            image(score.coinIMG, this.xPos - this.xOffSet, this.yPos - this.yOffSet + 65, 20, 20);
             pop();
         } else {
             image(this.image, this.xPos - this.xOffSet, this.yPos - this.yOffSet, this.width, this.height);

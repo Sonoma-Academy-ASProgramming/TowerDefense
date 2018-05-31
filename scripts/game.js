@@ -36,10 +36,9 @@ let Game = {
             Game.gameTime++;
             if (Game.spawning > 0) {
                 Game.spawning--;
-                generateEnemies(Game.level * 19);
+                generateEnemies(Game.level * Game.level);
             }
         }, 1000);
-
         UI = new GUI();
         for (let pos of EmptyPlotPositions) {
             Towers.push(new EmptyPlot(horizontal(pos[0]), vertical(pos[1])));

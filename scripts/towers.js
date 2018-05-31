@@ -27,18 +27,30 @@ EmptyPlot.prototype.setBuilding = function (building) {
 EmptyPlot.prototype.makeMenu = function () {
     const buttonFunctions = [
         () => {
+            let cost = TOWER_CONST[1].price;
+            if (Game.money < cost) return null;
+            Game.money -= cost;
             UI.delete();
             this.setBuilding(new Cannon(this.xPos, this.yPos, 1));
         },
         () => {
+            let cost = TOWER_CONST[2].price;
+            if (Game.money < cost) return null;
+            Game.money -= cost;
             UI.delete();
             this.setBuilding(new Cannon(this.xPos, this.yPos, 2))
         },
         () => {
+            let cost = TOWER_CONST[3].price;
+            if (Game.money < cost) return null;
+            Game.money -= cost;
             UI.delete();
             this.setBuilding(new Cannon(this.xPos, this.yPos, 3))
         },
         () => {
+            let cost = TOWER_CONST[4].price;
+            if (Game.money < cost) return null;
+            Game.money -= cost;
             UI.delete();
             this.setBuilding(new Mine(this.xPos, this.yPos, 4));
         }
@@ -47,7 +59,7 @@ EmptyPlot.prototype.makeMenu = function () {
     for (let i = 0; i < buttonFunctions.length; i++) {
         buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), 670, buttonFunctions[i], i + 1));
     }
-    UI.menu = new Menu([buttons[0], buttons[1], buttons[2], buttons[3]]);
+    UI.menu = new Menu(buttons);
 };
 
 EmptyPlot.prototype.update = function () {
@@ -63,7 +75,7 @@ class Cannon {
         this.rangeLevel = 1;
         this.speedLevel = 1;
         this.forceLevel = 1;
-        this.price = TOWER_CONST[towerType];
+        this.price = TOWER_CONST[towerType].price;
         this.towerType = towerType;
         this.sprite = new Supersprite(this.xPos, this.yPos, 50, 50, {type: 'tower'});
         this.sprite.addImage(towerImages[towerType]);
@@ -120,21 +132,9 @@ class Mine {
 Mine.prototype.update = function () {
     this.sprite.display();
     if (frameCount % 60 === 0) {
-        Game.money += 2 + this.level;
+        Game.money += 2 + this.level * this.level;
     }
 };
-
-Mine.prototype.upgrade = function () {
-    this.level += 1;
-    Game.money -= 5;
-    UI.delete();
-};
-
-Mine.prototype.sell = function () {
-    UI.delete();
-    Towers[Towers.indexOf(this)] = new EmptyPlot(this.xPos, this.yPos);
-};
-
 
 Mine.prototype.makeMenu = function () {
     let buttonFunctions = [
@@ -145,23 +145,50 @@ Mine.prototype.makeMenu = function () {
             this.sell();
         }
     ];
-    let upgradeButtons = [
-        new Button(horizontal(40), vertical(91), buttonFunctions[0], 5),
-        new Button(horizontal(60), vertical(91), buttonFunctions[1], 8)
-    ];
-    UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1]]);
+    let buttons = [];
+    for (let i = 0; i < buttonFunctions.length; i++) {
+        buttons.push(new Button((i + 2) * 180 + (width / 3 - 180), 670, buttonFunctions[i], [5, 8][i]));
+    }
+    UI.menu = new Menu(buttons);
 };
 
-//FIXME Figure out correct level up amounts
+Mine.prototype.upgrade = function () {
+    let cost = selectedTower.price * 2 * this.level * this.level;
+    if (this.level > 4 || Game.money < cost) return null;
+    this.level += 1;
+    Game.money -= cost;
+};
+
+Mine.prototype.sell = function () {
+    Towers[Towers.indexOf(this)] = new EmptyPlot(this.xPos, this.yPos);
+    let totalUpgrade = 50 * Math.pow(this.level - 1, 2);
+    Game.money += totalUpgrade + this.price / 5;
+};
+
+Cannon.prototype.sell = function () {
+    UI.delete();
+    Towers[Towers.indexOf(this)] = new EmptyPlot(this.xPos, this.yPos);
+    let totalUpgrade = 50 * (Math.pow(this.rangeLevel - 1, 2) + Math.pow(this.speedLevel - 1, 2) + Math.pow(this.forceLevel - 1, 2));
+    Game.money += totalUpgrade + this.price / 5;
+};
 Cannon.prototype.forceLevelUp = function () {
+    let cost = Math.round(this.price * 2 * this.forceLevel * this.forceLevel);
+    if (this.forceLevel > 4 || Game.money < cost) return null;
+    Game.money -= cost;
     this.forceLevel += 1;
     this.gun.force = this.forceLevel;
     this.gun.areaDamage = (this.gun.type === 2) ? 0.5 * this.force : 0;
 };
 Cannon.prototype.frequencyLevelUp = function () {
+    let cost = Math.round(this.price * 2 * this.speedLevel * this.speedLevel);
+    if (this.speedLevel > 4 || Game.money < cost) return null;
+    Game.money -= cost;
     this.speedLevel += 1;
 };
 Cannon.prototype.rangeLevelUp = function () {
+    let cost = Math.round(this.price * 2 * this.rangeLevel * this.rangeLevel);
+    if (this.rangeLevel > 4 || Game.money < cost) return null;
+    Game.money -= cost;
     this.rangeLevel += 1;
     this.gun.range = 150 * this.rangeLevel;
     this.gun.areaDamageRange = (this.gun.type === 2) ? this.rangeLevel / 3 : 0;
@@ -177,13 +204,14 @@ Cannon.prototype.makeMenu = function () {
         },
         () => {
             this.frequencyLevelUp();
+        },
+        () => {
+            this.sell();
         }
     ];
-    let upgradeButtons = [
-        new Button(horizontal(20), vertical(91), buttonFunctions[0], 5),
-        new Button(horizontal(40), vertical(91), buttonFunctions[1], 6),
-        new Button(horizontal(60), vertical(91), buttonFunctions[2], 7),
-        new Button(horizontal(80), vertical(91), buttonFunctions[3], 8)
-    ];
-    UI.menu = new Menu([upgradeButtons[0], upgradeButtons[1], upgradeButtons[2], upgradeButtons[3]]);
+    let buttons = [];
+    for (let i = 0; i < buttonFunctions.length; i++) {
+        buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), 670, buttonFunctions[i], i + 5));
+    }
+    UI.menu = new Menu(buttons);
 };

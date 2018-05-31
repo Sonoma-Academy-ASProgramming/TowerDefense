@@ -1,7 +1,7 @@
 //GAME SETTINGS
 const EmptyPlotPositions = [[20, 32], [36, 32], [49, 32], [62, 32]];
 const TOWER_CONST = [{}, {price: 25, name: 'Cannon'}, {price: 50, name: "Bubble"},
-    {price: 75, name: 'Mortar'}, {price: 100, name: 'Farm'}];
+    {price: 75, name: 'Flamer'}, {price: 100, name: 'Farm'}];
 const TOWER_UPGRADES = ['', '', '', '', '', 'Force', 'Range', 'Speed', 'Sell'];
 
 let Towers = [],
@@ -50,7 +50,7 @@ function preload() {
     towerImages.push(loadImage(`./images/upforce.svg`));
     towerImages.push(loadImage(`./images/uprange.svg`));
     towerImages.push(loadImage(`./images/upfreq.svg`));
-    towerImages.push(loadImage(`./images/coin.svg`));
+    towerImages.push(loadImage(`./images/sell.svg`));
 }
 
 function setup() {
