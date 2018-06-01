@@ -13,14 +13,15 @@ let backgroundSprite;
 let UI;
 let startMenuMusic, backgroundMusic;
 let musicPlaying = false;
+let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [], crown;
 let menuMusicPlaying = false;
 let popSound, cashSound, buttonSound, towerSelectedSound;
-let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
 //controls the currentRange
 let rangeValue = 0;
+let freezeGame = false;
 //
 let rl;
 let f;
@@ -50,6 +51,7 @@ function preload() {
     backgroundBlankImg = loadImage('./images/backgroundBlank.jpg');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
+    crown = loadImage(`./images/crown.png`);
     for (let i = 1; i < 7; i++) {
         enemyImages[i] = loadImage(`./images/enemy${i}.png`);
     }
@@ -87,25 +89,25 @@ function setup() {
 
 //GAME LOGIC
 function draw() {
-  if(Game.gameState === GameStates.GameStart) {
-    if(!menuMusicPlaying) {
-      menuMusicPlaying = true;
-      startMenuMusic.loop();
+    if (Game.gameState === GameStates.GameStart) {
+        if (!menuMusicPlaying) {
+            menuMusicPlaying = true;
+            startMenuMusic.loop();
+        }
     }
-  }
     if (Game.gameState === GameStates.InGame) {
-      if(!musicPlaying) {
-        startMenuMusic.stop();
-        menuMusicPlaying = false;
-        musicPlaying = true;
-        backgroundMusic.loop();
-      }
+        if (!musicPlaying) {
+            startMenuMusic.stop();
+            menuMusicPlaying = false;
+            musicPlaying = true;
+            backgroundMusic.loop();
+        }
         backgroundSprite.display();
     } else {
         image(backgroundBlankImg, 0, 0, this.width, this.height);
     }
     if (Game.gameState === GameStates.InGame) {
-        Time += 1;
+        Time += (freezeGame) ? 0 : 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
         });
@@ -120,10 +122,13 @@ function draw() {
         //Start Screen
         StartScreen();
     } else if (Game.gameState === GameStates.GameOver) {
-      //GAME OVER
-      EndScreen();
+        //GAME OVER
+        EndScreen();
     } else if (Game.gameState === GameStates.Credits) {
-     //Credits
-     CreditScreen();
-   }
+        //Credits
+        CreditScreen();
+    } else if (Game.gameState === GameStates.LeaderBoard) {
+        //GAME OVER
+        drawLeaderboard();
+    }
 }

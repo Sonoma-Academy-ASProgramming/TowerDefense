@@ -87,7 +87,7 @@ class Enemy {
 
 Enemy.prototype.hit = function (force) {
     this.value -= force;
-    Game.score += Math.round(force + (1000 - this.time) / 100);
+    Game.score += Math.round(force + constrain(1000 - this.time, 0, Number.MAX_VALUE) / 100);
     Game.money += force / 3;
     if (this.value <= 0) {
         popSound.play();
@@ -102,7 +102,7 @@ Enemy.prototype.delete = function () {
     Enemies.splice(Enemies.indexOf(this), 1);
 };
 Enemy.prototype.draw = function () {
-    this.time += this.speed * ENEMYSPEED;
+    this.time += (freezeGame) ? 0 : this.speed * ENEMYSPEED;
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
     push();
@@ -112,6 +112,9 @@ Enemy.prototype.draw = function () {
     image(enemyImages[this.id], 0, 0, 50, 50);
     pop();
     if (this.time > r + r + rl - l + rl + r - l) {
-        Game.gameOver();
+        if (!freezeGame)
+            setTimeout(Game.gameOver, 1000);
+        freezeGame = true;
+
     }
 };
