@@ -22,15 +22,16 @@ let Game = {
     gameState: GameStates.GameStart,
     spawning: 10,
     startMenu: () => {
-        console.log('starting');
         Sprites = [];
         spriteCount = 0;
-        console.log('partially cleared');
-        console.log('cleared');
         Game.gameState = GameStates.GameStart;
-        console.log(Game.gameState);
         setupStartScreen();
     },
+    tutorial: () => {
+      Sprites = [];
+      spriteCount = 0;
+      Game.gameState = GameStates.Tutorial;
+    }
     startGame: () => {
         /*Define Variables*/
         Game.spawning = 10;
@@ -251,4 +252,8 @@ function drawLeaderboard() {
         text("Loading leaderboard...", horizontal(50), vertical(40));
 
     }
+}
+
+function Tutorial () {
+  
 }
