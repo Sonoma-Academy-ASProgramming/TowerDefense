@@ -13,7 +13,7 @@ let backgroundSprite;
 let UI;
 let startMenuMusic, backgroundMusic;
 let musicPlaying = false;
-let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [],crown;
+let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [], crown;
 let menuMusicPlaying = false;
 let popSound, cashSound, buttonSound, towerSelectedSound;
 const ENEMYSTARTINGPOS = 0;

@@ -36,7 +36,7 @@ let Game = {
         Game.spawning = 10;
         Game.level = 1;
         Game.score = 0;
-        Game.money = 110;
+        Game.money = 30;
         Game.gameTime = 0;
         Game.gameState = GameStates.InGame;
         backgroundSprite = new Supersprite(width / 2, height / 2, width, height);
@@ -122,7 +122,6 @@ function setupStartScreen() {
     leaderBoardButton.onMousePressed = () => {
         buttonSound.play();
         console.log('opening leaderboard');
-        loadLeaderboardPage();
     };
     creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Credits"});
     creditsButton.onMousePressed = () => {
