@@ -82,18 +82,20 @@ Cannon.prototype.update = function () {
         ellipse(this.xPos, this.yPos, 150 * this.rangeLevel * 2);
     }
     this.sprite.display();
-    if (this.towerType === 1) {
-        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
-            this.gun.fire();
+    if (!freezeGame) {
+        if (this.towerType === 1) {
+            if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
+                this.gun.fire();
+            }
         }
-    }
-    else if (this.towerType === 2) {
-        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
-            this.gun.fire();
-        }
-    } else if (this.towerType === 3) {
-        if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
-            this.gun.fire();
+        else if (this.towerType === 2) {
+            if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
+                this.gun.fire();
+            }
+        } else if (this.towerType === 3) {
+            if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
+                this.gun.fire();
+            }
         }
     }
     this.gun.draw();

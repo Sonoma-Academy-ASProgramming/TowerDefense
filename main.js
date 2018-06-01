@@ -13,10 +13,11 @@ let backgroundSprite;
 let UI;
 let backgroundMusic;
 let musicPlaying = false;
-let popSound, cashSound, backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [];
+let popSound, cashSound, backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [],crown;
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
+let freezeGame = false;
 //
 let rl;
 let f;
@@ -24,6 +25,7 @@ let s;
 let th;
 let r;
 let l;
+//
 let gameFont;
 
 //----------\vars/---------/main\---------------
@@ -41,6 +43,7 @@ function preload() {
     backgroundBlankImg = loadImage('./images/backgroundBlank.jpg');
     plotImg = loadImage('./images/emptyPlot.png');
     score.coinIMG = loadImage(`./images/coin.svg`);
+    crown = loadImage(`./images/crown.png`);
     for (let i = 1; i < 7; i++) {
         enemyImages[i] = loadImage(`./images/enemy${i}.png`);
     }
@@ -60,7 +63,7 @@ function setup() {
     ellipseMode(CENTER);
     scoreHeight = height * .3;
     leftScoreLeft = width * .05;
-    createCanvas(windowWidth, windowHeight);
+    canvas = createCanvas(windowWidth, windowHeight);
     backgroundSprite = new Supersprite(width / 2, height / 2, width, height);
     backgroundSprite.addImage(backgroundImg);
     backgroundSprite.onMousePressed = () => {
@@ -84,16 +87,16 @@ function setup() {
 //GAME LOGIC
 function draw() {
     if (Game.gameState === GameStates.InGame) {
-      if(!musicPlaying) {
-        musicPlaying = true;
-        backgroundMusic.play();
-      }
+        if (!musicPlaying) {
+            musicPlaying = true;
+            backgroundMusic.play();
+        }
         backgroundSprite.display();
     } else {
         image(backgroundBlankImg, 0, 0, this.width, this.height);
     }
     if (Game.gameState === GameStates.InGame) {
-        Time += 1;
+        Time += (freezeGame)?0:1;
         Enemies.forEach((enemy) => {
             enemy.draw();
         });
@@ -108,7 +111,10 @@ function draw() {
         //Start Screen
         StartScreen();
     } else if (Game.gameState === GameStates.GameOver) {
-      //GAME OVER
-      EndScreen();
+        //GAME OVER
+        EndScreen();
+    } else if (Game.gameState === GameStates.LeaderBoard) {
+        //GAME OVER
+        drawLeaderboard();
     }
 }

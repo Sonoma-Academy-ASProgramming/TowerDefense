@@ -65,10 +65,14 @@ let Game = {
         exitButton.onMousePressed = () => {
             Game.gameState = GameStates.LeaderBoard;
         };
-        Game.gameState = GameStates.GameOver;
-    },
 
+        Game.gameState = GameStates.GameOver;
+
+        leaderboard.updateLeaderboard();
+
+    }
 };
+
 
 function StartScreen() {
     if (mouseIsPressed) {
@@ -85,10 +89,93 @@ function StartScreen() {
 function EndScreen() {
     replayButton.display();
     exitButton.display();
+    if (leaderboard.dispReady) {
+        // console.log(leaderboard.leaderboard);
+        leaderboard.leaderboard.forEach((item, index) => {
+            if (item.ranking ===1 ||item.ranking ===2||item.ranking ===3)
+                image(crown, horizontal(40) - 60+item.ranking*4, vertical(37 + 6 * index)-40+item.ranking*4, 40-item.ranking*8, 40-item.ranking*8);
+            fill('#736357');
+            textAlign(RIGHT, BOTTOM);
+            textSize(30);
+            text(item.ranking, horizontal(40), vertical(37 + 6 * index));
+            textAlign(LEFT, BOTTOM);
+            text(item.score, horizontal(43), vertical(37 + 6 * index));
+            textAlign(LEFT, BOTTOM);
+            text(item.name, horizontal(52), vertical(37 + 6 * index));
+        });
+    } else {
+        fill('#736357');
+        textAlign(CENTER, BOTTOM);
+        textSize(40);
+        text("Loading leaderboard...", horizontal(50), vertical(40));
+
+    }
+    // leaderboard.addLeaderboard()
     push();
     fill('#736357');
     textAlign(CENTER, BOTTOM);
     textSize(60);
     text("Game Over!", horizontal(50), vertical(30));
     pop();
+
+}
+
+function loadLeaderboardPage() { //leaderboard button please call me
+    leaderboard.init();
+    leaderboard.getLeaderboard();
+    Game.gameState = 4;
+}
+
+function leaderboardPageDown() { //page down button please call me
+    if (leaderboard.leaderboard.length < leaderboard.dispSize + 1) {
+        return;
+    }
+    leaderboard.startIdx += leaderboard.dispSize;
+    leaderboard.getLeaderboard();
+    Game.gameState = 4;
+}
+
+function leaderboardPageUp() { //page up button please call me
+    if (leaderboard.startIdx - leaderboard.dispSize < 1) {
+        if (leaderboard.startIdx != 1) {
+            leaderboard.startIdx = 1;
+        }
+        return;
+    } else {
+        leaderboard.startIdx -= leaderboard.dispSize;
+    }
+    leaderboard.getLeaderboard();
+    Game.gameState = 4;
+}
+
+
+function drawLeaderboard() {
+    // replayButton.display();
+    // exitButton.display();
+    fill('#736357');
+    textAlign(CENTER, BOTTOM);
+    textSize(70);
+    text("Leaderboard", horizontal(50), vertical(33));
+    if (leaderboard.dispReady) {
+        // console.log(leaderboard.leaderboard);
+        leaderboard.leaderboard.forEach((item, index) => {
+            if (item.ranking ===1 ||item.ranking ===2||item.ranking ===3)
+                image(crown, horizontal(40) - 80+item.ranking*4, vertical(40 + 8 * index)-50+item.ranking*4, 50-item.ranking*8, 50-item.ranking*8);
+            fill('#736357');
+            // console.log(item.ranking);
+            textAlign(RIGHT, BOTTOM);
+            textSize(40);
+            text(item.ranking, horizontal(40), vertical(40 + 8 * index));
+            textAlign(LEFT, BOTTOM);
+            text(item.score, horizontal(45), vertical(40 + 8 * index));
+            textAlign(LEFT, BOTTOM);
+            text(item.name, horizontal(60), vertical(40 + 8 * index));
+        });
+    } else {
+        fill('#736357');
+        textAlign(CENTER, BOTTOM);
+        textSize(40);
+        text("Loading leaderboard...", horizontal(50), vertical(40));
+
+    }
 }
