@@ -11,13 +11,16 @@ let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let UI;
-let backgroundMusic;
+let startMenuMusic, backgroundMusic;
 let musicPlaying = false;
+let menuMusicPlaying = false;
 let popSound, cashSound, buttonSound, towerSelectedSound;
 let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
+//controls the currentRange
+let rangeValue = 0;
 //
 let rl;
 let f;
@@ -32,7 +35,9 @@ let gameFont;
 function preload() {
     //music
     backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
-    backgroundMusic.setVolume(.35);
+    startMenuMusic = loadSound('./sounds/startMenuMusic.mp3');
+    startMenuMusic.setVolume(.3);
+    backgroundMusic.setVolume(.3);
     //font
     gameFont = loadFont('./Fonts/coolstory regular.ttf');
     //sound
@@ -82,8 +87,16 @@ function setup() {
 
 //GAME LOGIC
 function draw() {
+  if(Game.gameState === GameStates.GameStart) {
+    if(!menuMusicPlaying) {
+      menuMusicPlaying = true;
+      startMenuMusic.loop();
+    }
+  }
     if (Game.gameState === GameStates.InGame) {
       if(!musicPlaying) {
+        startMenuMusic.stop();
+        menuMusicPlaying = false;
         musicPlaying = true;
         backgroundMusic.loop();
       }
