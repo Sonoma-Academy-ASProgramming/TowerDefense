@@ -90,6 +90,7 @@ let Game = {
         };
 
         Game.gameState = GameStates.GameOver;
+        leaderboard.updateLeaderboard();
     },
     showCredits: () => {
         Sprites = [];
@@ -98,13 +99,8 @@ let Game = {
         returnToMainMenuButton.onMousePressed = () => {
             buttonSound.play();
             Game.startMenu();
-        }
+        };
         Game.gameState = GameStates.Credits;
-    }
-};
-
-        leaderboard.updateLeaderboard();
-
     }
 };
 
@@ -153,8 +149,8 @@ function EndScreen() {
     if (leaderboard.dispReady) {
         // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
-            if (item.ranking ===1 ||item.ranking ===2||item.ranking ===3)
-                image(crown, horizontal(40) - 60+item.ranking*4, vertical(37 + 6 * index)-40+item.ranking*4, 40-item.ranking*8, 40-item.ranking*8);
+            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
+                image(crown, horizontal(40) - 60 + item.ranking * 4, vertical(37 + 6 * index) - 40 + item.ranking * 4, 40 - item.ranking * 8, 40 - item.ranking * 8);
             fill('#736357');
             textAlign(RIGHT, BOTTOM);
             textSize(30);
@@ -236,8 +232,8 @@ function drawLeaderboard() {
     if (leaderboard.dispReady) {
         // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
-            if (item.ranking ===1 ||item.ranking ===2||item.ranking ===3)
-                image(crown, horizontal(40) - 80+item.ranking*4, vertical(40 + 8 * index)-50+item.ranking*4, 50-item.ranking*8, 50-item.ranking*8);
+            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
+                image(crown, horizontal(40) - 80 + item.ranking * 4, vertical(40 + 8 * index) - 50 + item.ranking * 4, 50 - item.ranking * 8, 50 - item.ranking * 8);
             fill('#736357');
             // console.log(item.ranking);
             textAlign(RIGHT, BOTTOM);

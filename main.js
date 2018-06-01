@@ -13,10 +13,9 @@ let backgroundSprite;
 let UI;
 let startMenuMusic, backgroundMusic;
 let musicPlaying = false;
-let popSound, cashSound, backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [],crown;
+let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [], crown;
 let menuMusicPlaying = false;
 let popSound, cashSound, buttonSound, towerSelectedSound;
-let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [];
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
@@ -90,29 +89,25 @@ function setup() {
 
 //GAME LOGIC
 function draw() {
-  if(Game.gameState === GameStates.GameStart) {
-    if(!menuMusicPlaying) {
-      menuMusicPlaying = true;
-      startMenuMusic.loop();
+    if (Game.gameState === GameStates.GameStart) {
+        if (!menuMusicPlaying) {
+            menuMusicPlaying = true;
+            startMenuMusic.loop();
+        }
     }
-  }
     if (Game.gameState === GameStates.InGame) {
         if (!musicPlaying) {
+            startMenuMusic.stop();
+            menuMusicPlaying = false;
             musicPlaying = true;
-            backgroundMusic.play();
+            backgroundMusic.loop();
         }
-      if(!musicPlaying) {
-        startMenuMusic.stop();
-        menuMusicPlaying = false;
-        musicPlaying = true;
-        backgroundMusic.loop();
-      }
         backgroundSprite.display();
     } else {
         image(backgroundBlankImg, 0, 0, this.width, this.height);
     }
     if (Game.gameState === GameStates.InGame) {
-        Time += (freezeGame)?0:1;
+        Time += (freezeGame) ? 0 : 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
         });
@@ -127,14 +122,11 @@ function draw() {
         //Start Screen
         StartScreen();
     } else if (Game.gameState === GameStates.GameOver) {
-      //GAME OVER
-      EndScreen();
-    } else if (Game.gameState === GameStates.Credits) {
-     //Credits
-     CreditScreen();
-   }
         //GAME OVER
         EndScreen();
+    } else if (Game.gameState === GameStates.Credits) {
+        //Credits
+        CreditScreen();
     } else if (Game.gameState === GameStates.LeaderBoard) {
         //GAME OVER
         drawLeaderboard();
