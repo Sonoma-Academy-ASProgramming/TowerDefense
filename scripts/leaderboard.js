@@ -20,8 +20,8 @@ let leaderboard = {
     },
     addLeaderboard: async () => {
         console.log("starting async func");
-        if (Game.score < 200) {
-            console.log("score too low, not submitting to leaderboard.");
+        if (Game.score < 200 || isNaN(Game.score)) {
+            console.log("score too low or is NaN, not submitting to leaderboard.");
             return;
             //endgame.drawTooLow = true;
         }
