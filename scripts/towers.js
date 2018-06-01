@@ -10,7 +10,6 @@ class EmptyPlot {
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
-            towerSelectedSound.play();
             this.makeMenu();
         };
     }
@@ -84,6 +83,8 @@ class Cannon {
         this.sprite.onMousePressed = () => {
             UI.delete();
             selectedTower = this;
+            rangeValue = 20;
+            towerSelectedSound.play();
             this.makeMenu();
         }
     }
@@ -92,21 +93,27 @@ class Cannon {
 Cannon.prototype.update = function () {
     if (selectedTower === this) {
         fill(0, 0, 255, 45);
-        ellipse(this.xPos, this.yPos, 150 * this.rangeLevel * 2);
+        let fullRange = 150 * this.rangeLevel * 2;
+        if(rangeValue < fullRange) {
+          rangeValue += 40;
+        }
+        ellipse(this.xPos, this.yPos, rangeValue, rangeValue);
     }
     this.sprite.display();
-    if (this.towerType === 1) {
-        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
-            this.gun.fire();
+    if (!freezeGame) {
+        if (this.towerType === 1) {
+            if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
+                this.gun.fire();
+            }
         }
-    }
-    else if (this.towerType === 2) {
-        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
-            this.gun.fire();
-        }
-    } else if (this.towerType === 3) {
-        if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
-            this.gun.fire();
+        else if (this.towerType === 2) {
+            if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
+                this.gun.fire();
+            }
+        } else if (this.towerType === 3) {
+            if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
+                this.gun.fire();
+            }
         }
     }
     this.gun.draw();
@@ -208,6 +215,7 @@ Cannon.prototype.makeMenu = function () {
         },
         () => {
             this.sell();
+            cashSound.play();
         }
     ];
     let buttons = [];
