@@ -19,10 +19,10 @@ let score = {
         return -0.08 * x * x + 1.6 * x + 28;
     },
     getLevelUpYPos(x) { //(0 <= x <= 100)
-        if (x <0) {
+        if (x < 0) {
             return -10000;
         }
-        return ((-1 + 0.0595833 * x - 0.0011875 * x * x + 7.91667 * Math.pow(10, -6) * x * x * x)+.5) * height;
+        return ((-1 + 0.0595833 * x - 0.0011875 * x * x + 7.91667 * Math.pow(10, -6) * x * x * x) + .5) * height;
 
     },
     drawScore() {
@@ -54,7 +54,7 @@ let score = {
         text("Level: " + Game.level, this.levelLeft, this.coinTop);
         push();
         imageMode(CENTER);
-        translate(width *0.5-150, this.getLevelUpYPos(this.levelUpPos));
+        translate(width * 0.5 - 150, this.getLevelUpYPos(this.levelUpPos));
         textSize(150);
         rotate(radians(25));
         text("Level " + Game.level, 0, 0);
@@ -73,7 +73,7 @@ let score = {
         image(this.coinIMG, 0, 0, 30, 30);
         pop();
         textSize(30);
-        text(Game.money, this.coinLeft + 45, this.coinTop);
+        text(Math.floor(Game.money), this.coinLeft + 45, this.coinTop);
         if (this.coinRotate > 10 * 3.14) {
             this.coinRotate = 0;
         }
