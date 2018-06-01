@@ -147,4 +147,4 @@ let leaderboard = {
                 callback({message: err, success: false, status: textStatus, response: jqXHR});
             });
     }
-}
+};
