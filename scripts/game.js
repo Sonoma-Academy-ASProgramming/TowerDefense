@@ -22,14 +22,14 @@ let Game = {
     gameState: GameStates.GameStart,
     spawning: 10,
     startMenu: () => {
-      console.log('starting');
-      Sprites = [];
-      spriteCount = 0;
-      console.log('partially cleared');
-      console.log('cleared');
-      Game.gameState = GameStates.GameStart;
-      console.log(Game.gameState);
-      setupStartScreen();
+        console.log('starting');
+        Sprites = [];
+        spriteCount = 0;
+        console.log('partially cleared');
+        console.log('cleared');
+        Game.gameState = GameStates.GameStart;
+        console.log(Game.gameState);
+        setupStartScreen();
     },
     startGame: () => {
         /*Define Variables*/
@@ -85,63 +85,63 @@ let Game = {
             Game.startGame()
         };
         exitButton.onMousePressed = () => {
-          buttonSound.play();
+            buttonSound.play();
             Game.gameState = GameStates.LeaderBoard;
         };
 
         Game.gameState = GameStates.GameOver;
+        leaderboard.updateLeaderboard();
     },
     showCredits: () => {
-      Sprites = [];
-      spriteCount = 0;
-      returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
-      returnToMainMenuButton.onMousePressed = () => {
-        buttonSound.play();
-        Game.startMenu();
-      }
-      Game.gameState = GameStates.Credits;
-    }
-};
-
-        leaderboard.updateLeaderboard();
-
+        Sprites = [];
+        spriteCount = 0;
+        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
+        returnToMainMenuButton.onMousePressed = () => {
+            buttonSound.play();
+            Game.startMenu();
+        };
+        Game.gameState = GameStates.Credits;
     }
 };
 
 function setupStartScreen() {
-  startButton = new Supersprite(horizontal(50), vertical(50), 200, 75, {type: 'button', text: "Start Game"});
-  startButton.onMousePressed = () => {
-    buttonSound.play();
-    Game.startGame();
-  };
-  tutorialButton = new Supersprite(horizontal(50), vertical(62), 200, 75, {type: 'button', text: "Tutorial"});
-  tutorialButton.onMousePressed = () => {
-    buttonSound.play();
-    window.open('https://www.roblox.com', '_blank');
-  };
-  leaderBoardButton = new Supersprite(horizontal(50), vertical(74), 200, 75, {type: 'button', text: "View Leaderboard"});
-  leaderBoardButton.onMousePressed = () => {
-    buttonSound.play();
-    console.log('opening leaderboard');
-  };
-  creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Credits"});
-  creditsButton.onMousePressed = () => {
-    buttonSound.play();
-    Game.showCredits();
-  }
+    startButton = new Supersprite(horizontal(50), vertical(50), 200, 75, {type: 'button', text: "Start Game"});
+    startButton.onMousePressed = () => {
+        buttonSound.play();
+        Game.startGame();
+    };
+    tutorialButton = new Supersprite(horizontal(50), vertical(62), 200, 75, {type: 'button', text: "Tutorial"});
+    tutorialButton.onMousePressed = () => {
+        buttonSound.play();
+        window.open('https://www.roblox.com', '_blank');
+    };
+    leaderBoardButton = new Supersprite(horizontal(50), vertical(74), 200, 75, {
+        type: 'button',
+        text: "View Leaderboard"
+    });
+    leaderBoardButton.onMousePressed = () => {
+        buttonSound.play();
+        console.log('opening leaderboard');
+        loadLeaderboardPage();
+    };
+    creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Credits"});
+    creditsButton.onMousePressed = () => {
+        buttonSound.play();
+        Game.showCredits();
+    }
 }
 
 function StartScreen() {
-  push();
-  fill('#736357');
-  textAlign(CENTER, BOTTOM);
-  textSize(60);
-  text("GAC Attack!", horizontal(50), vertical(30));
-  pop();
-  startButton.display();
-  tutorialButton.display();
-  leaderBoardButton.display();
-  creditsButton.display();
+    push();
+    fill('#736357');
+    textAlign(CENTER, BOTTOM);
+    textSize(60);
+    text("GAC Attack!", horizontal(50), vertical(30));
+    pop();
+    startButton.display();
+    tutorialButton.display();
+    leaderBoardButton.display();
+    creditsButton.display();
 }
 
 function EndScreen() {
@@ -150,8 +150,8 @@ function EndScreen() {
     if (leaderboard.dispReady) {
         // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
-            if (item.ranking ===1 ||item.ranking ===2||item.ranking ===3)
-                image(crown, horizontal(40) - 60+item.ranking*4, vertical(37 + 6 * index)-40+item.ranking*4, 40-item.ranking*8, 40-item.ranking*8);
+            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
+                image(crown, horizontal(40) - 60 + item.ranking * 4, vertical(37 + 6 * index) - 40 + item.ranking * 4, 40 - item.ranking * 8, 40 - item.ranking * 8);
             fill('#736357');
             textAlign(RIGHT, BOTTOM);
             textSize(30);
@@ -207,19 +207,19 @@ function leaderboardPageUp() { //page up button please call me
 }
 
 function CreditScreen() {
-  push();
-  fill('#736357');
-  textAlign(CENTER, BOTTOM);
-  textSize(60);
-  text("GAC Attack!", horizontal(50), vertical(30));
-  textSize(35);
-  text("Game made by:", horizontal(50), vertical(40));
-  textSize(25);
-  text("Kheva Mann", horizontal(50), vertical(50));
-  text("Liev Haroche", horizontal(50), vertical(60));
-  text("Sean Sun", horizontal(50), vertical(70));
-  pop();
-  returnToMainMenuButton.display();
+    push();
+    fill('#736357');
+    textAlign(CENTER, BOTTOM);
+    textSize(60);
+    text("GAC Attack!", horizontal(50), vertical(30));
+    textSize(35);
+    text("Game made by:", horizontal(50), vertical(40));
+    textSize(25);
+    text("Kheva Mann", horizontal(50), vertical(50));
+    text("Liev Haroche", horizontal(50), vertical(60));
+    text("Sean Sun", horizontal(50), vertical(70));
+    pop();
+    returnToMainMenuButton.display();
 }
 
 
@@ -233,8 +233,8 @@ function drawLeaderboard() {
     if (leaderboard.dispReady) {
         // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
-            if (item.ranking ===1 ||item.ranking ===2||item.ranking ===3)
-                image(crown, horizontal(40) - 80+item.ranking*4, vertical(40 + 8 * index)-50+item.ranking*4, 50-item.ranking*8, 50-item.ranking*8);
+            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
+                image(crown, horizontal(40) - 80 + item.ranking * 4, vertical(40 + 8 * index) - 50 + item.ranking * 4, 50 - item.ranking * 8, 50 - item.ranking * 8);
             fill('#736357');
             // console.log(item.ranking);
             textAlign(RIGHT, BOTTOM);
