@@ -68,14 +68,14 @@ EmptyPlot.prototype.makeMenu = function () {
         }
     ];
     let buttons = [];
-    if(this.yPos < vertical(85)) {
-      for (let i = 0; i < buttonFunctions.length; i++) {
-          buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(91), buttonFunctions[i], i + 1));
-      }
-    } else if(this.yPos >= vertical(85)) {
-      for (let i = 0; i < buttonFunctions.length; i++) {
-        buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(65), buttonFunctions[i], i + 1));
-      }
+    if (this.yPos < vertical(85)) {
+        for (let i = 0; i < buttonFunctions.length; i++) {
+            buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(91), buttonFunctions[i], i + 1));
+        }
+    } else if (this.yPos >= vertical(85)) {
+        for (let i = 0; i < buttonFunctions.length; i++) {
+            buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(65), buttonFunctions[i], i + 1));
+        }
     }
     UI.menu = new Menu(buttons);
 };
@@ -118,20 +118,18 @@ Cannon.prototype.update = function () {
         ellipse(this.xPos, this.yPos, rangeValue, rangeValue);
     }
     this.sprite.display();
-    if (!freezeGame) {
-        if (this.towerType === 1) {
-            if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
-                this.gun.fire();
-            }
+    if (this.towerType === 1) {
+        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
+            this.gun.fire();
         }
-        else if (this.towerType === 2) {
-            if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
-                this.gun.fire();
-            }
-        } else if (this.towerType === 3) {
-            if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
-                this.gun.fire();
-            }
+    }
+    else if (this.towerType === 2) {
+        if (frameCount % constrain(10 - this.speedLevel, 0, 10) === 0) {
+            this.gun.fire();
+        }
+    } else if (this.towerType === 3) {
+        if (frameCount % constrain(20 - this.speedLevel, 0, 20) === 0) {
+            this.gun.fire();
         }
     }
     this.gun.draw();
@@ -172,14 +170,14 @@ Mine.prototype.makeMenu = function () {
         }
     ];
     let buttons = [];
-    if(this.yPos < vertical(85)) {
-      for (let i = 0; i < buttonFunctions.length; i++) {
-          buttons.push(new Button((i + 2) * 180 + (width / 3 - 180), vertical(91), buttonFunctions[i], [5, 8][i]));
-      }
-    } else if(this.yPos >= vertical(85)) {
-      for (let i = 0; i < buttonFunctions.length; i++) {
-        buttons.push(new Button((i + 2) * 180 + (width / 3 - 180), vertical(65), buttonFunctions[i], [5, 8][i]))
-      }
+    if (this.yPos < vertical(85)) {
+        for (let i = 0; i < buttonFunctions.length; i++) {
+            buttons.push(new Button((i + 2) * 180 + (width / 3 - 180), vertical(91), buttonFunctions[i], [5, 8][i]));
+        }
+    } else if (this.yPos >= vertical(85)) {
+        for (let i = 0; i < buttonFunctions.length; i++) {
+            buttons.push(new Button((i + 2) * 180 + (width / 3 - 180), vertical(65), buttonFunctions[i], [5, 8][i]))
+        }
     }
     UI.menu = new Menu(buttons);
 };
@@ -270,14 +268,14 @@ Cannon.prototype.makeMenu = function () {
         }
     ];
     let buttons = [];
-    if(this.yPos < vertical(85)) {
-      for (let i = 0; i < buttonFunctions.length; i++) {
-          buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(91), buttonFunctions[i], i + 5));
-      }
-    } else if(this.yPos >= vertical(85)) {
-      for (let i = 0; i < buttonFunctions.length; i++) {
-        buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(65), buttonFunctions[i], i + 5));
-      }
+    if (this.yPos < vertical(85)) {
+        for (let i = 0; i < buttonFunctions.length; i++) {
+            buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(91), buttonFunctions[i], i + 5));
+        }
+    } else if (this.yPos >= vertical(85)) {
+        for (let i = 0; i < buttonFunctions.length; i++) {
+            buttons.push(new Button((i + 1) * 180 + (width / 3 - 180), vertical(65), buttonFunctions[i], i + 5));
+        }
     }
     UI.menu = new Menu(buttons);
 };

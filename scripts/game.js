@@ -32,7 +32,7 @@ let Game = {
       Sprites = [];
       spriteCount = 0;
       Game.gameState = GameStates.Tutorial;
-    }
+    },
     startGame: () => {
         /*Define Variables*/
         Game.spawning = 10;
@@ -80,7 +80,6 @@ let Game = {
         Enemies = [];
         Towers = [];
         UI.delete();
-        freezeGame = false;
         replayButton = new Supersprite(horizontal(35), vertical(90), 200, 75, {type: 'button', text: "Replay"});
         exitButton = new Supersprite(horizontal(70), vertical(90), 200, 75, {type: 'button', text: "Leaderboard"});
         replayButton.onMousePressed = () => {

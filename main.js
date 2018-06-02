@@ -21,7 +21,6 @@ let ENEMYSPEED = 1;
 let gameOverRadius = 10;
 //controls the currentRange
 let rangeValue = 0;
-let freezeGame = false;
 //
 let rl;
 let f;
@@ -35,33 +34,33 @@ let gameFont;
 
 function preload() {
     //music
-    backgroundMusic = loadSound('./sounds/backgroundMusic.mp3');
-    startMenuMusic = loadSound('./sounds/startMenuMusic.mp3');
+    backgroundMusic = loadSound('assets/sounds/backgroundMusic.mp3');
+    startMenuMusic = loadSound('assets/sounds/startMenuMusic.mp3');
     startMenuMusic.setVolume(.3);
     backgroundMusic.setVolume(.3);
     //font
-    gameFont = loadFont('./Fonts/coolstory regular.ttf');
+    gameFont = loadFont('assets/fonts/coolstory regular.ttf');
     //sound
-    popSound = loadSound('./sounds/popSound.mp3');
-    cashSound = loadSound('./sounds/cashSound.mp3');
-    buttonSound = loadSound('./sounds/buttonSound.mp3');
-    towerSelectedSound = loadSound('./sounds/towerSelectedSound.mp3');
+    popSound = loadSound('assets/sounds/popSound.mp3');
+    cashSound = loadSound('assets/sounds/cashSound.mp3');
+    buttonSound = loadSound('assets/sounds/buttonSound.mp3');
+    towerSelectedSound = loadSound('assets/sounds/towerSelectedSound.mp3');
     //images
-    backgroundImg = loadImage('./images/background.jpg');
-    backgroundBlankImg = loadImage('./images/backgroundBlank.jpg');
-    plotImg = loadImage('./images/emptyPlot.png');
-    score.coinIMG = loadImage(`./images/coin.svg`);
-    crown = loadImage(`./images/crown.png`);
+    backgroundImg = loadImage('assets/images/background.jpg');
+    backgroundBlankImg = loadImage('assets/images/backgroundBlank.jpg');
+    plotImg = loadImage('assets/images/emptyPlot.png');
+    score.coinIMG = loadImage(`assets/images/coin.svg`);
+    crown = loadImage(`assets/images/crown.png`);
     for (let i = 1; i < 7; i++) {
-        enemyImages[i] = loadImage(`./images/enemy${i}.png`);
+        enemyImages[i] = loadImage(`assets/images/enemy${i}.png`);
     }
     for (let i = 1; i < 5; i++) {
-        towerImages[i] = loadImage(`./images/tower${i}.png`);
+        towerImages[i] = loadImage(`assets/images/tower${i}.png`);
     }
-    towerImages.push(loadImage(`./images/upforce.svg`));
-    towerImages.push(loadImage(`./images/uprange.svg`));
-    towerImages.push(loadImage(`./images/upfreq.svg`));
-    towerImages.push(loadImage(`./images/sell.svg`));
+    towerImages.push(loadImage(`assets/images/upforce.svg`));
+    towerImages.push(loadImage(`assets/images/uprange.svg`));
+    towerImages.push(loadImage(`assets/images/upfreq.svg`));
+    towerImages.push(loadImage(`assets/images/sell.svg`));
 }
 
 function setup() {
@@ -107,7 +106,7 @@ function draw() {
         image(backgroundBlankImg, 0, 0, this.width, this.height);
     }
     if (Game.gameState === GameStates.InGame) {
-        Time += (freezeGame) ? 0 : 1;
+        Time += 1;
         Enemies.forEach((enemy) => {
             enemy.draw();
         });
@@ -121,7 +120,7 @@ function draw() {
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
         StartScreen();
-    } else if(Game.gameState === GameStates.Tutorial) {
+    } else if (Game.gameState === GameStates.Tutorial) {
         Tutorial();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER

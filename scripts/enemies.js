@@ -102,7 +102,7 @@ Enemy.prototype.delete = function () {
     Enemies.splice(Enemies.indexOf(this), 1);
 };
 Enemy.prototype.draw = function () {
-    this.time += (freezeGame) ? 0 : this.speed * ENEMYSPEED;
+    this.time += this.speed * ENEMYSPEED;
     this.xPos = getPosition(this.time).x;
     this.yPos = getPosition(this.time).y;
     push();

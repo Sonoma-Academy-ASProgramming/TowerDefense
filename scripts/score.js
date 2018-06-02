@@ -54,18 +54,7 @@ let score = {
         });
     },
     addPrompts(a) {
-        // console.log("adding item", a);
         this.prompts.push({text: a, position: height / 5 * 3, alpha: 355})
-    },
-    drawFreezeGame() {
-        if (freezeGame) {
-            push();
-            fill('red');
-            textAlign(CENTER, BOTTOM);
-            textSize(90);
-            text("Game Over!", horizontal(50), vertical(50));
-            pop();
-        }
     },
     drawscore() {
         if (Game.score - this.flastInterval >= this.lastFlash) {
