@@ -28,28 +28,40 @@ EmptyPlot.prototype.makeMenu = function () {
     const buttonFunctions = [
         () => {
             let cost = TOWER_CONST[1].price;
-            if (Game.money < cost) return null;
+            if (Game.money < cost) {
+                score.addPrompts("Not enough money");
+                return;
+            }
             Game.money -= cost;
             UI.delete();
             this.setBuilding(new Cannon(this.xPos, this.yPos, 1));
         },
         () => {
             let cost = TOWER_CONST[2].price;
-            if (Game.money < cost) return null;
+            if (Game.money < cost) {
+                score.addPrompts("Not enough money");
+                return;
+            }
             Game.money -= cost;
             UI.delete();
             this.setBuilding(new Cannon(this.xPos, this.yPos, 2))
         },
         () => {
             let cost = TOWER_CONST[3].price;
-            if (Game.money < cost) return null;
+            if (Game.money < cost) {
+                score.addPrompts("Not enough money");
+                return;
+            }
             Game.money -= cost;
             UI.delete();
             this.setBuilding(new Cannon(this.xPos, this.yPos, 3))
         },
         () => {
             let cost = TOWER_CONST[4].price;
-            if (Game.money < cost) return null;
+            if (Game.money < cost) {
+                score.addPrompts("Not enough money");
+                return;
+            }
             Game.money -= cost;
             UI.delete();
             this.setBuilding(new Mine(this.xPos, this.yPos, 4));
@@ -100,8 +112,8 @@ Cannon.prototype.update = function () {
     if (selectedTower === this) {
         fill(0, 0, 255, 45);
         let fullRange = 150 * this.rangeLevel * 2;
-        if(rangeValue < fullRange) {
-          rangeValue += 40;
+        if (rangeValue < fullRange) {
+            rangeValue += 40;
         }
         ellipse(this.xPos, this.yPos, rangeValue, rangeValue);
     }
@@ -174,7 +186,13 @@ Mine.prototype.makeMenu = function () {
 
 Mine.prototype.upgrade = function () {
     let cost = selectedTower.price * 2 * this.level * this.level;
-    if (this.level > 4 || Game.money < cost) return null;
+    if (Game.money < cost) {
+        score.addPrompts("Not enough money");
+        return;
+    } else if (this.level > 4) {
+        score.addPrompts("Level at MAX");
+        return;
+    }
     this.level += 1;
     Game.money -= cost;
 };
@@ -193,25 +211,45 @@ Cannon.prototype.sell = function () {
 };
 Cannon.prototype.forceLevelUp = function () {
     let cost = Math.round(this.price * 2 * this.forceLevel * this.forceLevel);
-    if (this.forceLevel > 4 || Game.money < cost) return null;
+    if (Game.money < cost) {
+        score.addPrompts("Not enough money");
+        return;
+    } else if (this.forceLevel > 4) {
+        score.addPrompts("Force level at MAX");
+        return;
+    }
     Game.money -= cost;
     this.forceLevel += 1;
+    console.log("forcelevel", this.forceLevel);
     this.gun.force = this.forceLevel;
-    this.gun.areaDamage = (this.gun.type === 2) ? 0.5 * this.force : 0;
+    this.gun.areaDamage = (this.gun.type === 2) ? 0.5 * this.forceLevel : 0;
 };
 Cannon.prototype.frequencyLevelUp = function () {
     let cost = Math.round(this.price * 2 * this.speedLevel * this.speedLevel);
-    if (this.speedLevel > 4 || Game.money < cost) return null;
+    if (Game.money < cost) {
+        score.addPrompts("Not enough money");
+        return;
+    } else if (this.speedLevel > 4) {
+        score.addPrompts("Speed level at MAX");
+        return;
+    }
     Game.money -= cost;
     this.speedLevel += 1;
 };
 Cannon.prototype.rangeLevelUp = function () {
     let cost = Math.round(this.price * 2 * this.rangeLevel * this.rangeLevel);
-    if (this.rangeLevel > 4 || Game.money < cost) return null;
+    if (Game.money < cost) {
+        score.addPrompts("Not enough money");
+        return;
+    } else if (this.rangeLevel > 4) {
+        score.addPrompts("Range level at MAX");
+        return;
+    }
     Game.money -= cost;
     this.rangeLevel += 1;
     this.gun.range = 150 * this.rangeLevel;
-    this.gun.areaDamageRange = (this.gun.type === 2) ? this.rangeLevel / 3 : 0;
+    this.gun.areaDamageRange = (this.gun.type === 2) ? this.gun.range / 3 : 0;
+    console.log(this.gun.areaDamageRange);
 };
 
 Cannon.prototype.makeMenu = function () {
