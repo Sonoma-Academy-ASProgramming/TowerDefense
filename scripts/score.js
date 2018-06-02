@@ -12,6 +12,7 @@ let score = {
     coinTop: 0,
     lastLevel: 1,
     levelUpPos: 0,
+    prompts: [],
     getSize(x) {
         if (x > 20) {
             return 28;
@@ -29,7 +30,36 @@ let score = {
         this.drawscore();
         this.drawMoney();
         this.drawLevel();
-        if (freezeGame){
+        this.drawPrompts();
+        this.drawFreezeGame();
+    },
+    drawPrompts() {
+        if (this.prompts.length === 0) {
+            return;
+        }
+        this.prompts.forEach((item, index, arr) => {
+            push();
+            let translatedAlpha = (item.alpha > 150) ? 150  : item.alpha;
+            fill(115, 99, 87, item.alpha);
+            // stroke(255);
+            // strokeWeight(1);
+            textAlign(CENTER, BOTTOM);
+            textSize(60);
+            text(item.text, horizontal(50), item.position);
+            pop();
+            item.position -= item.alpha/200;
+            item.alpha -= 3;
+            if (item.alpha < 0) {
+                arr.splice(index, 1);
+            }
+        });
+    },
+    addPrompts(a) {
+        // console.log("adding item", a);
+        this.prompts.push({text: a, position: height / 5 * 3, alpha: 355})
+    },
+    drawFreezeGame() {
+        if (freezeGame) {
             push();
             fill('red');
             textAlign(CENTER, BOTTOM);
