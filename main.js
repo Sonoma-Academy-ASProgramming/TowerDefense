@@ -121,6 +121,8 @@ function draw() {
     } else if (Game.gameState === GameStates.GameStart) {
         //Start Screen
         StartScreen();
+    } else if(Game.gameState === GameStates.Tutorial) {
+        Tutorial();
     } else if (Game.gameState === GameStates.GameOver) {
         //GAME OVER
         EndScreen();

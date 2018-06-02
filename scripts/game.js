@@ -22,15 +22,16 @@ let Game = {
     gameState: GameStates.GameStart,
     spawning: 10,
     startMenu: () => {
-        console.log('starting');
         Sprites = [];
         spriteCount = 0;
-        console.log('partially cleared');
-        console.log('cleared');
         Game.gameState = GameStates.GameStart;
-        console.log(Game.gameState);
         setupStartScreen();
     },
+    tutorial: () => {
+      Sprites = [];
+      spriteCount = 0;
+      Game.gameState = GameStates.Tutorial;
+    }
     startGame: () => {
         /*Define Variables*/
         Game.spawning = 10;
@@ -78,10 +79,12 @@ let Game = {
         Enemies = [];
         Towers = [];
         UI.delete();
+        freezeGame = false;
         replayButton = new Supersprite(horizontal(35), vertical(90), 200, 75, {type: 'button', text: "Replay"});
         exitButton = new Supersprite(horizontal(70), vertical(90), 200, 75, {type: 'button', text: "Leaderboard"});
         replayButton.onMousePressed = () => {
             buttonSound.play();
+            leaderboard.init();
             Game.startGame()
         };
         exitButton.onMousePressed = () => {
@@ -121,7 +124,7 @@ function setupStartScreen() {
     });
     leaderBoardButton.onMousePressed = () => {
         buttonSound.play();
-        console.log('opening leaderboard');
+        Game.gameState = GameStates.LeaderBoard;
     };
     creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Credits"});
     creditsButton.onMousePressed = () => {
@@ -251,4 +254,8 @@ function drawLeaderboard() {
         text("Loading leaderboard...", horizontal(50), vertical(40));
 
     }
+}
+
+function Tutorial () {
+  
 }
