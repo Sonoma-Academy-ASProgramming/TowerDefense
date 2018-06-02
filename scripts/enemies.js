@@ -87,7 +87,7 @@ class Enemy {
 
 Enemy.prototype.hit = function (force) {
     this.value -= force;
-    Game.score += Math.round(force + constrain(1000 - this.time, 0, Number.MAX_VALUE) / 100);
+    Game.score += Math.round(force + constrain(3500 - this.time, 0, Number.MAX_VALUE) / 100);
     Game.money += force / 3;
     if (this.value <= 0) {
         popSound.play();
@@ -118,7 +118,7 @@ Enemy.prototype.draw = function () {
             //addLeaderboard() and wait for a result from callback
             //if error ask for again
             //Once added call game over to display leaderboard
-            Game.gameOver();
+            Game.goNameEnter()
             /*"Player" + Math.floor(Math.random() * 10000)*/
         }
     }

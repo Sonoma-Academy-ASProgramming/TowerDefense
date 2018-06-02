@@ -131,5 +131,8 @@ function draw() {
     } else if (Game.gameState === GameStates.LeaderBoard) {
         //GAME OVER
         drawLeaderboard();
+    } else if (Game.gameState === GameStates.NameEnter) {
+        //GAME OVER
+        drawNameEnter();
     }
 }

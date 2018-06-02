@@ -13,33 +13,19 @@ let leaderboard = {
         leaderboard.leaderboard = [];
         console.log("previous leaderboard data cleared");
     },
-    updateLeaderboard: async () => {
-        console.log("update leaderboard");
-        await leaderboard.addLeaderboard();
-        await leaderboard.getLeaderboard(true);
-    },
-    addLeaderboard: async () => {
-        console.log("starting async func");
-        if (Game.score < 200 || isNaN(Game.score)) {
-            console.log("score too low or is NaN, not submitting to leaderboard.");
-            return;
-        }
-        let errorMsg = "";
-
-        while (true) {
-            leaderboard.playerName = prompt(errorMsg + "Please enter your name for the leaderboard", "Player" + Math.floor(Math.random() * 10000));
-            console.log(leaderboard.playerName);
-            let res = await leaderboard.addLeaderboardPromiseAgent();
-            console.log("await function finished with", res);
-            if (res.success == false) {
-                errorMsg = "Error: " + res.message + "\n";
-                console.log("Error when submitting to leaderboard:", errorMsg);
-            } else {
-                console.log("Success when submitting to leaderboard:", res.success, res.message, res);
-                leaderboard.myRanking = "You: (" + res.data.ranking + ")";
-                break;
-            }
-        }
+    addLeaderboard: () => {
+        return new Promise((resolve, reject) => {
+            leaderboard.addLeaderboardPromiseAgent().then(res => {
+                if (res.success === false) {
+                    console.log("Error when submitting to leaderboard:", res.message);
+                    reject(res.message);
+                } else {
+                    console.log("Success when submitting to leaderboard:", res.success, res.message, res);
+                    leaderboard.myRanking = "You: (" + res.data.ranking + ")";
+                    resolve(true);
+                }
+            });
+        });
     },
     addLeaderboardPromiseAgent: () => {
         return new Promise(resolve => {
@@ -82,11 +68,11 @@ let leaderboard = {
         console.log("starting getleaderboard");
         let res;
         while (true) {
-            res = await leaderboard.getLeaderboardPromiseAgent(leaderboard.startIdx, leaderboard.startIdx + leaderboard.dispSize-1);
+            res = await leaderboard.getLeaderboardPromiseAgent(leaderboard.startIdx, leaderboard.startIdx + leaderboard.dispSize - 1);
             if (res.success) {
                 break;
             }
-            if (confirm("Failed to get Leaderboard, try again?") == false) {
+            if (confirm("Failed to get Leaderboard, try again?") === false) {
                 leaderboard.leaderboard.unshift({name: "Name", ranking: "Ranking", score: "Score"});
                 if (notForLeaderboardPAGE)
                     leaderboard.leaderboard.push({

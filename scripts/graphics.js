@@ -153,7 +153,7 @@ Supersprite.prototype.display = function () {
             fill('#736357');
             noStroke();
             textAlign(CENTER);
-            text(name, this.xPos - this.xOffSet, this.yPos - this.yOffSet - 10, this.width);
+            text(name, this.xPos - this.xOffSet, this.yPos - this.yOffSet - 5, this.width);
 
             //Price
             textSize(20);

@@ -3,8 +3,14 @@ let exitButton;
 let startButton;
 let tutorialButton;
 let leaderBoardButton;
+let leaderBoardUpButton;
+let leaderBoardDownButton;
 let creditsButton;
+let submitNameButton;
+let cancelNameButton;
 let returnToMainMenuButton;
+let input;
+let inputError = "";
 
 let GameStates = {
     'GameStart': 0,
@@ -29,9 +35,9 @@ let Game = {
         setupStartScreen();
     },
     tutorial: () => {
-      Sprites = [];
-      spriteCount = 0;
-      Game.gameState = GameStates.Tutorial;
+        Sprites = [];
+        spriteCount = 0;
+        Game.gameState = GameStates.Tutorial;
     },
     startGame: () => {
         /*Define Variables*/
@@ -60,7 +66,11 @@ let Game = {
             Game.gameTime++;
             if (Game.spawning > 0) {
                 Game.spawning--;
-                generateEnemies(Game.level * Game.level);
+                let diff = Math.pow(Game.level, 2);
+                if (Game.level > 10) {
+                    diff /= 3
+                }
+                generateEnemies(diff);
             }
         }, 1000);
         UI = new GUI();
@@ -89,21 +99,94 @@ let Game = {
         };
         exitButton.onMousePressed = () => {
             buttonSound.play();
-            Game.gameState = GameStates.LeaderBoard;
+            Game.goLeaderboard()
         };
 
         Game.gameState = GameStates.GameOver;
-        leaderboard.updateLeaderboard();
+        leaderboard.getLeaderboard(true);
     },
     showCredits: () => {
         Sprites = [];
         spriteCount = 0;
-        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
+        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {
+            type: 'button',
+            text: "Main Menu"
+        });
         returnToMainMenuButton.onMousePressed = () => {
             buttonSound.play();
             Game.startMenu();
         };
         Game.gameState = GameStates.Credits;
+    }, goLeaderboard: () => {
+        leaderboard.init();
+        leaderboard.getLeaderboard();
+        Sprites = [];
+        spriteCount = 0;
+        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {
+            type: 'button',
+            text: "Main Menu"
+        });
+        leaderBoardDownButton = new Supersprite(horizontal(30), vertical(86), 200, 75, {
+            type: 'button',
+            text: "Last"
+        });
+        leaderBoardUpButton = new Supersprite(horizontal(70), vertical(86), 200, 75, {
+            type: 'button',
+            text: "Next"
+        });
+        returnToMainMenuButton.onMousePressed = () => {
+            buttonSound.play();
+            Game.startMenu();
+        };
+        leaderBoardDownButton.onMousePressed = () => {
+            buttonSound.play();
+            leaderboardPageDown()
+        };
+        leaderBoardUpButton.onMousePressed = () => {
+            buttonSound.play();
+            leaderboardPageUp()
+        };
+        Game.gameState = GameStates.LeaderBoard;
+    },
+    goNameEnter: () => {
+        if (Game.score < 200 || isNaN(Game.score)) {
+            console.log("score too low or is NaN, not submitting to leaderboard.");
+            Game.gameOver();
+            return;
+        }
+
+        input = createInput(`Player ${Math.floor(Math.random() * 10000)}`);
+        input.position(horizontal(50), vertical(40));
+        input.class('playerInput');
+        input.elt.focus();
+        input.elt.select();
+        input.center('horizontal');
+        submitNameButton = new Supersprite(horizontal(40), vertical(60), 200, 75, {type: 'button', text: "Submit"});
+        cancelNameButton = new Supersprite(horizontal(60), vertical(60), 200, 75, {type: 'button', text: "Cancel"});
+        cancelNameButton.onMousePressed = () => {
+            buttonSound.play();
+            inputError = "";
+            input.remove();
+            Game.gameOver();
+        };
+        submitNameButton.onMousePressed = () => {
+            buttonSound.play();
+            leaderboard.playerName = input.value();
+            if (leaderboard.playerName.length >= 20) {
+                inputError = "Name must be less than 20 characters.";
+                return;
+            }
+            submitNameButton.options.text = "Submitting...";
+            leaderboard.addLeaderboard().then(() => {
+                inputError = "";
+                input.remove();
+                Game.gameOver();
+            }, err => {
+                inputError = err;
+                submitNameButton.options.text = "Submit";
+            });
+        };
+        Game.gameState = GameStates.NameEnter;
     }
 };
 
@@ -124,7 +207,7 @@ function setupStartScreen() {
     });
     leaderBoardButton.onMousePressed = () => {
         buttonSound.play();
-        Game.gameState = GameStates.LeaderBoard;
+        Game.goLeaderboard();
     };
     creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Credits"});
     creditsButton.onMousePressed = () => {
@@ -180,24 +263,17 @@ function EndScreen() {
 
 }
 
-function loadLeaderboardPage() { //leaderboard button please call me
-    leaderboard.init();
-    leaderboard.getLeaderboard();
-    Game.gameState = 4;
-}
-
-function leaderboardPageDown() { //page down button please call me
+function leaderboardPageUp() {
     if (leaderboard.leaderboard.length < leaderboard.dispSize + 1) {
         return;
     }
     leaderboard.startIdx += leaderboard.dispSize;
     leaderboard.getLeaderboard();
-    Game.gameState = 4;
 }
 
-function leaderboardPageUp() { //page up button please call me
+function leaderboardPageDown() {
     if (leaderboard.startIdx - leaderboard.dispSize < 1) {
-        if (leaderboard.startIdx != 1) {
+        if (leaderboard.startIdx !== 1) {
             leaderboard.startIdx = 1;
         }
         return;
@@ -205,7 +281,6 @@ function leaderboardPageUp() { //page up button please call me
         leaderboard.startIdx -= leaderboard.dispSize;
     }
     leaderboard.getLeaderboard();
-    Game.gameState = 4;
 }
 
 function CreditScreen() {
@@ -226,26 +301,27 @@ function CreditScreen() {
 
 
 function drawLeaderboard() {
-    // replayButton.display();
-    // exitButton.display();
+    returnToMainMenuButton.display();
+    leaderBoardUpButton.display();
+    if (leaderboard.startIdx > 1) {
+        leaderBoardDownButton.display();
+    }
     fill('#736357');
     textAlign(CENTER, BOTTOM);
     textSize(70);
     text("Leaderboard", horizontal(50), vertical(33));
     if (leaderboard.dispReady) {
-        // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
             if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
-                image(crown, horizontal(40) - 80 + item.ranking * 4, vertical(40 + 8 * index) - 50 + item.ranking * 4, 50 - item.ranking * 8, 50 - item.ranking * 8);
+                image(crown, horizontal(40) - 60 + item.ranking * 4, vertical(37 + 6 * index) - 40 + item.ranking * 4, 40 - item.ranking * 8, 40 - item.ranking * 8);
             fill('#736357');
-            // console.log(item.ranking);
             textAlign(RIGHT, BOTTOM);
-            textSize(40);
-            text(item.ranking, horizontal(40), vertical(40 + 8 * index));
+            textSize(30);
+            text(item.ranking, horizontal(40), vertical(37 + 6 * index));
             textAlign(LEFT, BOTTOM);
-            text(item.score, horizontal(45), vertical(40 + 8 * index));
+            text(item.score, horizontal(43), vertical(37 + 6 * index));
             textAlign(LEFT, BOTTOM);
-            text(item.name, horizontal(60), vertical(40 + 8 * index));
+            text(item.name, horizontal(52), vertical(37 + 6 * index));
         });
     } else {
         fill('#736357');
@@ -256,6 +332,22 @@ function drawLeaderboard() {
     }
 }
 
-function Tutorial () {
-  
+function Tutorial() {
+
+}
+
+function drawNameEnter() {
+    submitNameButton.display();
+    cancelNameButton.display();
+    push();
+    fill('#736357');
+    textAlign(CENTER, BOTTOM);
+    textSize(70);
+    text("Submit Score", horizontal(50), vertical(33));
+    if (inputError.length > 0) {
+        fill('#b8312b');
+        textSize(20);
+        text(inputError, horizontal(50), vertical(38));
+    }
+    pop();
 }
