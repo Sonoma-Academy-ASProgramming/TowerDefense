@@ -112,9 +112,14 @@ Enemy.prototype.draw = function () {
     image(enemyImages[this.id], 0, 0, 50, 50);
     pop();
     if (this.time > r + r + rl - l + rl + r - l) {
-        if (!freezeGame)
-            setTimeout(Game.gameOver, 1000);
-        freezeGame = true;
-
+        if (leaderboard.playerName.length > 0) {
+            //Go to prompt screen
+            //When user submits wait and show loading
+            //addLeaderboard() and wait for a result from callback
+            //if error ask for again
+            //Once added call game over to display leaderboard
+            Game.gameOver();
+            /*"Player" + Math.floor(Math.random() * 10000)*/
+        }
     }
 };

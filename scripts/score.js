@@ -29,14 +29,6 @@ let score = {
         this.drawscore();
         this.drawMoney();
         this.drawLevel();
-        if (freezeGame){
-            push();
-            fill('red');
-            textAlign(CENTER, BOTTOM);
-            textSize(90);
-            text("Game Over!", horizontal(50), vertical(50));
-            pop();
-        }
     },
     drawscore() {
         if (Game.score - this.flastInterval >= this.lastFlash) {

@@ -12,7 +12,8 @@ let GameStates = {
     'GameOver': 2,
     'Tutorial': 3,
     'LeaderBoard': 4,
-    'Credits': 5
+    'Credits': 5,
+    'NameEnter': 6
 };
 let Game = {
     level: 1,
