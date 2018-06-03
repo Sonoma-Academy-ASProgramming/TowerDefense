@@ -5,6 +5,7 @@ let tutorialButton;
 let leaderBoardButton;
 let creditsButton;
 let returnToMainMenuButton;
+let welcomeMessage;
 
 let GameStates = {
     'GameStart': 0,
@@ -22,17 +23,22 @@ let Game = {
     gameState: GameStates.GameStart,
     spawning: 10,
     startMenu: () => {
+      let messageNumber = Math.round(Math.random(welcomeMessages.length));
+      welcomeMessage = welcomeMessages[messageNumber];
+        document.getElementById('title').innerHTML = "Menu - GAC Attack";
         Sprites = [];
         spriteCount = 0;
         Game.gameState = GameStates.GameStart;
         setupStartScreen();
     },
     tutorial: () => {
+      document.getElementById('title').innerHTML = "Tutorial - GAC Attack";
       Sprites = [];
       spriteCount = 0;
       Game.gameState = GameStates.Tutorial;
-    }
+    },
     startGame: () => {
+      document.getElementById('title').innerHTML = "In Game - GAC Attack";
         /*Define Variables*/
         Game.spawning = 10;
         Game.level = 1;
@@ -74,6 +80,7 @@ let Game = {
         }, 2000)
     },
     gameOver: () => {
+      document.getElementById('title').innerHTML = "Game Over - GAC Attack";
         Sprites = [];
         spriteCount = 0;
         Enemies = [];
@@ -108,6 +115,8 @@ let Game = {
 };
 
 function setupStartScreen() {
+    let messageNumber = Math.floor(Math.random() * welcomeMessages.length);
+    welcomeMessage = welcomeMessages[messageNumber];
     startButton = new Supersprite(horizontal(50), vertical(50), 200, 75, {type: 'button', text: "Start Game"});
     startButton.onMousePressed = () => {
         buttonSound.play();
@@ -139,6 +148,9 @@ function StartScreen() {
     textAlign(CENTER, BOTTOM);
     textSize(60);
     text("GAC Attack!", horizontal(50), vertical(30));
+    fill('#ffdd00');
+    textSize(Math.abs(Math.cos((frameCount * 1/30)) * 25) + 25);
+    text(`${welcomeMessage}`, horizontal(50), vertical(38));
     pop();
     startButton.display();
     tutorialButton.display();
@@ -257,5 +269,5 @@ function drawLeaderboard() {
 }
 
 function Tutorial () {
-  
+
 }
