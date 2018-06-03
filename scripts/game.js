@@ -5,7 +5,7 @@ let tutorialButton;
 let leaderBoardButton;
 let creditsButton;
 let returnToMainMenuButton;
-
+let pageUp, pageDown, exitLeaderboard;
 let GameStates = {
     'GameStart': 0,
     'InGame': 1,
@@ -28,10 +28,10 @@ let Game = {
         setupStartScreen();
     },
     tutorial: () => {
-      Sprites = [];
-      spriteCount = 0;
-      Game.gameState = GameStates.Tutorial;
-    }
+        Sprites = [];
+        spriteCount = 0;
+        Game.gameState = GameStates.Tutorial;
+    },
     startGame: () => {
         /*Define Variables*/
         Game.spawning = 10;
@@ -50,7 +50,6 @@ let Game = {
             replayButton.delete();
             exitButton.delete();
         } catch (e) {
-
         }
         replayButton = null;
         exitButton = null;
@@ -80,8 +79,14 @@ let Game = {
         Towers = [];
         UI.delete();
         freezeGame = false;
-        replayButton = new Supersprite(horizontal(35), vertical(90), 200, 75, {type: 'button', text: "Replay"});
-        exitButton = new Supersprite(horizontal(70), vertical(90), 200, 75, {type: 'button', text: "Leaderboard"});
+        replayButton = new Supersprite(horizontal(35), vertical(90), 200, 75, {
+            type: 'button',
+            text: "Replay"
+        });
+        exitButton = new Supersprite(horizontal(70), vertical(90), 200, 75, {
+            type: 'button',
+            text: "Leaderboard"
+        });
         replayButton.onMousePressed = () => {
             buttonSound.play();
             leaderboard.init();
@@ -89,16 +94,27 @@ let Game = {
         };
         exitButton.onMousePressed = () => {
             buttonSound.play();
-            Game.gameState = GameStates.LeaderBoard;
+            loadLeaderboardPage();
         };
 
         Game.gameState = GameStates.GameOver;
+
+        leaderboard.init();
         leaderboard.updateLeaderboard();
+
+        backgroundMusic.stop();
+        startMenuMusic.loop();
+        menuMusicPlaying = true;
+        musicPlaying = false;
+
     },
     showCredits: () => {
         Sprites = [];
         spriteCount = 0;
-        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
+        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {
+            type: 'button',
+            text: "Back"
+        });
         returnToMainMenuButton.onMousePressed = () => {
             buttonSound.play();
             Game.startMenu();
@@ -108,12 +124,18 @@ let Game = {
 };
 
 function setupStartScreen() {
-    startButton = new Supersprite(horizontal(50), vertical(50), 200, 75, {type: 'button', text: "Start Game"});
+    startButton = new Supersprite(horizontal(50), vertical(50), 200, 75, {
+        type: 'button',
+        text: "Start Game"
+    });
     startButton.onMousePressed = () => {
         buttonSound.play();
         Game.startGame();
     };
-    tutorialButton = new Supersprite(horizontal(50), vertical(62), 200, 75, {type: 'button', text: "Tutorial"});
+    tutorialButton = new Supersprite(horizontal(50), vertical(62), 200, 75, {
+        type: 'button',
+        text: "Tutorial"
+    });
     tutorialButton.onMousePressed = () => {
         buttonSound.play();
         window.open('https://www.roblox.com', '_blank');
@@ -124,9 +146,12 @@ function setupStartScreen() {
     });
     leaderBoardButton.onMousePressed = () => {
         buttonSound.play();
-        Game.gameState = GameStates.LeaderBoard;
+        loadLeaderboardPage();
     };
-    creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Credits"});
+    creditsButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {
+        type: 'button',
+        text: "Credits"
+    });
     creditsButton.onMousePressed = () => {
         buttonSound.play();
         Game.showCredits();
@@ -152,8 +177,7 @@ function EndScreen() {
     if (leaderboard.dispReady) {
         // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
-            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
-                image(crown, horizontal(40) - 60 + item.ranking * 4, vertical(37 + 6 * index) - 40 + item.ranking * 4, 40 - item.ranking * 8, 40 - item.ranking * 8);
+            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3) image(crown, horizontal(40) - 60 + item.ranking * 4, vertical(37 + 6 * index) - 40 + item.ranking * 4, 40 - item.ranking * 8, 40 - item.ranking * 8);
             fill('#736357');
             textAlign(RIGHT, BOTTOM);
             textSize(30);
@@ -161,14 +185,13 @@ function EndScreen() {
             textAlign(LEFT, BOTTOM);
             text(item.score, horizontal(43), vertical(37 + 6 * index));
             textAlign(LEFT, BOTTOM);
-            text(item.name, horizontal(52), vertical(37 + 6 * index));
+            text(item.name, horizontal(55), vertical(37 + 6 * index));
         });
     } else {
         fill('#736357');
         textAlign(CENTER, BOTTOM);
         textSize(40);
         text("Loading leaderboard...", horizontal(50), vertical(40));
-
     }
     // leaderboard.addLeaderboard()
     push();
@@ -177,13 +200,40 @@ function EndScreen() {
     textSize(60);
     text("Game Over!", horizontal(50), vertical(30));
     pop();
-
 }
 
 function loadLeaderboardPage() { //leaderboard button please call me
     leaderboard.init();
     leaderboard.getLeaderboard();
-    Game.gameState = 4;
+    pageUp = new Supersprite(horizontal(30), vertical(90), 200, 75, {
+        type: 'button',
+        text: "Page Up"
+    });
+    pageUp.onMousePressed = () => {
+        leaderboardPageUp();
+    };
+    pageDown = new Supersprite(horizontal(70), vertical(90), 200, 75, {
+        type: 'button',
+        text: "Page Down"
+    });
+    pageDown.onMousePressed = () => {
+        leaderboardPageDown();
+    };
+    exitLeaderboard = new Supersprite(horizontal(50), vertical(90), 200, 75, {
+        type: 'button',
+        text: "Back"
+    });
+    exitLeaderboard.onMousePressed = () => {
+        buttonSound.play();
+        Game.startMenu();
+    };
+    backgroundMusic.stop();
+    if (!menuMusicPlaying) {
+        startMenuMusic.loop();
+        menuMusicPlaying = true;
+        musicPlaying = false;
+    }
+    Game.gameState = GameStates.LeaderBoard;
 }
 
 function leaderboardPageDown() { //page down button please call me
@@ -224,7 +274,6 @@ function CreditScreen() {
     returnToMainMenuButton.display();
 }
 
-
 function drawLeaderboard() {
     // replayButton.display();
     // exitButton.display();
@@ -235,8 +284,7 @@ function drawLeaderboard() {
     if (leaderboard.dispReady) {
         // console.log(leaderboard.leaderboard);
         leaderboard.leaderboard.forEach((item, index) => {
-            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3)
-                image(crown, horizontal(40) - 80 + item.ranking * 4, vertical(40 + 8 * index) - 50 + item.ranking * 4, 50 - item.ranking * 8, 50 - item.ranking * 8);
+            if (item.ranking === 1 || item.ranking === 2 || item.ranking === 3) image(crown, horizontal(40) - 80 + item.ranking * 4, vertical(40 + 8 * index) - 50 + item.ranking * 4, 50 - item.ranking * 8, 50 - item.ranking * 8);
             fill('#736357');
             // console.log(item.ranking);
             textAlign(RIGHT, BOTTOM);
@@ -247,15 +295,16 @@ function drawLeaderboard() {
             textAlign(LEFT, BOTTOM);
             text(item.name, horizontal(60), vertical(40 + 8 * index));
         });
+        pageUp.display();
+        pageDown.display();
+        exitLeaderboard.display();
     } else {
         fill('#736357');
         textAlign(CENTER, BOTTOM);
         textSize(40);
         text("Loading leaderboard...", horizontal(50), vertical(40));
-
     }
 }
 
-function Tutorial () {
-  
+function Tutorial() {
 }
