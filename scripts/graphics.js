@@ -118,9 +118,8 @@ Supersprite.prototype.display = function () {
             image(this.image, 0, 0, this.width, this.height);
             pop();
         } else if (this.options.type === 'upgrade') {
-            let level, towerType, price, name;
+            let level, price, name;
             if (this.options.hasOwnProperty('tower')) {
-                towerType = this.options.towerType;
                 price = this.options.tower.price;
                 name = this.options.tower.name;
 
