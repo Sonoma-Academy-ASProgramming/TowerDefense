@@ -21,7 +21,7 @@ let leaderboard = {
         await leaderboard.getLeaderboard(true);
     },
     addLeaderboard: async () => {
-        console.log("starting async func");
+        // console.log("starting async func");
         if (Game.score < 200 || isNaN(Game.score)) {
             console.log("score too low or is NaN, not submitting to leaderboard.");
             return;
@@ -79,7 +79,7 @@ let leaderboard = {
         }
         $.ajax({
             type: "POST",
-            url: "towerdefense/addscore",
+            url: "/towerdefense/addscore",
             dataType: "json",
             data: "name=" + name + "&score=" + score //"start=0&end=100"
         }).done((data) => {
@@ -98,7 +98,7 @@ let leaderboard = {
         });
     },
     getLeaderboard: async (notForLeaderboardPAGE = false) => {
-        console.log("starting getleaderboard");
+        // console.log("starting getleaderboard");
         let res;
         while (true) {
             res = await leaderboard.getLeaderboardPromiseAgent(leaderboard.startIdx, leaderboard.startIdx + leaderboard.dispSize - 1);
@@ -136,7 +136,7 @@ let leaderboard = {
     },
     getLeaderboardPromiseAgent: (start, end) => {
         return new Promise(resolve => {
-            console.log("starting getleaderboard agent");
+            // console.log("starting getleaderboard agent");
             try {
                 leaderboard.rawGetLeaderboard(start, end, (res) => {
                     resolve(res);
@@ -164,13 +164,13 @@ let leaderboard = {
         }
         $.ajax({
             type: "POST",
-            url: "towerdefense/leaderboard",
+            url: "/towerdefense/leaderboard",
             dataType: "json",
             data: "start=" + start + "&end=" + end //"start=0&end=100"
         }).done((data) => {
-            console.log('POST response:', data);
-            console.log('Table:', data.table);
-            console.log('Json:', data.json);
+            // console.log('POST response:', data);
+            // console.log('Table:', data.table);
+            // console.log('Json:', data.json);
             callback({
                 message: "success",
                 success: true,

@@ -3,7 +3,7 @@ const EmptyPlotPositions = [[20, 32], [36, 32], [49, 32], [62, 32], [35, 47.5], 
 const TOWER_CONST = [{}, {price: 25, name: 'Cannon'}, {price: 50, name: "Bubble"},
     {price: 75, name: 'Flamer'}, {price: 100, name: 'Farm'}];
 const TOWER_UPGRADES = ['', '', '', '', '', 'Force', 'Range', 'Speed', 'Sell'];
-
+const welcomeMessages = ["The Most Important Meal of the Day!", "Seasonal Fruit!", "Palm Oil Free!", "Yanny!", "It's Not a Phase!", "Minecraft Did This!", "Covfefe!", "The Snack That Smiles Back!", "Congratulations Class of 2018!"];
 let Towers = [],
     Enemies = [];
 let Time = 0;
