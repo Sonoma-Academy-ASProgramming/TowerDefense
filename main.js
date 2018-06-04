@@ -3,7 +3,7 @@ const EmptyPlotPositions = [[20, 32], [36, 32], [49, 32], [62, 32], [35, 47.5], 
 const TOWER_CONST = [{}, {price: 25, name: 'Cannon'}, {price: 50, name: "Bubble"},
     {price: 75, name: 'Flamer'}, {price: 100, name: 'Farm'}];
 const TOWER_UPGRADES = ['', '', '', '', '', 'Force', 'Range', 'Speed', 'Sell'];
-
+const welcomeMessages = ["The Most Important Meal of the Day!", "Seasonal Fruit!", "Palm Oil Free!", "Yanny!", "Laurel!", "It's Not a Phase!", "Minecraft Did This!", "Covfefe!", "The Snack That Smiles Back!", "Congratulations Class of 2018!", "Who you gonna call?"];
 let Towers = [],
     Enemies = [];
 let Time = 0;
@@ -11,16 +11,20 @@ let selectedTower = null;
 let backgroundSprite;
 //SETUP
 let UI;
-let startMenuMusic, backgroundMusic;
+let leftArrow;
+let rightArrow;
+let startMenuMusic, tutorialMusic, backgroundMusic;
 let musicPlaying = false;
-let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [], crown;
+let tutorialMusicPlaying = false;
 let menuMusicPlaying = false;
+let backgroundImg, backgroundBlankImg, plotImg, enemyImages = [], towerImages = [], crown;
 let popSound, cashSound, buttonSound, towerSelectedSound;
 const ENEMYSTARTINGPOS = 0;
 let ENEMYSPEED = 1;
 let gameOverRadius = 10;
 //controls the currentRange
 let rangeValue = 0;
+let freezeGame = false;
 //
 let rl;
 let f;
@@ -36,8 +40,10 @@ function preload() {
     //music
     backgroundMusic = loadSound('assets/sounds/backgroundMusic.mp3');
     startMenuMusic = loadSound('assets/sounds/startMenuMusic.mp3');
+    tutorialMusic = loadSound('assets/sounds/tutorialMusic.mp3');
     startMenuMusic.setVolume(.3);
     backgroundMusic.setVolume(.3);
+    tutorialMusic.setVolume(.3);
     //font
     gameFont = loadFont('assets/fonts/coolstory regular.ttf');
     //sound
@@ -51,6 +57,8 @@ function preload() {
     plotImg = loadImage('assets/images/emptyPlot.png');
     score.coinIMG = loadImage(`assets/images/coin.svg`);
     crown = loadImage(`assets/images/crown.png`);
+    leftArrow = loadImage('assets/images/leftArrow.png');
+    rightArrow = loadImage('assets/images/rightArrow.png');
     for (let i = 1; i < 7; i++) {
         enemyImages[i] = loadImage(`assets/images/enemy${i}.png`);
     }
@@ -64,6 +72,7 @@ function preload() {
 }
 
 function setup() {
+  leftArrow.resize(150, 75);
     setupStartScreen();
     textFont(gameFont);
     frameRate(60);
@@ -90,14 +99,25 @@ function setup() {
 function draw() {
     if (Game.gameState === GameStates.GameStart) {
         if (!menuMusicPlaying) {
+          musicPlaying = false;
+          tutorialMusicPlaying = false;
             menuMusicPlaying = true;
             startMenuMusic.loop();
         }
+    }
+    if (Game.gameState === GameStates.Tutorial) {
+      if(!tutorialMusicPlaying) {
+        musicPlaying = false;
+        menuMusicPlaying = false;
+        tutorialMusicPlaying = true;
+        tutorialMusic.loop();
+      }
     }
     if (Game.gameState === GameStates.InGame) {
         if (!musicPlaying) {
             startMenuMusic.stop();
             menuMusicPlaying = false;
+            tutorialMusicPlaying = false;
             musicPlaying = true;
             backgroundMusic.loop();
         }
