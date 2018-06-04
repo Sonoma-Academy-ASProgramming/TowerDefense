@@ -1,3 +1,4 @@
+//all the buttons for the menus before the game starts
 let replayButton;
 let exitButton;
 let startButton;
@@ -6,6 +7,77 @@ let leaderBoardButton;
 let creditsButton;
 let returnToMainMenuButton;
 let welcomeMessage;
+
+let shiftRightButton;
+let shiftLeftButton
+
+let tutorial = {
+  currentImage: 1,
+  currentPage: 0,
+  pages: [
+    () => {
+      push();
+      fill('#736357');
+      textAlign(CENTER, BOTTOM);
+      textSize(40);
+      text("The last cookie is under attack!", horizontal(50), vertical(40));
+      textSize(30);
+      text("The bugs of west papertown seek to drain the precious cookie of its chocolaty blood...", horizontal(50), vertical(50));
+      text("...and only YOU can stop them!", horizontal(50), vertical(55));
+      pop();
+      shiftRightButton.display();
+    },
+    () => {
+      push();
+      fill('#736357');
+      textAlign(CENTER, BOTTOM);
+      textSize(30);
+      text("You are in charge of building up a defense of towers", horizontal(50), vertical(50));
+      text("We've marked all the available real estate with 'X's", horizontal(50), vertical(55));
+      imageMode(CENTER);
+      image(plotImg, horizontal(50), vertical(65), 100, 100);
+      pop();
+      shiftLeftButton.display();
+      shiftRightButton.display();
+    },
+    () => {
+      if(frameCount % 60 * 4 === 0) {
+        tutorial.currentImage = Math.round(random(1, 4));
+      }
+      push();
+      fill('#736357');
+      textAlign(CENTER, BOTTOM);
+      textSize(30);
+      text("Click the 'X' you want to build on and then choose your tower!", horizontal(50), vertical(50));
+      imageMode(CENTER);
+      image(towerImages[tutorial.currentImage], horizontal(50), vertical(65), 100, 100);
+      pop();
+      shiftLeftButton.display();
+      shiftRightButton.display();
+    },
+    () => {
+      push();
+      fill('#736357');
+      textAlign(CENTER, BOTTOM);
+      textSize(30);
+      text("You have a limited supply of money but a shady organization with questionable morals will pay you for every bug squashed", horizontal(50), vertical(50));
+      imageMode(CENTER);
+      image(score.coinIMG, horizontal(50), vertical(65));
+      pop();
+      shiftLeftButton.display();
+      shiftRightButton.display();
+    },
+    () => {
+      push();
+      fill('#736357');
+      textAlign(CENTER, BOTTOM);
+      textSize(40);
+      text("Good luck soldier!", horizontal(50), vertical(50));
+      pop();
+      shiftLeftButton.display();
+    }
+    ]
+};
 
 let GameStates = {
     'GameStart': 0,
@@ -23,6 +95,7 @@ let Game = {
     gameState: GameStates.GameStart,
     spawning: 10,
     startMenu: () => {
+      tutorialMusic.stop();
       let messageNumber = Math.round(Math.random(welcomeMessages.length));
       welcomeMessage = welcomeMessages[messageNumber];
         document.getElementById('title').innerHTML = "Menu - GAC Attack";
@@ -32,10 +105,33 @@ let Game = {
         setupStartScreen();
     },
     tutorial: () => {
+      startMenuMusic.stop();
       document.getElementById('title').innerHTML = "Tutorial - GAC Attack";
       Sprites = [];
       spriteCount = 0;
       Game.gameState = GameStates.Tutorial;
+      returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
+      returnToMainMenuButton.onMousePressed = () => {
+        buttonSound.play();
+        tutorial.currentPage = 0;
+        Game.startMenu();
+      };
+      shiftLeftButton = new Supersprite(horizontal(30), vertical(65), 150, 75);
+      shiftLeftButton.addImage(leftArrow);
+      shiftLeftButton.onMousePressed = () => {
+        if(tutorial.currentPage > 0) {
+          buttonSound.play();
+          tutorial.currentPage -= 1;
+        }
+      };
+      shiftRightButton = new Supersprite(horizontal(65), vertical(65), 150, 75);
+      shiftRightButton.addImage(rightArrow);
+      shiftRightButton.onMousePressed = () => {
+        if(tutorial.currentPage < tutorial.pages.length - 1) {
+          buttonSound.play();
+          tutorial.currentPage += 1;
+        }
+      };
     },
     startGame: () => {
       document.getElementById('title').innerHTML = "In Game - GAC Attack";
@@ -125,7 +221,7 @@ function setupStartScreen() {
     tutorialButton = new Supersprite(horizontal(50), vertical(62), 200, 75, {type: 'button', text: "Tutorial"});
     tutorialButton.onMousePressed = () => {
         buttonSound.play();
-        window.open('https://www.roblox.com', '_blank');
+        Game.tutorial();
     };
     leaderBoardButton = new Supersprite(horizontal(50), vertical(74), 200, 75, {
         type: 'button',
@@ -269,5 +365,7 @@ function drawLeaderboard() {
 }
 
 function Tutorial () {
-
+  returnToMainMenuButton.display();
+  currentPage = tutorial.currentPage;
+  tutorial.pages[currentPage]();
 }
