@@ -1,4 +1,4 @@
-#npm install uglify-es -g
+npm install uglify-es -g
 
 mkdir build
 #Copy all Files and Assets
