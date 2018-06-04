@@ -18,7 +18,7 @@ let leaderboard = {
             leaderboard.addLeaderboardPromiseAgent().then(res => {
                 if (res.success === false) {
                     console.log("Error when submitting to leaderboard:", res.message);
-                    reject(res.message);
+                    reject("There was an error submitting your score. Please try again or contact support.");
                 } else {
                     console.log("Success when submitting to leaderboard:", res.success, res.message, res);
                     leaderboard.myRanking = "You: (" + res.data.ranking + ")";
