@@ -38,37 +38,37 @@ let gameFont;
 
 function preload() {
     //music
-    backgroundMusic = loadSound('assets/sounds/backgroundMusic.mp3');
-    startMenuMusic = loadSound('assets/sounds/startMenuMusic.mp3');
-    tutorialMusic = loadSound('assets/sounds/tutorialMusic.mp3');
+    backgroundMusic = loadSound('/views/TowerDefense/assets/sounds/backgroundMusic.mp3');
+    startMenuMusic = loadSound('/views/TowerDefense/assets/sounds/startMenuMusic.mp3');
+    tutorialMusic = loadSound('/views/TowerDefense/assets/sounds/tutorialMusic.mp3');
     startMenuMusic.setVolume(.3);
     backgroundMusic.setVolume(.3);
     tutorialMusic.setVolume(.3);
     //font
-    gameFont = loadFont('assets/fonts/coolstory regular.ttf');
+    gameFont = loadFont('/views/TowerDefense/assets/fonts/coolstory regular.ttf');
     //sound
-    popSound = loadSound('assets/sounds/popSound.mp3');
-    cashSound = loadSound('assets/sounds/cashSound.mp3');
-    buttonSound = loadSound('assets/sounds/buttonSound.mp3');
-    towerSelectedSound = loadSound('assets/sounds/towerSelectedSound.mp3');
+    popSound = loadSound('/views/TowerDefense/assets/sounds/popSound.mp3');
+    cashSound = loadSound('/views/TowerDefense/assets/sounds/cashSound.mp3');
+    buttonSound = loadSound('/views/TowerDefense/assets/sounds/buttonSound.mp3');
+    towerSelectedSound = loadSound('/views/TowerDefense/assets/sounds/towerSelectedSound.mp3');
     //images
-    backgroundImg = loadImage('assets/images/background.jpg');
-    backgroundBlankImg = loadImage('assets/images/backgroundBlank.jpg');
-    plotImg = loadImage('assets/images/emptyPlot.png');
-    score.coinIMG = loadImage(`assets/images/coin.svg`);
-    crown = loadImage(`assets/images/crown.png`);
-    leftArrow = loadImage('assets/images/leftArrow.png');
-    rightArrow = loadImage('assets/images/rightArrow.png');
+    backgroundImg = loadImage('/views/TowerDefense/assets/images/background.jpg');
+    backgroundBlankImg = loadImage('/views/TowerDefense/assets/images/backgroundBlank.jpg');
+    plotImg = loadImage('/views/TowerDefense/assets/images/emptyPlot.png');
+    score.coinIMG = loadImage(`/views/TowerDefense/assets/images/coin.svg`);
+    crown = loadImage(`/views/TowerDefense/assets/images/crown.png`);
+    leftArrow = loadImage('/views/TowerDefense/assets/images/leftArrow.png');
+    rightArrow = loadImage('/views/TowerDefense/assets/images/rightArrow.png');
     for (let i = 1; i < 7; i++) {
-        enemyImages[i] = loadImage(`assets/images/enemy${i}.png`);
+        enemyImages[i] = loadImage(`/views/TowerDefense/assets/images/enemy${i}.png`);
     }
     for (let i = 1; i < 5; i++) {
-        towerImages[i] = loadImage(`assets/images/tower${i}.png`);
+        towerImages[i] = loadImage(`/views/TowerDefense/assets/images/tower${i}.png`);
     }
-    towerImages.push(loadImage(`assets/images/upforce.svg`));
-    towerImages.push(loadImage(`assets/images/uprange.svg`));
-    towerImages.push(loadImage(`assets/images/upfreq.svg`));
-    towerImages.push(loadImage(`assets/images/sell.svg`));
+    towerImages.push(loadImage(`/views/TowerDefense/assets/images/upforce.svg`));
+    towerImages.push(loadImage(`/views/TowerDefense/assets/images/uprange.svg`));
+    towerImages.push(loadImage(`/views/TowerDefense/assets/images/upfreq.svg`));
+    towerImages.push(loadImage(`/views/TowerDefense/assets/images/sell.svg`));
 }
 
 function setup() {

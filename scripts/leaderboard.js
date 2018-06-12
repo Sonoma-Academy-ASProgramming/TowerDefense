@@ -1,5 +1,4 @@
 let leaderboard = {
-    //TODO when restart game: Sean's functions have to init again as well such as player name
     playerName: "Player" + Math.floor(Math.random() * 10000),
     myRanking: "You: ",
     leaderboard: [],
@@ -11,6 +10,8 @@ let leaderboard = {
         leaderboard.myRanking = "You:";
         leaderboard.playerName = "Player" + Math.floor(Math.random() * 10000);
         leaderboard.leaderboard = [];
+        leaderboard.startIdx = 1;
+        leaderboard.dispSize = 5;
         console.log("previous leaderboard data cleared");
     },
     addLeaderboard: () => {
@@ -34,35 +35,52 @@ let leaderboard = {
                     resolve(res);
                 });
             } catch (err) {
-                resolve({success: false, message: err});
+                resolve({
+                    success: false,
+                    message: err
+                });
             }
         });
     },
     rawAddLeaderboard: (name, score, callback) => {
         if (name.length > 20 || name.length === 0) {
-            callback({message: "Name length invalid", success: false});
+            callback({
+                message: "Name length invalid",
+                success: false
+            });
             return;
         } else if (!Number.isInteger(score)) {
-            callback({message: "NaN", success: false});
+            callback({
+                message: "NaN",
+                success: false
+            });
             return;
         } else if (score < 200) {
-            callback({message: "low score", success: false});
+            callback({
+                message: "low score",
+                success: false
+            });
             return;
         }
         $.ajax({
             type: "POST",
-            url: "http://www.seansun.org/towerdefense/addscore",
+            url: "/towerdefense/addscore",
             dataType: "json",
-            data: "name=" + name + "&score=" + score//"start=0&end=100"
-        })
-            .done((data) => {
-                console.log('POST response:', data);
-                callback({message: "success", data: data, success: true});
-            })
-            .fail((jqXHR, textStatus, err) => {
-                console.log("Error:", jqXHR, textStatus, err);
-                callback({message: err, success: false});
+            data: "name=" + name + "&score=" + score //"start=0&end=100"
+        }).done((data) => {
+            console.log('POST response:', data);
+            callback({
+                message: "success",
+                data: data,
+                success: true
             });
+        }).fail((jqXHR, textStatus, err) => {
+            console.log("Error:", jqXHR, textStatus, err);
+            callback({
+                message: err,
+                success: false
+            });
+        });
     },
     getLeaderboard: async (notForLeaderboardPAGE = false) => {
         console.log("starting getleaderboard");
@@ -73,25 +91,31 @@ let leaderboard = {
                 break;
             }
             if (confirm("Failed to get Leaderboard, try again?") === false) {
-                leaderboard.leaderboard.unshift({name: "Name", ranking: "Ranking", score: "Score"});
-                if (notForLeaderboardPAGE)
-                    leaderboard.leaderboard.push({
-                        name: leaderboard.playerName,
-                        score: Game.score,
-                        ranking: leaderboard.myRanking
-                    });
+                leaderboard.leaderboard.unshift({
+                    name: "Name",
+                    ranking: "Ranking",
+                    score: "Score"
+                });
+                if (notForLeaderboardPAGE) leaderboard.leaderboard.push({
+                    name: leaderboard.playerName,
+                    score: Game.score,
+                    ranking: leaderboard.myRanking
+                });
                 leaderboard.dispReady = true;
                 return;
             }
         }
         leaderboard.leaderboard = res.json;
-        leaderboard.leaderboard.unshift({name: "Name", ranking: "Ranking", score: "Score"});
-        if (notForLeaderboardPAGE)
-            leaderboard.leaderboard.push({
-                name: leaderboard.playerName,
-                score: Game.score,
-                ranking: leaderboard.myRanking
-            });
+        leaderboard.leaderboard.unshift({
+            name: "Name",
+            ranking: "Ranking",
+            score: "Score"
+        });
+        if (notForLeaderboardPAGE) leaderboard.leaderboard.push({
+            name: leaderboard.playerName,
+            score: Game.score,
+            ranking: leaderboard.myRanking
+        });
         console.log(res);
         leaderboard.dispReady = true;
     },
@@ -103,33 +127,50 @@ let leaderboard = {
                     resolve(res);
                 });
             } catch (err) {
-                resolve({success: false, message: err});
+                resolve({
+                    success: false,
+                    message: err
+                });
             }
         });
     },
     rawGetLeaderboard: (start, end, callback) => {
         if (!Number.isInteger(start) || !Number.isInteger(end)) {
-            callback({message: "NaN", success: false});
+            callback({
+                message: "NaN",
+                success: false
+            });
             return;
-        }
-        else if (start < 1 || end < 0) {
-            callback({message: "Invalid arguments", success: false});
+        } else if (start < 1 || end < 0) {
+            callback({
+                message: "Invalid arguments",
+                success: false
+            });
         }
         $.ajax({
             type: "POST",
-            url: "http://www.seansun.org/towerdefense/leaderboard",
+            url: "/towerdefense/leaderboard",
             dataType: "json",
-            data: "start=" + start + "&end=" + end//"start=0&end=100"
-        })
-            .done((data) => {
-                console.log('POST response:', data);
-                console.log('Table:', data.table);
-                console.log('Json:', data.json);
-                callback({message: "success", success: true, table: data.table, json: data.json});
-            })
-            .fail((jqXHR, textStatus, err) => {
-                console.log("Error:", jqXHR, textStatus, err);
-                callback({message: err, success: false, status: textStatus, response: jqXHR});
+            data: "start=" + start + "&end=" + end //"start=0&end=100"
+        }).done((data) => {
+            console.log('POST response:', data);
+            console.log('Table:', data.table);
+            console.log('Json:', data.json);
+            console.log(data);
+            callback({
+                message: "success",
+                success: true,
+                table: data.table,
+                json: data.json
             });
+        }).fail((jqXHR, textStatus, err) => {
+            console.log("Error:", jqXHR, textStatus, err);
+            callback({
+                message: err,
+                success: false,
+                status: textStatus,
+                response: jqXHR
+            });
+        });
     }
 };

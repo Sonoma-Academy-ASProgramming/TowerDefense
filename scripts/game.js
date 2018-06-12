@@ -18,71 +18,71 @@ let shiftRightButton;
 let shiftLeftButton
 
 let tutorial = {
-  currentImage: 1,
-  currentPage: 0,
-  pages: [
-    () => {
-      push();
-      fill('#736357');
-      textAlign(CENTER, BOTTOM);
-      textSize(40);
-      text("The last cookie is under attack!", horizontal(50), vertical(40));
-      textSize(30);
-      text("The bugs of west papertown seek to drain the precious cookie of its chocolaty blood...", horizontal(50), vertical(50));
-      text("...and only YOU can stop them!", horizontal(50), vertical(55));
-      pop();
-      shiftRightButton.display();
-    },
-    () => {
-      push();
-      fill('#736357');
-      textAlign(CENTER, BOTTOM);
-      textSize(30);
-      text("You are in charge of building up a defense of towers", horizontal(50), vertical(50));
-      text("We've marked all the available real estate with 'X's", horizontal(50), vertical(55));
-      imageMode(CENTER);
-      image(plotImg, horizontal(50), vertical(65), 100, 100);
-      pop();
-      shiftLeftButton.display();
-      shiftRightButton.display();
-    },
-    () => {
-      if(frameCount % 60 * 4 === 0) {
-        tutorial.currentImage = Math.round(random(1, 4));
-      }
-      push();
-      fill('#736357');
-      textAlign(CENTER, BOTTOM);
-      textSize(30);
-      text("Click the 'X' you want to build on and then choose your tower!", horizontal(50), vertical(50));
-      imageMode(CENTER);
-      image(towerImages[tutorial.currentImage], horizontal(50), vertical(65), 100, 100);
-      pop();
-      shiftLeftButton.display();
-      shiftRightButton.display();
-    },
-    () => {
-      push();
-      fill('#736357');
-      textAlign(CENTER, BOTTOM);
-      textSize(30);
-      text("You have a limited supply of money but a shady organization with", horizontal(50), vertical(50));
-      text("questionable morals will pay you for every bug squashed", horizontal(50), vertical(55));
-      imageMode(CENTER);
-      image(score.coinIMG, horizontal(50), vertical(65), 100, 100);
-      pop();
-      shiftLeftButton.display();
-      shiftRightButton.display();
-    },
-    () => {
-      push();
-      fill('#736357');
-      textAlign(CENTER, BOTTOM);
-      textSize(40);
-      text("Good luck soldier!", horizontal(50), vertical(50));
-      pop();
-      shiftLeftButton.display();
-    }
+    currentImage: 1,
+    currentPage: 0,
+    pages: [
+        () => {
+            push();
+            fill('#736357');
+            textAlign(CENTER, BOTTOM);
+            textSize(40);
+            text("The last cookie is under attack!", horizontal(50), vertical(40));
+            textSize(30);
+            text("The bugs of west papertown seek to drain the precious cookie of its chocolaty blood...", horizontal(50), vertical(50));
+            text("...and only YOU can stop them!", horizontal(50), vertical(55));
+            pop();
+            shiftRightButton.display();
+        },
+        () => {
+            push();
+            fill('#736357');
+            textAlign(CENTER, BOTTOM);
+            textSize(30);
+            text("You are in charge of building up a defense of towers", horizontal(50), vertical(50));
+            text("We've marked all the available real estate with 'X's", horizontal(50), vertical(55));
+            imageMode(CENTER);
+            image(plotImg, horizontal(50), vertical(65), 100, 100);
+            pop();
+            shiftLeftButton.display();
+            shiftRightButton.display();
+        },
+        () => {
+            if (frameCount % 60 * 4 === 0) {
+                tutorial.currentImage = Math.round(random(1, 4));
+            }
+            push();
+            fill('#736357');
+            textAlign(CENTER, BOTTOM);
+            textSize(30);
+            text("Click the 'X' you want to build on and then choose your tower!", horizontal(50), vertical(50));
+            imageMode(CENTER);
+            image(towerImages[tutorial.currentImage], horizontal(50), vertical(65), 100, 100);
+            pop();
+            shiftLeftButton.display();
+            shiftRightButton.display();
+        },
+        () => {
+            push();
+            fill('#736357');
+            textAlign(CENTER, BOTTOM);
+            textSize(30);
+            text("You have a limited supply of money but a shady organization with", horizontal(50), vertical(50));
+            text("questionable morals will pay you for every bug squashed", horizontal(50), vertical(55));
+            imageMode(CENTER);
+            image(score.coinIMG, horizontal(50), vertical(65), 100, 100);
+            pop();
+            shiftLeftButton.display();
+            shiftRightButton.display();
+        },
+        () => {
+            push();
+            fill('#736357');
+            textAlign(CENTER, BOTTOM);
+            textSize(40);
+            text("Good luck soldier!", horizontal(50), vertical(50));
+            pop();
+            shiftLeftButton.display();
+        }
     ]
 };
 
@@ -103,41 +103,41 @@ let Game = {
     gameState: GameStates.GameStart,
     spawning: 10,
     startMenu: () => {
-      tutorialMusic.stop();
-      let messageNumber = Math.round(Math.random(welcomeMessages.length));
-      welcomeMessage = welcomeMessages[messageNumber];
+        tutorialMusic.stop();
+        let messageNumber = Math.round(Math.random(welcomeMessages.length));
+        welcomeMessage = welcomeMessages[messageNumber];
         Sprites = [];
         spriteCount = 0;
         Game.gameState = GameStates.GameStart;
         setupStartScreen();
     },
     tutorial: () => {
-      startMenuMusic.stop();
-      Sprites = [];
-      spriteCount = 0;
-      Game.gameState = GameStates.Tutorial;
-      returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
-      returnToMainMenuButton.onMousePressed = () => {
-        buttonSound.play();
-        tutorial.currentPage = 0;
-        Game.startMenu();
-      };
-      shiftLeftButton = new Supersprite(horizontal(30), vertical(65), 150, 75);
-      shiftLeftButton.addImage(leftArrow);
-      shiftLeftButton.onMousePressed = () => {
-        if(tutorial.currentPage > 0) {
-          buttonSound.play();
-          tutorial.currentPage -= 1;
-        }
-      };
-      shiftRightButton = new Supersprite(horizontal(65), vertical(65), 150, 75);
-      shiftRightButton.addImage(rightArrow);
-      shiftRightButton.onMousePressed = () => {
-        if(tutorial.currentPage < tutorial.pages.length - 1) {
-          buttonSound.play();
-          tutorial.currentPage += 1;
-        }
-      };
+        startMenuMusic.stop();
+        Sprites = [];
+        spriteCount = 0;
+        Game.gameState = GameStates.Tutorial;
+        returnToMainMenuButton = new Supersprite(horizontal(50), vertical(86), 200, 75, {type: 'button', text: "Back"});
+        returnToMainMenuButton.onMousePressed = () => {
+            buttonSound.play();
+            tutorial.currentPage = 0;
+            Game.startMenu();
+        };
+        shiftLeftButton = new Supersprite(horizontal(30), vertical(65), 150, 75);
+        shiftLeftButton.addImage(leftArrow);
+        shiftLeftButton.onMousePressed = () => {
+            if (tutorial.currentPage > 0) {
+                buttonSound.play();
+                tutorial.currentPage -= 1;
+            }
+        };
+        shiftRightButton = new Supersprite(horizontal(65), vertical(65), 150, 75);
+        shiftRightButton.addImage(rightArrow);
+        shiftRightButton.onMousePressed = () => {
+            if (tutorial.currentPage < tutorial.pages.length - 1) {
+                buttonSound.play();
+                tutorial.currentPage += 1;
+            }
+        };
     },
     startGame: () => {
         /*Define Variables*/
@@ -177,6 +177,14 @@ let Game = {
         for (let pos of EmptyPlotPositions) {
             Towers.push(new EmptyPlot(horizontal(pos[0]), vertical(pos[1])));
         }
+        if (menuMusicPlaying) {
+            menuMusicPlaying = false;
+            startMenuMusic.stop();
+        }
+        if (!musicPlaying) {
+            musicPlaying = true;
+            backgroundMusic.loop();
+        }
     },
     levelUp: () => {
         Game.level++;
@@ -201,6 +209,15 @@ let Game = {
             buttonSound.play();
             Game.goLeaderboard()
         };
+
+        if (!menuMusicPlaying) {
+            menuMusicPlaying = true;
+            startMenuMusic.loop();
+        }
+        if (musicPlaying) {
+            musicPlaying = false;
+            backgroundMusic.stop();
+        }
 
         Game.gameState = GameStates.GameOver;
         leaderboard.getLeaderboard(true);
@@ -246,6 +263,14 @@ let Game = {
             buttonSound.play();
             leaderboardPageUp()
         };
+        if (!musicPlaying) {
+            backgroundMusic.stop();
+            musicPlaying = false;
+        }
+        if (!startMenuMusic) {
+            menuMusicPlaying = true;
+            startMenuMusic.loop();
+        }
         Game.gameState = GameStates.LeaderBoard;
     },
     goNameEnter: () => {
@@ -261,8 +286,8 @@ let Game = {
         input.elt.focus();
         input.elt.select();
         input.center('horizontal');
-        submitNameButton = new Supersprite(horizontal(40), vertical(60), 200, 75, {type: 'button', text: "Submit"});
-        cancelNameButton = new Supersprite(horizontal(60), vertical(60), 200, 75, {type: 'button', text: "Cancel"});
+        submitNameButton = new Supersprite(horizontal(60), vertical(60), 200, 75, {type: 'button', text: "Submit"});
+        cancelNameButton = new Supersprite(horizontal(40), vertical(60), 200, 75, {type: 'button', text: "Cancel"});
         cancelNameButton.onMousePressed = () => {
             buttonSound.play();
             inputError = "";
@@ -315,6 +340,14 @@ function setupStartScreen() {
     creditsButton.onMousePressed = () => {
         buttonSound.play();
         Game.showCredits();
+    };
+    if (!startMenuMusic) {
+        startMenuMusic.loop();
+        startMenuMusic = true;
+    }
+    if (musicPlaying) {
+        musicPlaying = false;
+        backgroundMusic.stop();
     }
 }
 
@@ -325,7 +358,7 @@ function StartScreen() {
     textSize(60);
     text("GAC Attack!", horizontal(50), vertical(30));
     fill('#ff8c5e');
-    textSize(Math.abs(Math.cos((frameCount * 1/30)) * 25) + 25);
+    textSize(Math.abs(Math.cos((frameCount * 1 / 30)) * 25) + 25);
     text(`${welcomeMessage}`, horizontal(50), vertical(38));
     pop();
     startButton.display();
@@ -437,10 +470,10 @@ function drawLeaderboard() {
     }
 }
 
-function Tutorial () {
-  returnToMainMenuButton.display();
-  currentPage = tutorial.currentPage;
-  tutorial.pages[currentPage]();
+function Tutorial() {
+    returnToMainMenuButton.display();
+    currentPage = tutorial.currentPage;
+    tutorial.pages[currentPage]();
 }
 
 function drawNameEnter() {
